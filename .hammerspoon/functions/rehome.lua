@@ -4,7 +4,7 @@ rehomeDEBUG = false
 rehomeDEBUGVERBOSE = false
 
 primaryScreenName = "Built%-in Retina Display"
-secondaryScreenName = "DELL S2722QC"
+secondaryScreenName = "BenQ PD3220U"
 
 windowFilter = hs.window.filter.new()
 windowFilter:setDefaultFilter{}
