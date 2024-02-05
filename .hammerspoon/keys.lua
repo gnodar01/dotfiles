@@ -37,6 +37,9 @@ hs.hotkey.bind(layoutSuper, "o", thunk_push{top=0, left=1/2, width=1/2, height=1
 hs.hotkey.bind(layoutSuper, "n", thunk_push{top=1/2, left=0, width=1/2, height=1/2})
 hs.hotkey.bind(layoutSuper, ".", thunk_push{top=1/2, left=1/2, width=1/2, height=1/2})
 
+-- move screens
+hs.hotkey.bind(layoutSuper, "j", pushSpace)
+
 -- listeners
 hs.hotkey.bind(hyper, "m", function()
     if(mouseEventTapUpper:isEnabled()) then
@@ -71,4 +74,23 @@ end)
 hs.hotkey.bind(hyper, "d", function()
   print("debug")
 end)
+
+--[[
+doScrollTimer = nil
+
+local checkScroll = function()
+  hs.eventtap.event.newScrollEvent({0,2},{}, "line"):post()
+end
+
+hs.hotkey.bind(hyper, "j", function()
+  if doScrollTimer and doScrollTimer:running() then
+    print('stopping')
+    doScrollTimer:stop()
+  else
+    print('starting')
+    doScrollTimer = hs.timer.doEvery(.1, checkScroll)
+  end
+  --checkScroll()
+end)
+]]--
 

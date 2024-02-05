@@ -44,6 +44,15 @@ function thunk_push(params)
   return thunk
 end
 
+function pushSpace()
+  local window = hs.window.focusedWindow()
+  local screen = window:screen()
+
+  -- compute the unitRect of the focused window relative to the current screen
+  -- and move the window to the next screen setting the same unitRect
+  window:move(window:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
+end
+
 -- cell is hs.geometry.rect
 function grid(cell)
   -- https://www.hammerspoon.org/docs/hs.grid.html
