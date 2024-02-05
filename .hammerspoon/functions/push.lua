@@ -44,13 +44,25 @@ function thunk_push(params)
   return thunk
 end
 
-function pushSpace()
+function push_space(dir)
   local window = hs.window.focusedWindow()
   local screen = window:screen()
 
   -- compute the unitRect of the focused window relative to the current screen
-  -- and move the window to the next screen setting the same unitRect
-  window:move(window:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
+  -- and move the window to the screen setting the same unitRect
+
+  if dir == "next" then
+    window:move(window:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
+  elseif dir == "prev" then
+    window:move(window:frame():toUnitRect(screen:frame()), screen:previous(), true, 0)
+  end
+end
+
+function thunk_push_space(dir)
+  function thunk()
+    push_space(dir)
+  end
+  return thunk
 end
 
 -- cell is hs.geometry.rect

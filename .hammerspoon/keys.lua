@@ -38,7 +38,8 @@ hs.hotkey.bind(layoutSuper, "n", thunk_push{top=1/2, left=0, width=1/2, height=1
 hs.hotkey.bind(layoutSuper, ".", thunk_push{top=1/2, left=1/2, width=1/2, height=1/2})
 
 -- move screens
-hs.hotkey.bind(layoutSuper, "j", pushSpace)
+hs.hotkey.bind(layoutSuper, "j", thunk_push_space("next"))
+hs.hotkey.bind(layoutSuper, "k", thunk_push_space("prev"))
 
 -- listeners
 hs.hotkey.bind(hyper, "m", function()
