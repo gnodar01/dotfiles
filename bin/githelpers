@@ -1,0 +1,98 @@
+#!/bin/zsh
+
+#=============#
+# Git Helpers #
+#=============#
+
+function sftd() {
+    git ls-files -m | fzf | xargs -n1 -I {} sh -c "bat --diff {}"
+}
+
+function sftr() {
+    git ls-files -m | fzf | xargs -n1 -I {} sh -c "git restore {}"
+}
+
+function ssftr() {
+    git --no-pager diff --name-only --staged | fzf | xargs -n1 -I {} sh -c "git restore --staged {}"
+}
+
+function grepmod() {
+    grep -n $1 $(git ls-files -m)
+}
+
+function grepdiff() {
+    # below works but is overly complicated
+    # export GREPTERM=${1}
+    # git ls-files -m | parallel 'echo {}; git --no-pager diff -- {} | grep "[-+].*$VAR"'
+    # unset GREPTERM
+
+    git ls-files -m | xargs -I {} -n1 sh -c "echo {} ; git --no-pager diff -- {} | grep --color=auto -n '[-+].*$1'"
+}
+
+function gdown() {
+    git checkout HEAD^
+}
+
+function gup() {
+    git log --reverse --pretty=%H $1 | grep -A 1 $(git rev-parse HEAD) | tail -n1 | xargs git checkout
+}
+
+function bdiff() {
+    git diff --name-only --diff-filter=d | xargs bat --diff
+}
+function aliases() {
+    git config --get-regexp '^alias\.' | sed -e "s/^alias\.//" -e "s/\ /\ =\ /"
+}
+
+function usage() {
+    echo "Usage: githelpers {sftd|sftr|ssftr|grepmod|grepdiff|gdown|gup|bdiff}"
+    echo "Available commands:"
+    echo "\tsftd - select file to diff: fuzzy find and select modified files and show git diff"
+    echo "\tsftr - select unstaged file to restore: fuzzy find and select among unstaged files to restore it"
+    echo "\tssftr - select staged file to restore: fuzzy find and select among staged files to restore it"
+    echo "\tgrepmod <expr> - grep through entire contents of modified files tracked by git"
+    echo "\tgrepdiff <expr> - grep through just the diffs of modified files tracked by git"
+    echo "\tgdown - go down in git history (back to parent)"
+    echo "\tgup - go up in git history (up to child, assumes one child)"
+    echo "\tbdiff - syntax highlight git diffs with bat"
+    echo "\taliases - list all git aliases"
+}
+
+case "$1" in
+    sftd)
+        sftd
+        ;;
+    sftr)
+        sftr
+        ;;
+    ssftr)
+        ssftr
+        ;;
+    grepmod)
+        grepmod "$2"
+        ;;
+    grepdiff)
+        grepdiff "$2"
+        ;;
+    gdown)
+        gdown
+        ;;
+    gup)
+        gup
+        ;;
+    bdiff)
+        bdiff
+        ;;
+    aliases)
+        aliases
+        ;;
+    help)
+        usage
+        ;;
+    *)
+        echo "Invalid command: $@"
+        usage
+        exit 1
+        ;;
+esac
+

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# if an argument was provided
+if [ -n "$1" ]
+then
+    TARGET="$1"
+# else read one line from stdin
+else
+    while read line
+    do
+        TARGET="$line"
+        break
+    done
+fi
+
+if [ -d "$TARGET" ]; then
+  #tree -a -C -L 3 "$1"
+  exa --tree --all --classify --icons --level=2 "$TARGET"
+else
+  BAT_TEST=$(file --mime "$TARGET")
+  if [[ $BAT_TEST == *binary ]]; then
+    hexyl -n 1000 "$TARGET"
+  else
+    bat --color=always --style=numbers --line-range=:500 "$TARGET"
+  fi
+fi
+
+
