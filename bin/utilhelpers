@@ -1,0 +1,77 @@
+#!/bin/zsh
+
+#=========================#
+# General utility Helpers #
+#=========================#
+
+function myip() {
+    ifconfig | grep "inet[^6]"
+}
+
+function envv() {
+    ( setopt posixbuiltin; set; )
+}
+
+function fzfpreview() {
+    fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
+}
+
+function fzfp() {
+    if [ -z $1 ]; then
+        local TARGET="."
+    else
+        local TARGET="$1"
+    fi
+    #ls -al $TARGET
+    find $TARGET -maxdepth 1 | sed 's/^\.\///g' | fzf --preview 'opener {}'
+}
+
+function fzfpp(){
+    find . | sed 's/^\.\///g' | fzf --preview 'opener {}'
+}
+
+function fzfppls(){
+    fzfpp | xargs -n 1 -I {} $(echo $aliases[ll]) {}
+}
+
+function usage() {
+    echo "Usage: utilhelpers <cmd> [<args>]"
+    echo "Available commands:"
+    echo "\thelp: usage (this message)"
+    echo "\tmyip: get my ip address"
+    echo "\tenvv: list all set shell variables, not just env"
+    echo "\tfzfpreview: preview with fzf and bat"
+    echo "\tfzfp: preview with fzf exa hexyl and bat"
+    echo "\tfzfpp: fzf preview all levels"
+    echo "\tfzfppls: fzf preview -> select item -> ls it"
+}
+
+case "$1" in
+    envv)
+        envv
+        ;;
+    myip)
+        myip
+        ;;
+    fzfpreivew)
+        fzfpreview
+        ;;
+    fzfp)
+        fzfp
+        ;;
+    fzfpp)
+        fzfpp
+        ;;
+    fzfppls)
+        fzfppls
+        ;;
+    help)
+        usage
+        ;;
+    *)
+        echo "Invalid command: $@"
+        usage
+        exit 1
+        ;;
+esac
+

@@ -32,7 +32,7 @@ function pipcompat() {
 }
 
 function usage() {
-    echo "Usage: githelpers <cmd> [<args>]"
+    echo "Usage: piphelpers <cmd> [<args>]"
     echo "Available commands:"
     echo "\thelp: usage (this message)"
     echo "\tpypi <pkg> - get releases for pypi package"
