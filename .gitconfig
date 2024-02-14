@@ -27,7 +27,7 @@
 [init]
 	defaultBranch = main
 [core]
-	pager = bat
+	pager = cat
 	autocrlf = false
 	whitespace = cr-at-eol
 [pull]
