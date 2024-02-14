@@ -1,0 +1,50 @@
+PATH="$HOME/bin:$PATH"
+
+# poetry, virtualenv, and others
+PATH="$HOME/.local/bin:$PATH"
+
+# https://superuser.com/questions/1563825/is-there-a-zsh-equivalent-to-the-bash-help-builtin
+if [[ "$(whence -w run-help | cut -d : -f 2 | tr -d ' ')" == "alias" ]]; then
+    unalias run-help
+fi
+autoload run-help
+HELPDIR=/usr/share/zsh/"${ZSH_VERSION}"/help
+alias help=run-help
+
+alias diffc="diff --color=always"
+alias lessc="less -r"
+alias subl="sublime_text"
+
+alias myip="utilhelpers myip"
+alias envv="utilhelpers envv"
+alias dostat="utilhelpers dostat"
+
+# syntax highlight man pages with bat
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# use exa instead of ls
+alias l="exa --all --icons --classify"
+alias ll="exa --long --all --git --header --icons --classify"
+alias t="exa --oneline --all --icons --classify"
+alias tt="exa --tree --all --classify --icons --level=2"
+alias ttt="exa --tree --all --classify --icons --level=3"
+alias tttt="exa --tree --all --classify --icons --level=4"
+
+export FZF_DEFAULT_OPS="-m"
+#export FZF_COMPLETION_OPTS='--border --info=inline'
+alias fzfpreview="utilhelpers fzfpreview"
+alias fzfp="utilhelpers fzfp"
+alias fzfpp="utilhelpers fzfpp"
+alias fzfppls="utilhelpers fzfppls"
+
+alias pypi="piphelpers pypi"
+alias pipcompat="piphelpers pipcompat"
+
+alias nv="nvim"
+
+alias ca="conda activate"
+alias cx="conda deactivate"
+function ce(){
+    conda activate $(conda env list | tail -n+3 | awk '{print $1}' | fzf)
+}
+
