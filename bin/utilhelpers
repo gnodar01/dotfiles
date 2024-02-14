@@ -12,6 +12,10 @@ function envv() {
     ( setopt posixbuiltin; set; )
 }
 
+function dostat() {
+    stat -f "name: \"%SN\" path: \"%SR\" type: \"%ST\" permissions: \"%Sp = %Up\" inode \"%Ui\" dev: \"%Sd = %Ud\" hard links: \"%Ul\" size: \"%Uz\" sym link target: \"%SY\"" "$1"
+}
+
 function fzfpreview() {
     fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
 }
@@ -40,6 +44,7 @@ function usage() {
     echo "\thelp: usage (this message)"
     echo "\tmyip: get my ip address"
     echo "\tenvv: list all set shell variables, not just env"
+    echo "\tdostat <dir>: stat the given directory"
     echo "\tfzfpreview: preview with fzf and bat"
     echo "\tfzfp: preview with fzf exa hexyl and bat"
     echo "\tfzfpp: fzf preview all levels"
@@ -47,11 +52,14 @@ function usage() {
 }
 
 case "$1" in
+    myip)
+        myip
+        ;;
     envv)
         envv
         ;;
-    myip)
-        myip
+    dostat)
+        dostat "$2"
         ;;
     fzfpreivew)
         fzfpreview
