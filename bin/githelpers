@@ -49,7 +49,7 @@ function aliases() {
 }
 
 function usage() {
-    echo "Usage: githelpers {sftd|sftr|ssftr|grepmod|grepdiff|gdown|gup|bdiff}"
+    echo "Usage: githelpers <cmd> [<args>]"
     echo "Available commands:"
     echo "\tsbranch - select branch with fuzzy find"
     echo "\tsftd - select file to diff: fuzzy find and select modified files and show git diff"
