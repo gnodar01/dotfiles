@@ -8,10 +8,6 @@ function myip() {
     ifconfig | grep "inet[^6]"
 }
 
-function envv() {
-    ( setopt posixbuiltin; set; )
-}
-
 function dostat() {
     stat -f "name: \"%SN\" path: \"%SR\" type: \"%ST\" permissions: \"%Sp = %Up\" inode \"%Ui\" dev: \"%Sd = %Ud\" hard links: \"%Ul\" size: \"%Uz\" sym link target: \"%SY\"" "$1"
 }
@@ -43,7 +39,6 @@ function usage() {
     echo "Available commands:"
     echo "\thelp: usage (this message)"
     echo "\tmyip: get my ip address"
-    echo "\tenvv: list all set shell variables, not just env"
     echo "\tdostat <dir>: stat the given directory"
     echo "\tfzfpreview: preview with fzf and bat"
     echo "\tfzfp: preview with fzf exa hexyl and bat"
@@ -54,9 +49,6 @@ function usage() {
 case "$1" in
     myip)
         myip
-        ;;
-    envv)
-        envv
         ;;
     dostat)
         dostat "$2"

@@ -16,7 +16,8 @@ alias lessc="less -r"
 alias subl="sublime_text"
 
 alias myip="utilhelpers myip"
-alias envv="utilhelpers envv"
+# must be alias not function
+alias envv="( setopt posixbuiltin; set; ) | less"
 alias dostat="utilhelpers dostat"
 
 # syntax highlight man pages with bat
