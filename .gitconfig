@@ -24,6 +24,7 @@
 	bdiff = !githelpers bdiff
 	helpers = !githelpers help
 	aliases = !githelpers aliases
+	sbranch = !githelpers sbranch
 [init]
 	defaultBranch = main
 [core]
