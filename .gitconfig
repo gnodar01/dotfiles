@@ -29,10 +29,12 @@
 	defaultBranch = main
 [core]
 	pager = cat
-	autocrlf = false
-	whitespace = cr-at-eol
+	autocrlf = input
+	editor = nvim
 [pull]
 	rebase = true
+[push]
+	default = upstream
 [diff]
 	colormoved = zebra
 	colormovedws = allow-indentation-change
@@ -42,3 +44,9 @@
 	enabled = true
 [branch]
 	sort = -committerdate
+[color]
+	ui = true
+[merge]
+	conflictstyle = diff3
+[credential]
+	helper = osxkeychain
