@@ -1,4 +1,3 @@
-# Note: for PATH, also check /private/etc/paths, /private/etc/paths.d, ~/.zprofile
 
 PATH="$HOME/bin:$PATH"
 
@@ -72,7 +71,7 @@ alias hex="hexyl"
 shellfancyinits() {
   # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
   [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-  
+
   # fzf - enable auto completing and key bindings
   [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 }

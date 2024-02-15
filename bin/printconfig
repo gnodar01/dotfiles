@@ -1,0 +1,56 @@
+#!/bin/zsh
+
+function bash() {
+  echo "/etc/profile (login) -> /etc/bashrc"
+  echo "/etc/bashrc (login ; yes, really) -> /etc/bashrc_$TERM_PROGRAM"
+  echo "~/.bash_profile (login ; ~/.bash_login missing and ~/.profile not executed because later in alphabet) -> ~/.bashrc"
+  echo "~/.bashrc"
+}
+
+function zsh() {
+  echo "/etc/zprofile (login)"
+  echo "/etc/zshrc (login or non-login) -> /etc/zshrc_$TERM_PROGRAM"
+  echo "~/.zprofile (login)"
+  echo "~/.zlogin (login)"
+  echo "~/.zshrc (login or non-login)"
+}
+
+function paths() {
+  echo "/private/etc/paths"
+  echo "/private/etc/paths.d"
+  echo "/etc/profile (bash login) -> /usr/libexec/pathhelper -s"
+  echo "/etc/zprofile (zsh login) -> /usr/libexec/pathhelper -s"
+  echo "pathhelper -> /etc/paths.d/*"
+  echo "/etc/paths"
+  echo "anything in profile, login, rc scripts"
+}
+
+function usage() {
+    echo "Usage: printconfig [<arg>*]"
+    echo "Available args:"
+    echo "\t--help: usage (this message)"
+    echo "\t--bash: bash setup scripts"
+    echo "\t--zsh: zsh setup scripts"
+    echo "\t--paths: path setting files"
+}
+
+while test $# -gt 0
+do
+  case "$1" in
+    --bash) bash
+      ;;
+    --zsh) zsh
+      ;;
+    --paths) paths
+      ;;
+    --help) usage
+      ;;
+    --*) echo "bad option: $1"
+      ;;
+    *) echo "bad argument: $1"
+      ;;
+  esac
+  shift
+done
+
+exit 0
