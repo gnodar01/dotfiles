@@ -34,6 +34,10 @@ function fzfppls(){
     fzfpp | xargs -n 1 -I {} $(echo $aliases[ll]) {}
 }
 
+function npmglobals() {
+  npm list -g --depth 0
+}
+
 function usage() {
     echo "Usage: utilhelpers <cmd> [<args>]"
     echo "Available commands:"
@@ -44,6 +48,7 @@ function usage() {
     echo "\tfzfp: preview with fzf exa hexyl and bat"
     echo "\tfzfpp: fzf preview all levels"
     echo "\tfzfppls: fzf preview -> select item -> ls it"
+    echo "\tnpmglobals: list globally installed npm packages"
 }
 
 case "$1" in
@@ -64,6 +69,9 @@ case "$1" in
         ;;
     fzfppls)
         fzfppls
+        ;;
+    npmglobals)
+        npmglobals
         ;;
     help)
         usage

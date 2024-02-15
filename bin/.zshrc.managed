@@ -1,3 +1,5 @@
+# Note: for PATH, also check /private/etc/paths, /private/etc/paths.d, ~/.zprofile
+
 PATH="$HOME/bin:$PATH"
 
 # poetry, virtualenv, and others
@@ -11,11 +13,18 @@ autoload run-help
 HELPDIR=/usr/share/zsh/"${ZSH_VERSION}"/help
 alias help=run-help
 
+alias rm="rm -iv"
+alias mv="mv -iv"
+alias cp="cp -riv"
+alias mkdir="mkdir -vp"
+
+
 alias diffc="diff --color=always"
 alias lessc="less -r"
 alias subl="sublime_text"
 
 alias myip="utilhelpers myip"
+alias myipp="curl http://ipecho.net/plain; echo"
 # must be alias not function
 alias envv="( setopt posixbuiltin; set; ) | less"
 alias dostat="utilhelpers dostat"
@@ -31,12 +40,58 @@ alias tt="exa --tree --all --classify --icons --level=2"
 alias ttt="exa --tree --all --classify --icons --level=3"
 alias tttt="exa --tree --all --classify --icons --level=4"
 
+alias cdd="cd ~/Desktop"
+
+# https://github.com/rptb1/aliasPath
+# found from here:
+# https://stackoverflow.com/questions/1175094/os-x-terminal-command-to-resolve-path-of-an-alias### cd into alias folder ###
+# clone, compile with `sudo xcodebuild install`, which creates `/usr/local/bin/aliasPath`
+# move to $HOME/bin
+export cdBack=""
+cda() {
+  if [[ -f "$1" || -L "$1" ]]; then
+    cdBack="$(pwd)"
+    truePath="$(aliasPath "$1")"
+    builtin cd "$truePath"
+  else
+    builtin cd "$@"
+  fi
+}
+
+cdb() {
+  if [[ -n "$cdBack" ]]; then
+    builtin cd "$cdBack"
+  else
+    echo "cd back not set"
+  fi
+}
+### /cd into alias folder ###
+
+alias hex="hexyl"
+
+shellfancyinits() {
+  # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+  
+  # fzf - enable auto completing and key bindings
+  [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+}
+
+# -m flag for multi-select, TAB/SHIFT-TAB to mark items
 export FZF_DEFAULT_OPS="-m"
 #export FZF_COMPLETION_OPTS='--border --info=inline'
+# ignore node_modules and .git
+# https://stackoverflow.com/questions/61865932/how-to-get-fzf-vim-ignore-node-modules-and-git-folders
+export FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -o -print'
+
 alias fzfpreview="utilhelpers fzfpreview"
 alias fzfp="utilhelpers fzfp"
 alias fzfpp="utilhelpers fzfpp"
 alias fzfppls="utilhelpers fzfppls"
+
+
+
+alias npmglobals="utilhelpers npmglobals"
 
 alias pypi="piphelpers pypi"
 alias pipcompat="piphelpers pipcompat"
@@ -48,4 +103,10 @@ alias cx="conda deactivate"
 function ce(){
     conda activate $(conda env list | tail -n+3 | awk '{print $1}' | fzf)
 }
+
+# python
+# set this in case you want sys.path to include some custom path to a package
+# note: also check path/to/site-packages/easy-install.pth for things that `pip install -e` puts into sys.path
+#       it's possible to add a custom *.pth file which will also be parsed
+# export PYTHONPATH=""
 
