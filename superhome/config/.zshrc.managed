@@ -1,5 +1,6 @@
 
-PATH="$HOME/bin:$PATH"
+export SUPERHOME=$HOME/superhome
+PATH="$SUPERHOME/bin:$PATH"
 
 # poetry, virtualenv, and others
 PATH="$HOME/.local/bin:$PATH"
