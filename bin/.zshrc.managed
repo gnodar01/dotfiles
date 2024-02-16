@@ -22,8 +22,8 @@ alias diffc="diff --color=always"
 alias lessc="less -r"
 alias subl="sublime_text"
 
-alias myip="utilhelpers myip"
-alias myipp="curl http://ipecho.net/plain; echo"
+alias myip="curl http://ipecho.net/plain; echo"
+alias myipp="utilhelpers myip"
 # must be alias not function
 alias envv="( setopt posixbuiltin; set; ) | less"
 alias dostat="utilhelpers dostat"
