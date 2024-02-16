@@ -4,6 +4,8 @@
 # General utility Helpers #
 #=========================#
 
+# --- MISC ---
+
 function myip() {
     ifconfig | grep "inet[^6]"
 }
@@ -11,6 +13,8 @@ function myip() {
 function dostat() {
     stat -f "name: \"%SN\" path: \"%SR\" type: \"%ST\" permissions: \"%Sp = %Up\" inode \"%Ui\" dev: \"%Sd = %Ud\" hard links: \"%Ul\" size: \"%Uz\" sym link target: \"%SY\"" "$1"
 }
+
+# --- fzf ---
 
 function fzfpreview() {
     fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
@@ -34,9 +38,42 @@ function fzfppls(){
     fzfpp | xargs -n 1 -I {} $(echo $aliases[ll]) {}
 }
 
+# --- npm ---
+
 function npmglobals() {
   npm list -g --depth 0
 }
+
+# --- pip/pypi ---
+
+function pypi() {
+    # this works but is deprecated (especially releases key, which may be removed)
+    # they are switching to https://peps.python.org/pep-0691/
+    # curl -s https://pypi.org/pypi/$1/json | jq -r '.releases | to_entries[] | (.key) + ": " + .value[].filename'
+    #
+    # pep 691 compliant
+    # -s: silent, -L: follow redirect
+    curl -s -L --header "Accept: application/vnd.pypi.simple.v1+json" https://pypi.org/simple/$1/ | jq -r '.files[] | .filename'
+
+    # pretty good python lib for this: https://pypi.org/project/pypi-simple/
+}
+
+# https://packaging.pypa.io/en/stable/tags.html
+# https://packaging.python.org/en/latest/specifications/platform-compatibility-tags/
+function pipcompat() {
+    if [ "$1" = "-a" ];
+    then
+        python -c "from packaging.tags import sys_tags;print('\n'.join([f'{t.interpreter}-{t.abi}-{t.platform}' for t in list(sys_tags())]))"
+    else
+        # below 2 are same, second is more modern
+        # distutils is deprecated as of 3.10 and will be removed in 3.12
+        #
+        #python -c "import distutils ;print(distutils.util.get_platform())"
+        python -c "import sysconfig ;print(sysconfig.get_platform())" | tr '-' '_' | tr '.' '_'
+    fi
+}
+
+# --- help ---
 
 function usage() {
     echo "Usage: utilhelpers <cmd> [<args>]"
@@ -49,6 +86,9 @@ function usage() {
     echo "\tfzfpp: fzf preview all levels"
     echo "\tfzfppls: fzf preview -> select item -> ls it"
     echo "\tnpmglobals: list globally installed npm packages"
+    echo "\tpypi <pkg> - get releases for pypi package"
+    echo "\tpipcompat [-a] - get current compatibility tag (different on each python interpretor)"
+    echo "\t\t-a: list all, if not provided then only main returned"
 }
 
 case "$1" in
@@ -72,6 +112,12 @@ case "$1" in
         ;;
     npmglobals)
         npmglobals
+        ;;
+    pypi)
+        pypi "$2"
+        ;;
+    pipcompat)
+        pipcompat "$2"
         ;;
     help)
         usage

@@ -89,12 +89,10 @@ alias fzfp="utilhelpers fzfp"
 alias fzfpp="utilhelpers fzfpp"
 alias fzfppls="utilhelpers fzfppls"
 
-
-
 alias npmglobals="utilhelpers npmglobals"
 
-alias pypi="piphelpers pypi"
-alias pipcompat="piphelpers pipcompat"
+alias pypi="utilhelpers pypi"
+alias pipcompat="utilhelpers pipcompat"
 
 alias nv="nvim"
 
