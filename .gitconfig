@@ -30,6 +30,7 @@
 [core]
 	pager = cat
 	autocrlf = input
+	eol= lf
 	editor = nvim
 [pull]
 	rebase = true
