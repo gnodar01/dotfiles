@@ -72,10 +72,6 @@ hs.hotkey.bind(hyper, "c", function()
   hs.openConsole()
 end)
 
-hs.hotkey.bind(hyper, "d", function()
-  print("debug")
-end)
-
 --[[
 doScrollTimer = nil
 
