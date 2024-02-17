@@ -7,13 +7,13 @@
 	diff = less -FX
 	log = less -FX
 [alias]
-    graph = log --pretty=format:\"%h %s\" --graph
-    logp=log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-    lg =  log --graph --date-order --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
-    lgb = log --graph --date-order --branches --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
-    lga = log --graph --date-order --all --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
-    staash = stash --all
-    safeforce = git push --force-with-lease
+graph = log --pretty=format:\"%h %s\" --graph
+	logp=log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	lg =  log --graph --date-order --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
+	lgb = log --graph --date-order --branches --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
+	lga = log --graph --date-order --all --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
+	staash = stash --all
+	safeforce = git push --force-with-lease
 	sftd = !githelpers sftd
 	sftr = !githelpers sftr
 	ssftr = !githelpers ssftr
@@ -39,6 +39,7 @@
 [diff]
 	colormoved = zebra
 	colormovedws = allow-indentation-change
+	algorithm = histogram
 [status]
 	showStash = true
 [rerere]
