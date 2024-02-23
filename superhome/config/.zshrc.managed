@@ -102,6 +102,8 @@ function ce(){
     conda activate $(conda env list | tail -n+3 | awk '{print $1}' | fzf)
 }
 
+alias psa="ps -A | grep -v grep"
+
 # python
 # set this in case you want sys.path to include some custom path to a package
 # note: also check path/to/site-packages/easy-install.pth for things that `pip install -e` puts into sys.path
