@@ -7,7 +7,7 @@
 	diff = less -FX
 	log = less -FX
 [alias]
-graph = log --pretty=format:\"%h %s\" --graph
+	graph = log --pretty=format:\"%h %s\" --graph
 	logp=log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 	lg =  log --graph --date-order --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	lgb = log --graph --date-order --branches --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
@@ -16,6 +16,7 @@ graph = log --pretty=format:\"%h %s\" --graph
 	safeforce = git push --force-with-lease
 	sftd = !githelpers sftd
 	sftr = !githelpers sftr
+	sfta = !githelpers sfta
 	ssftr = !githelpers ssftr
 	grepmod = !githelpers grepmod
 	grepdiff = !githelpers grepdiff

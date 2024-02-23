@@ -12,6 +12,10 @@ function sftd() {
     git ls-files -m | fzf | xargs -n1 -I {} sh -c "bat --diff {}"
 }
 
+function sfta() {
+    git ls-files -m | fzf | xargs -n1 -I {} sh -c "git add {}"
+}
+
 function sftr() {
     git ls-files -m | fzf | xargs -n1 -I {} sh -c "git restore {}"
 }
@@ -53,6 +57,7 @@ function usage() {
     echo "Available commands:"
     echo "\tsbranch - select branch with fuzzy find"
     echo "\tsftd - select file to diff: fuzzy find and select modified files and show git diff"
+    echo "\tsfta - select file to add: fuzzy find and select modified files and add to stage"
     echo "\tsftr - select unstaged file to restore: fuzzy find and select among unstaged files to restore it"
     echo "\tssftr - select staged file to restore: fuzzy find and select among staged files to restore it"
     echo "\tgrepmod <expr> - grep through entire contents of modified files tracked by git"
@@ -68,6 +73,9 @@ case "$1" in
         sbranch
         ;;
     sftd)
+        sftd
+        ;;
+    sfta)
         sftd
         ;;
     sftr)
