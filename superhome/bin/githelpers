@@ -76,7 +76,7 @@ case "$1" in
         sftd
         ;;
     sfta)
-        sftd
+        sfta
         ;;
     sftr)
         sftr
