@@ -25,7 +25,7 @@ alias subl="sublime_text"
 
 alias myip="curl http://ipecho.net/plain; echo"
 alias myipp="utilhelpers myip"
-# must be alias not function
+# show all env variables - must be alias not function
 alias envv="( setopt posixbuiltin; set; ) | less"
 alias dostat="utilhelpers dostat"
 
