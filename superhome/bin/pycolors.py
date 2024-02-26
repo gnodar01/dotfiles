@@ -71,8 +71,6 @@ NOTE: see here for some ANSI art fun:
       https://en.wikipedia.org/wiki/ANSI_art
 """
 
-import sys
-
 # === UTILS ===
 
 class OutOfRangeError(Exception):
@@ -361,7 +359,7 @@ def print_3bit_fg(
         content = f"{col} ({i})"
         content = content.ljust(len(content) + 4)
         seq = SEQ(FG_PRIMARY_FN(i), content)
-        sys.stdout.write(seq)
+        print(seq, end="")
 
 def print_3bit_bg(
         bold=False,
@@ -379,7 +377,7 @@ def print_3bit_bg(
         content = f"{col} ({i})"
         content = content.ljust(len(content) + 4)
         seq = SEQ(BG_PRIMARY_FN(i), content)
-        sys.stdout.write(seq)
+        print(seq, end="")
 
 def print_8bit_fg(
         bold=False,
@@ -398,8 +396,8 @@ def print_8bit_fg(
             pos = i * 16 + j
             content = str(pos).ljust(4)
             seq = SEQ(attrs + [FG_8BIT_FN(pos)], content)
-            sys.stdout.write(seq)
-        sys.stdout.write('\n')
+            print(seq, end="")
+        print("")
 
 def print_8bit_bg(
         bold=False,
@@ -418,6 +416,6 @@ def print_8bit_bg(
             pos = i * 16 + j
             content = str(pos).ljust(4)
             seq = SEQ(attrs + [BG_8BIT_FN(pos)], content)
-            sys.stdout.write(seq)
-        sys.stdout.write('\n')
+            print(seq, end="")
+        print("")
 
