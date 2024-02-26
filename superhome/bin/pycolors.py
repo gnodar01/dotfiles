@@ -358,8 +358,9 @@ def print_3bit_fg(
     for col, i in PRIMARIES.items():
         content = f"{col} ({i})"
         content = content.ljust(len(content) + 4)
-        seq = SEQ(FG_PRIMARY_FN(i), content)
+        seq = SEQ(attrs + [FG_PRIMARY_FN(i)], content)
         print(seq, end="")
+    print("")
 
 def print_3bit_bg(
         bold=False,
@@ -376,8 +377,9 @@ def print_3bit_bg(
     for col, i in PRIMARIES.items():
         content = f"{col} ({i})"
         content = content.ljust(len(content) + 4)
-        seq = SEQ(BG_PRIMARY_FN(i), content)
+        seq = SEQ(attrs + [BG_PRIMARY_FN(i)], content)
         print(seq, end="")
+    print("")
 
 def print_8bit_fg(
         bold=False,
@@ -418,4 +420,43 @@ def print_8bit_bg(
             seq = SEQ(attrs + [BG_8BIT_FN(pos)], content)
             print(seq, end="")
         print("")
+
+if __name__ == "__main__":
+    import argparse
+
+    params = {
+            "bold": ("-b", "--bold", "Use bold style"),
+            "faint": ("-f", "--faint", "Use faint style"),
+            "italics": ("-i", "--italics", "Use italics style"),
+            "underline": ("-u", "--underline", "Use underline style"),
+            "dunderline": ("-d", "--dunderline", "Use doubly underline style"),
+            "slow_blink": ("-S", "--slow_blink", "Use slow blink style"),
+            "fast_blink": ("-F", "--fast_blink", "Use fast blink style"),
+            "invert": ("-r", "--invert", "Use invert style (reverse video)"),
+            "hide": ("-x", "--hide", "Use hide style"),
+            "strike": ("-s", "--strike", "Use strike style"),
+   }
+
+    parser = argparse.ArgumentParser(description="Color print utility")
+    parser.add_argument("--print_3bit_fg", action="store_true", help="Print 3-bit foreground colors")
+    parser.add_argument("--print_3bit_bg", action="store_true", help="Print 3-bit background colors")
+    parser.add_argument("--print_8bit_fg", action="store_true", help="Print 8-bit foreground colors")
+    parser.add_argument("--print_8bit_bg", action="store_true", help="Print 8-bit background colors")
+    for arg in params.values():
+        parser.add_argument(arg[0], arg[1], action="store_true", help=arg[2])
+    args = parser.parse_args()
+    argsdict = vars(args)
+    optslist = params.keys()
+    opts = {k:argsdict[k] for k in argsdict.keys() if k in optslist}
+
+    if args.print_3bit_fg:
+        print_3bit_fg(**opts)
+    elif args.print_3bit_bg:
+        print_3bit_bg(**opts)
+    elif args.print_8bit_fg:
+        print_8bit_fg(**opts)
+    elif args.print_8bit_bg:
+        print_8bit_bg(**opts)
+    else:
+        print("Please specify a color print option.")
 
