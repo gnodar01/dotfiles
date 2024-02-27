@@ -302,7 +302,7 @@ def SGR(n, reset_first=True):
     else:
         raise InvalidTypeError("display attribute(s) must be string or list or tuple")
 
-# full sequence with display attrs, content, followed by reset
+# full sequence with display nlist, content, followed by reset
 SEQ = lambda n, content: f"{SGR(n)}{content}{RESET}"
 
 def RGB_CONTENT(r, g, b, content):
@@ -326,8 +326,8 @@ def RGB_HEX_CONTENT(rgb_hex, content):
 
     return RGB_CONTENT(r, g, b, content)
 
-def __args_to_attrs(args):
-    attrs = [
+def __optdict_to_nlist(args):
+    nlist = [
                BOLD if args['bold'] else None,
                FAINT if args['faint'] else None,
                ITALICS if args['italics'] else None,
@@ -339,9 +339,17 @@ def __args_to_attrs(args):
                HIDE if args['hide'] else None,
                STRIKE if args['strike'] else None,
             ]
-    return [att for att in attrs if att is not None]
+    return [n for n in nlist if n is not None]
 
 # -- SGR printers --
+
+def __print_3bit_fg(nlist):
+    for col, i in PRIMARIES.items():
+        content = f"{col} ({i})"
+        content = content.ljust(len(content) + 4)
+        seq = SEQ(nlist + [FG_PRIMARY_FN(i)], content)
+        print(seq, end="")
+    print("")
 
 def print_3bit_fg(
         bold=False,
@@ -354,11 +362,14 @@ def print_3bit_fg(
         invert=False,
         hide=False,
         strike=False):
-    attrs = __args_to_attrs(locals())
+    nlist = __optdict_to_nlist(locals())
+    __print_3bit_fg(nlist)
+
+def __print_3bit_bg(nlist):
     for col, i in PRIMARIES.items():
         content = f"{col} ({i})"
         content = content.ljust(len(content) + 4)
-        seq = SEQ(attrs + [FG_PRIMARY_FN(i)], content)
+        seq = SEQ(nlist + [BG_PRIMARY_FN(i)], content)
         print(seq, end="")
     print("")
 
@@ -373,13 +384,17 @@ def print_3bit_bg(
         invert=False,
         hide=False,
         strike=False):
-    attrs = __args_to_attrs(locals())
-    for col, i in PRIMARIES.items():
-        content = f"{col} ({i})"
-        content = content.ljust(len(content) + 4)
-        seq = SEQ(attrs + [BG_PRIMARY_FN(i)], content)
-        print(seq, end="")
-    print("")
+    nlist = __optdict_to_nlist(locals())
+    __print_3bit_bg(nlist)
+
+def __print_8bit_fg(nlist):
+    for i in range(0, 16):
+        for j in range(0, 16):
+            pos = i * 16 + j
+            content = str(pos).ljust(4)
+            seq = SEQ(nlist + [FG_8BIT_FN(pos)], content)
+            print(seq, end="")
+        print("")
 
 def print_8bit_fg(
         bold=False,
@@ -392,12 +407,15 @@ def print_8bit_fg(
         invert=False,
         hide=False,
         strike=False):
-    attrs = __args_to_attrs(locals())
+    nlist = __optdict_to_nlist(locals())
+    __print_8bit_fg(nlist)
+
+def __print_8bit_bg(nlist):
     for i in range(0, 16):
         for j in range(0, 16):
             pos = i * 16 + j
             content = str(pos).ljust(4)
-            seq = SEQ(attrs + [FG_8BIT_FN(pos)], content)
+            seq = SEQ(nlist + [BG_8BIT_FN(pos)], content)
             print(seq, end="")
         print("")
 
@@ -412,19 +430,13 @@ def print_8bit_bg(
         invert=False,
         hide=False,
         strike=False):
-    attrs = __args_to_attrs(locals())
-    for i in range(0, 16):
-        for j in range(0, 16):
-            pos = i * 16 + j
-            content = str(pos).ljust(4)
-            seq = SEQ(attrs + [BG_8BIT_FN(pos)], content)
-            print(seq, end="")
-        print("")
+    nlist = __optdict_to_nlist(locals())
+    __print_8bit_bg(nlist)
 
 if __name__ == "__main__":
     import argparse
 
-    params = {
+    style_params = {
             "bold": ("-b", "--bold", "Use bold style"),
             "faint": ("-f", "--faint", "Use faint style"),
             "italics": ("-i", "--italics", "Use italics style"),
@@ -438,25 +450,27 @@ if __name__ == "__main__":
    }
 
     parser = argparse.ArgumentParser(description="Color print utility")
-    parser.add_argument("--print_3bit_fg", action="store_true", help="Print 3-bit foreground colors")
-    parser.add_argument("--print_3bit_bg", action="store_true", help="Print 3-bit background colors")
-    parser.add_argument("--print_8bit_fg", action="store_true", help="Print 8-bit foreground colors")
-    parser.add_argument("--print_8bit_bg", action="store_true", help="Print 8-bit background colors")
-    for arg in params.values():
-        parser.add_argument(arg[0], arg[1], action="store_true", help=arg[2])
+    parser.add_argument("--print-3bit-fg", action="store_true", help="Print 3-bit foreground colors")
+    parser.add_argument("--print-3bit-bg", action="store_true", help="Print 3-bit background colors")
+    parser.add_argument("--print-8bit-fg", action="store_true", help="Print 8-bit foreground colors")
+    parser.add_argument("--print-8bit-bg", action="store_true", help="Print 8-bit background colors")
+    for p in style_params.values():
+        parser.add_argument(p[0], p[1], action="store_true", help=p[2])
+
     args = parser.parse_args()
     argsdict = vars(args)
-    optslist = params.keys()
-    opts = {k:argsdict[k] for k in argsdict.keys() if k in optslist}
+
+    optslist = style_params.keys()
+    print_opts = {k:argsdict[k] for k in argsdict.keys() if k in optslist}
 
     if args.print_3bit_fg:
-        print_3bit_fg(**opts)
+        __print_3bit_fg(__optdict_to_nlist(print_opts))
     elif args.print_3bit_bg:
-        print_3bit_bg(**opts)
+        __print_3bit_bg(__optdict_to_nlist(print_opts))
     elif args.print_8bit_fg:
-        print_8bit_fg(**opts)
+        __print_8bit_fg(__optdict_to_nlist(print_opts))
     elif args.print_8bit_bg:
-        print_8bit_bg(**opts)
+        __print_8bit_bg(__optdict_to_nlist(print_opts))
     else:
-        print("Please specify a color print option.")
+        print("specify a color print option.")
 
