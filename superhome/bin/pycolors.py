@@ -302,16 +302,26 @@ def SGR(n, reset_first=True):
     else:
         raise InvalidTypeError("display attribute(s) must be string or list or tuple")
 
-# full sequence with display nlist, content, followed by reset
+def SEQ_LITERAL(n, include_reset=True):
+    seq = SGR(n)
+    content = repr(seq)
+    if include_reset:
+        content += repr(RESET)
+    return f"{seq}{content}{RESET}"
+
+# full sequence with display attrs, content, followed by reset
 SEQ = lambda n, content: f"{SGR(n)}{content}{RESET}"
 
-def RGB_CONTENT(r, g, b, content):
+def RGB_CONTENT(r, g, b, content=None, literal=False):
     r = check_num_range(r, lower=0, upper=255)
     g = check_num_range(g, lower=0, upper=255)
     b = check_num_range(b, lower=0, upper=255)
-    return SEQ(FG_24BIT_FN(r,g,b), content)
+    n = FG_24BIT_FN(r,g,b)
+    if content is None and not literal:
+        content = f"{r},{g},{b}"
+    return SEQ_LITERAL(n) if literal else SEQ(FG_24BIT_FN(r,g,b), content)
 
-def RGB_HEX_CONTENT(rgb_hex, content):
+def RGB_HEX_CONTENT(rgb_hex, content, literal=False):
     assert type(rgb_hex) == str, "expected rgb_hex to be a string"
     assert (len(rgb_hex) == 7 and rgb_hex[0] == '#') or len(rgb_hex) == 6, \
         "rgb hex may optionally start with '#'" + \
@@ -324,7 +334,7 @@ def RGB_HEX_CONTENT(rgb_hex, content):
     g = int(rgb_hex[2:4], 16)
     b = int(rgb_hex[4:6], 16)
 
-    return RGB_CONTENT(r, g, b, content)
+    return RGB_CONTENT(r, g, b, content, literal=literal)
 
 def __optdict_to_nlist(args):
     nlist = [
