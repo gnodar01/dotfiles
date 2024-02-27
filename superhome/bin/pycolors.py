@@ -24,8 +24,8 @@ Some notes on the escape codes:
   Unicode "escape" is `U+001B`, in python `"\\u001b"`.
   https://en.wikipedia.org/wiki/List_of_Unicode_characters#Control_codes
   
-  Parser support will depend on its suport of.
-  hexadecimal `\\x`, octal `\\0`, unicode `\\u` escapes
+  Parser support will depend on its support of
+  hexadecimal `\\x`, octal `\\0`, unicode `\\u` escapes.
   
   Some limited amount of parsers support the lesser used `\\e`
   commonly with parsers/languages that expect a lot of ANSI escaping to happen
@@ -39,7 +39,7 @@ Some notes on the escape codes:
   Finally, the reason `^[` maps to `0x1B`, ie escape, is because in a terminal
   (and sometimes in other programs) `^A` is `0x01`, `^B` is `0x02`, ...,
   `^Z` is `0x1A`, and next up is `^[` is `0x1B`.
-  Vim for instance, can't differentiate between `ESC` nd `^[` because it gets
+  Vim for instance, can't differentiate between `ESC` and `^[` because it gets
   the same key code when either is pressed.
   https://bestasciitable.com/
   In the table above, you can see this mapping by looking at the third column,
@@ -58,8 +58,8 @@ Some notes on the escape codes:
 In this program, the escape code is followed by `[` which is the
 Control Sequence Introducer (CSI), in order to perform *escape sequences*.
 https://en.wikipedia.org/wiki/ANSI_escape_code#CSIsection
-So we have `ESC [` or `^[ [` or whatever escape code encode followed by `[`
-to start the sequence, followed the sequence.
+So we have `ESC [` or `^[ [` or whatever escape code encoding, followed by `[`
+to start the sequence, followed by the sequence.
 
 The escape sequence for "Select Graphic Rendition" (SGR) allows us to set
 colors and styles of characters. It has the format of `CSI<n>m` where `<n>` is
