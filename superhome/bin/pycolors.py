@@ -333,7 +333,22 @@ def SEQ_LITERAL(n, content=None, include_reset=True):
 # full sequence with display attrs, content, followed by reset
 SEQ = lambda n, content: f"{SGR(n)}{content}{RESET}"
 
-def RGB_CONTENT(r, g, b, content=None, literal=False, include_reset=True):
+def __optdict_to_nlist(args):
+    nlist = [
+               BOLD if args['bold'] else None,
+               FAINT if args['faint'] else None,
+               ITALICS if args['italics'] else None,
+               UNDERLINE if args['underline'] else None,
+               DUNDERLINE if args['dunderline'] else None,
+               SLOW_BLINK if args['slow_blink'] else None,
+               FAST_BLINK if args['fast_blink'] else None,
+               INVERT if args['invert'] else None,
+               HIDE if args['hide'] else None,
+               STRIKE if args['strike'] else None,
+            ]
+    return [n for n in nlist if n is not None]
+
+def __RGB_CONTENT(r, g, b, nlist=[], content=None, literal=False, include_reset=True):
     '''
     Return 24bit color escape sequence
 
@@ -345,12 +360,33 @@ def RGB_CONTENT(r, g, b, content=None, literal=False, include_reset=True):
     r = check_num_range(r, lower=0, upper=255)
     g = check_num_range(g, lower=0, upper=255)
     b = check_num_range(b, lower=0, upper=255)
-    n = FG_24BIT_FN(r,g,b)
+    nlist = nlist + [FG_24BIT_FN(r,g,b)]
     if content is None and not literal:
-        content = f"{r},{g},{b}"
-    return SEQ_LITERAL(n, content, include_reset) if literal else SEQ(FG_24BIT_FN(r,g,b), content)
+        content = f"{r},{g},{b} | #{hex(r)[2:]}{hex(g)[2:]}{hex(b)[2:]}"
+    return SEQ_LITERAL(nlist, content, include_reset) if literal\
+            else SEQ(nlist + [FG_24BIT_FN(r,g,b)], content)
 
-def RGB_HEX_CONTENT(rgb_hex, content=None, literal=False, include_reset=True):
+def RGB_CONTENT(
+        r, g, b,
+        content=None,
+        literal=False,
+        include_reset=True,
+        bold=False,
+        faint=False,
+        italics=False,
+        underline=False,
+        dunderline=False,
+        slow_blink=False,
+        fast_blink=False,
+        invert=False,
+        hide=False,
+        strike=False,
+    ):
+    nlist = __optdict_to_nlist(locals())
+    return __RGB_CONTENT(nlist)
+
+
+def __RGB_HEX_CONTENT(rgb_hex, nlist=[], content=None, literal=False, include_reset=True):
     '''
     Return 24bit color escape sequence
 
@@ -375,22 +411,26 @@ def RGB_HEX_CONTENT(rgb_hex, content=None, literal=False, include_reset=True):
     g = int(rgb_hex[2:4], 16)
     b = int(rgb_hex[4:6], 16)
 
-    return RGB_CONTENT(r, g, b, content, literal, include_reset)
+    return __RGB_CONTENT(r, g, b, nlist, content, literal, include_reset)
 
-def __optdict_to_nlist(args):
-    nlist = [
-               BOLD if args['bold'] else None,
-               FAINT if args['faint'] else None,
-               ITALICS if args['italics'] else None,
-               UNDERLINE if args['underline'] else None,
-               DUNDERLINE if args['dunderline'] else None,
-               SLOW_BLINK if args['slow_blink'] else None,
-               FAST_BLINK if args['fast_blink'] else None,
-               INVERT if args['invert'] else None,
-               HIDE if args['hide'] else None,
-               STRIKE if args['strike'] else None,
-            ]
-    return [n for n in nlist if n is not None]
+def RGB_HEX_CONTENT(
+        rgb_hex,
+        content=None,
+        literal=False,
+        include_reset=True,
+        bold=False,
+        faint=False,
+        italics=False,
+        underline=False,
+        dunderline=False,
+        slow_blink=False,
+        fast_blink=False,
+        invert=False,
+        hide=False,
+        strike=False,
+    ):
+    nlist = __optdict_to_nlist(locals())
+    return __RGB_HEX_CONTENT(nlist)
 
 # -- SGR printers --
 
@@ -484,13 +524,44 @@ def print_8bit_bg(
     nlist = __optdict_to_nlist(locals())
     __print_8bit_bg(nlist)
 
+def cli_dispatch(args, printopts, content=None):
+    if args.print_3bit_fg:
+        __print_3bit_fg(__optdict_to_nlist(printopts))
+    elif args.print_3bit_bg:
+        __print_3bit_bg(__optdict_to_nlist(printopts))
+    elif args.print_8bit_fg:
+        __print_8bit_fg(__optdict_to_nlist(printopts))
+    elif args.print_8bit_bg:
+        __print_8bit_bg(__optdict_to_nlist(printopts))
+    elif args.print_hex:
+        print(__RGB_HEX_CONTENT(
+            args.print_hex[0],
+            nlist=__optdict_to_nlist(printopts),
+            content=content,
+            literal=args.literal,
+            include_reset=args.normal)
+        )
+    elif args.print_rgb:
+        print(__RGB_CONTENT(
+            *args.print_rgb,
+            nlist=__optdict_to_nlist(printopts),
+            content=content,
+            literal=args.literal,
+            include_reset=args.normal)
+        )
+    else:
+        print("specify a color print option.")
+
 if __name__ == "__main__":
+    import sys
+    import select
     import argparse
 
+    # n styling attributes available
     style_params = {
             "bold": ("-b", "--bold", "Use bold style"),
             "faint": ("-f", "--faint", "Use faint style"),
-            "italics": ("-i", "--italics", "Use italics style"),
+            "italics": ("-t", "--italics", "Use italics style"),
             "underline": ("-u", "--underline", "Use underline style"),
             "dunderline": ("-d", "--dunderline", "Use doubly underline style"),
             "slow_blink": ("-S", "--slow_blink", "Use slow blink style"),
@@ -505,33 +576,60 @@ if __name__ == "__main__":
     parser.add_argument("--print-3bit-bg", action="store_true", help="Print 3-bit background colors")
     parser.add_argument("--print-8bit-fg", action="store_true", help="Print 8-bit foreground colors")
     parser.add_argument("--print-8bit-bg", action="store_true", help="Print 8-bit background colors")
+
+    # populate the available n styling attributes
     for p in style_params.values():
         parser.add_argument(p[0], p[1], action="store_true", help=p[2])
+
     parser.add_argument('--print-hex', nargs=1, default=False, help="Print esc sequence for hex color\
             needs single hex string of 6 hex chars")
     parser.add_argument('--print-rgb', nargs=3, default=False, help="Print esc sequence for rgb colors\
             needs three r, g, b values")
     parser.add_argument('-l', '--literal', action="store_true", help="For usage with --print-hex or \
             --print-rgb; print the escape sequence literal")
+    parser.add_argument('-n', '--normal', action="store_true", help="For usage with --print-hex or \
+            --print-rgb; when --literal flag set, terminate with reset/normal escape sequence")
+    parser.add_argument('-i', '--interactive', action="store_true", help="Interactive mode")
 
     args = parser.parse_args()
+    # put args in dictionary instead of "namespace" object
     argsdict = vars(args)
 
+    # n styling attributes, option names only
     optslist = style_params.keys()
-    print_opts = {k:argsdict[k] for k in argsdict.keys() if k in optslist}
+    # if the cli arg is an n styling attribute
+    # put it in the dictionary along with the boolean of if the flag was enabled
+    printopts = {k:argsdict[k] for k in argsdict.keys() if k in optslist}
 
-    if args.print_3bit_fg:
-        __print_3bit_fg(__optdict_to_nlist(print_opts))
-    elif args.print_3bit_bg:
-        __print_3bit_bg(__optdict_to_nlist(print_opts))
-    elif args.print_8bit_fg:
-        __print_8bit_fg(__optdict_to_nlist(print_opts))
-    elif args.print_8bit_bg:
-        __print_8bit_bg(__optdict_to_nlist(print_opts))
-    elif args.print_hex:
-        print(RGB_HEX_CONTENT(args.print_hex[0], literal=args.literal))
-    elif args.print_rgb:
-        print(RGB_CONTENT(*args.print_rgb, literal=args.literal))
+    # determine if stdin is available for reading
+    # this is just the select syscall; man select
+    # this method is preferable to sys.stdin.isatty becaus it works even in the
+    # case of remote invocation (eg ssh)
+    r,_,_ = select.select([sys.stdin],[],[],0)
+    if r:
+        # stdin is available for reading
+        # ie sys.stdin.isatty() -> False
+        stdin = r[0]
+        lines = stdin.readlines()
+        for l in lines:
+            cli_dispatch(args, printopts, content=l.rstrip())
+    elif args.interactive and (args.print_rgb or args.print_hex):
+        # stdin is not available for reading
+        # ie either sys.stdin.isatty() -> True or its locked up (eg top)
+        # if we're in interactive mode, and a viable print option flag is enabled
+        # the we loop on user input
+        try:
+            while True:
+                line = sys.stdin.readline().rstrip()
+                cli_dispatch(args, printopts, content=line)
+        except KeyboardInterrupt:
+            # abort on ^C
+            sys.stdout.flush()
+            exit(0)
     else:
-        print("specify a color print option.")
+        # stdin is not available for reading
+        # ie either sys.stdin.isatty() -> True or its locked up (eg top)
+        # either way, interactive mode is off, or the user put in a nonviable
+        # print option, just run on cli args alone
+        cli_dispatch(args, printopts)
 
