@@ -71,12 +71,17 @@ NOTE: see here for some ANSI art fun:
       https://en.wikipedia.org/wiki/ANSI_art
 """
 
-# === UTILS ===
 
+# === Exceptions ===
 class OutOfRangeError(Exception):
     pass
 class InvalidTypeError(Exception):
     pass
+class ArgParseError(Exception):
+    pass
+
+# === UTILS ===
+
 
 def check_num_range(num, lower=0, upper=0, return_as_str=False):
     assert type(upper) == int, f"upper must be int, is {type(upper)}"
@@ -502,6 +507,12 @@ if __name__ == "__main__":
     parser.add_argument("--print-8bit-bg", action="store_true", help="Print 8-bit background colors")
     for p in style_params.values():
         parser.add_argument(p[0], p[1], action="store_true", help=p[2])
+    parser.add_argument('--print-hex', nargs=1, default=False, help="Print esc sequence for hex color\
+            needs single hex string of 6 hex chars")
+    parser.add_argument('--print-rgb', nargs=3, default=False, help="Print esc sequence for rgb colors\
+            needs three r, g, b values")
+    parser.add_argument('-l', '--literal', action="store_true", help="For usage with --print-hex or \
+            --print-rgb; print the escape sequence literal")
 
     args = parser.parse_args()
     argsdict = vars(args)
@@ -517,6 +528,10 @@ if __name__ == "__main__":
         __print_8bit_fg(__optdict_to_nlist(print_opts))
     elif args.print_8bit_bg:
         __print_8bit_bg(__optdict_to_nlist(print_opts))
+    elif args.print_hex:
+        print(RGB_HEX_CONTENT(args.print_hex[0], literal=args.literal))
+    elif args.print_rgb:
+        print(RGB_CONTENT(*args.print_rgb, literal=args.literal))
     else:
         print("specify a color print option.")
 
