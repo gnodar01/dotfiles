@@ -14,6 +14,14 @@ function dostat() {
     stat -f "name: \"%SN\" path: \"%SR\" type: \"%ST\" permissions: \"%Sp = %Up\" inode \"%Ui\" dev: \"%Sd = %Ud\" hard links: \"%Ul\" size: \"%Uz\" sym link target: \"%SY\"" "$1"
 }
 
+function pltoxml() {
+    plutil -convert xml1 $1
+}
+
+function xmltopl() {
+    plutil -convert binary1 $1
+}
+
 # --- fzf ---
 
 function fzfpreview() {
@@ -81,6 +89,8 @@ function usage() {
     echo "\thelp: usage (this message)"
     echo "\tmyip: get my ip address"
     echo "\tdostat <dir>: stat the given directory"
+    echo "\tpltoxml <plist>: convert binary plist to xml plist"
+    echo "\txmltopl <plist>: convert xml plist to binary plist"
     echo "\tfzfpreview: preview with fzf and bat"
     echo "\tfzfp: preview with fzf exa hexyl and bat"
     echo "\tfzfpp: fzf preview all levels"
@@ -97,6 +107,12 @@ case "$1" in
         ;;
     dostat)
         dostat "$2"
+        ;;
+    pltoxml)
+        pltoxml "$2"
+        ;;
+    xmltopl)
+        xmltopl "$2"
         ;;
     fzfpreivew)
         fzfpreview
