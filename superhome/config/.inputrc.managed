@@ -6,6 +6,8 @@
 # python repl uses readline, and bash
 # ipython doess not, it moved from readline to prompt_toolkit: https://python-prompt-toolkit.readthedocs.io/en/master/
 # zsh does not, it uses zle (ZSH Line Editor): https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
+# zsh-vi-mode plugin for oh-my-zsh has its own readkey engine (NEX), although ZLE can be specified, but not readline:
+# https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#readkey-engine
 
 set editing-mode vi
 set keymap vi
