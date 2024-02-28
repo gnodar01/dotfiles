@@ -2,6 +2,10 @@
 # ENV variable INPUTRC is first checked, then ~/.inputrc, then /etc/inputrc
 # to use this file, go to ~/.inputrc and put `$include ~/superhome/config/.inputrc.managed`
 # or set the shell variable INPUTRC to point to it
+#
+# python repl uses readline, and bash
+# ipython doess not, it moved from readline to prompt_toolkit: https://python-prompt-toolkit.readthedocs.io/en/master/
+# zsh does not, it uses zle (ZSH Line Editor): https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
 
 set editing-mode vi
 set keymap vi
