@@ -283,6 +283,9 @@ PRIMARIES = {
 
 def SGR(n, reset_first=True):
     '''
+    Select Graphic Rendition: take in the numeric attribute(s) and
+    wrap them in sequence start and end, forming a full escape sequence
+
     n - the display attribute(s): string, or list/tuple of strings
     reset_first (default): reset previous styling from prior sequences first
 
@@ -302,26 +305,59 @@ def SGR(n, reset_first=True):
     else:
         raise InvalidTypeError("display attribute(s) must be string or list or tuple")
 
-def SEQ_LITERAL(n, include_reset=True):
+def SEQ_LITERAL(n, content=None, include_reset=True):
+    '''
+    Returns the escape sequence... escaped, along with optional content
+       the returned squence can be sent to STDOUT, and it will diplay the
+       escape sequence itself, along with any content within, in the style
+       of the escape sequence
+
+    n - the display attribute(s): string, or list/tuple of strings
+    content: the content proceding the escape sequence, or None
+    include_reset: suffix the sequence and optional content with reset/normal sequence
+    '''
     seq = SGR(n)
-    content = repr(seq)
+    if content is None:
+        content = ''
     if include_reset:
-        content += repr(RESET)
+        content = repr(seq+content+RESET)
+    else:
+        content = repr(seq+content)
     return f"{seq}{content}{RESET}"
 
 # full sequence with display attrs, content, followed by reset
 SEQ = lambda n, content: f"{SGR(n)}{content}{RESET}"
 
-def RGB_CONTENT(r, g, b, content=None, literal=False):
+def RGB_CONTENT(r, g, b, content=None, literal=False, include_reset=True):
+    '''
+    Return 24bit color escape sequence
+
+    r,g,b: the values for red, green, blue; each between [0,255]
+    content: any content to style with the r,g,b color; or None
+    literal: return the escape sequence such that it is literally printable
+    include_reset: terminate sequence and content with normal style reversion
+    '''
     r = check_num_range(r, lower=0, upper=255)
     g = check_num_range(g, lower=0, upper=255)
     b = check_num_range(b, lower=0, upper=255)
     n = FG_24BIT_FN(r,g,b)
     if content is None and not literal:
         content = f"{r},{g},{b}"
-    return SEQ_LITERAL(n) if literal else SEQ(FG_24BIT_FN(r,g,b), content)
+    return SEQ_LITERAL(n, content, include_reset) if literal else SEQ(FG_24BIT_FN(r,g,b), content)
 
-def RGB_HEX_CONTENT(rgb_hex, content, literal=False):
+def RGB_HEX_CONTENT(rgb_hex, content=None, literal=False, include_reset=True):
+    '''
+    Return 24bit color escape sequence
+
+    rgb_hex: a single hex string containing the hex values for red, green, blue
+       may be prefixed with '#' or not
+       r,g,b hex values must have 2 characters each, between 00 and FF
+       upper or lower case both fine
+    content: any content to style with the r,g,b color; or None
+    literal: return the escape sequence such that it is literally printable
+    include_reset: terminate sequence and content with normal style reversion
+    '''
+
     assert type(rgb_hex) == str, "expected rgb_hex to be a string"
     assert (len(rgb_hex) == 7 and rgb_hex[0] == '#') or len(rgb_hex) == 6, \
         "rgb hex may optionally start with '#'" + \
@@ -334,7 +370,7 @@ def RGB_HEX_CONTENT(rgb_hex, content, literal=False):
     g = int(rgb_hex[2:4], 16)
     b = int(rgb_hex[4:6], 16)
 
-    return RGB_CONTENT(r, g, b, content, literal=literal)
+    return RGB_CONTENT(r, g, b, content, literal, include_reset)
 
 def __optdict_to_nlist(args):
     nlist = [
