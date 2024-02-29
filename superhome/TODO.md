@@ -2,7 +2,7 @@
 
 ### oh-my-zsh
 
-* powerlevel9k
+* powerlevel9k / powerlevel10k
 * oh-my-zsh
 * oh-my-zsh plugins/themes:
   * plugins/fzf-tab
@@ -11,6 +11,7 @@
 
 ### vim / nvim
 
+* nvim itself
 * add superhome/config/.vimrc.managed for (personal) ~/.vimrc
 * add superhome/config/init.nvim.managed for .config/nvim/init.vim
 * plugins
@@ -25,6 +26,7 @@
 * fzf
 * hexyl
 * jq
+* exa
 * conda/mamba?
 * brew
 * brew packages
