@@ -1,0 +1,13 @@
+" for now just a copy of personal ~/.config/nvim/init.vim
+
+if exists('g:vscode')
+  " VSCode Neovim extension stuff
+  :map <leader>\ :noh<CR>
+else
+  " ordinary Neovim stuff
+
+  set runtimepath^=~/.vim runtimepath+=~/.vim/after
+  let &packpath = &runtimepath
+  source ~/.vimrc
+end
+
