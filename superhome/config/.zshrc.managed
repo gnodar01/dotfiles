@@ -5,6 +5,12 @@ PATH="$SUPERHOME/bin:$PATH"
 # poetry, virtualenv, and others
 PATH="$HOME/.local/bin:$PATH"
 
+# when doing rm folder/* or `rm *` zsh asks "sure you want to delete all the files in ... [yn]?"
+# even if -f set
+# this disables that
+# https://unix.stackexchange.com/questions/135084/double-rm-verification-in-zsh
+setopt rm_star_silent
+
 # https://superuser.com/questions/1563825/is-there-a-zsh-equivalent-to-the-bash-help-builtin
 if [[ "$(whence -w run-help | cut -d : -f 2 | tr -d ' ')" == "alias" ]]; then
     unalias run-help
