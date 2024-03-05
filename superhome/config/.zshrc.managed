@@ -126,6 +126,8 @@ function ce(){
     conda activate $(conda env list | tail -n+3 | awk '{print $1}' | fzf)
 }
 
+# NOTE: just use pgrep instead
+# leaving here until you remember
 alias psa="ps -A | grep -v grep"
 
 # python
