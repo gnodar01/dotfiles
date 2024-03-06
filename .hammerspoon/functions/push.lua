@@ -1,6 +1,7 @@
 -- https://blog.jverkamp.com/2023/01/23/once-again-to-hammerspoon/
 
 require "functions/patch"
+require "functions/utils"
 
 -- Move a window to the given coords
 -- params: table of top,left,width, height as a percent of the screen, [0,1]
@@ -44,7 +45,7 @@ function thunk_push(params)
   return thunk
 end
 
-function push_space(dir)
+function push_win(dir)
   local window = hs.window.focusedWindow()
   local screen = window:screen()
 
@@ -58,11 +59,45 @@ function push_space(dir)
   end
 end
 
-function thunk_push_space(dir)
+function thunk_push_win(dir)
   function thunk()
-    push_space(dir)
+    push_win(dir)
   end
   return thunk
+end
+
+function push_space(dir)
+    local window = hs.window.focusedWindow()
+    local windowId = window:id()
+    local screen = window:screen()
+    local screenId = screen:getUUID()
+    local spaceId = hs.spaces.focusedSpace()
+    local allScreenSpaces = hs.spaces.allSpaces()[screenId]
+    local spaceIdx = indexOf(allScreenSpaces, spaceId)
+    local nextIdx
+    if dir == "left" then
+        if spaceIdx >= #allScreenSpaces then
+            nextIdx = 1
+        else
+            nextIdx = spaceIdx + 1
+        end
+    elseif dir == "right" then
+        if spaceIdx <= 1 then
+            nextIdx = #allScreenSpaces
+        else
+            nextIdx = spaceIdx - 1
+        end
+    end
+    local nextSpaceId = allScreenSpaces[nextIdx]
+    hs.spaces.moveWindowToSpace(windowId, nextSpaceId)
+    --hs.spaces.gotoSpace(nextSpaceId)
+end
+
+function thunk_push_space(dir)
+    function thunk()
+        push_space(dir)
+    end
+    return thunk
 end
 
 -- cell is hs.geometry.rect
