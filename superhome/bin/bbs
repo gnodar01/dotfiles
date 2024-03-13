@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# can't use plain "iconv" because I always have conda environment
+# open, and it ships with its own ported from linux
+# which doesn't have CP437
+# the mac-native one does
+/usr/bin/iconv -f CP437 -t UTF-8 ${1}
+
