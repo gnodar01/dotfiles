@@ -1,8 +1,19 @@
 #!/bin/bash
 
+DO_TEST=false
+
+if [[ "${1}" == "--test" ]]; then
+  DO_TEST=true
+fi
+
 # can't use plain "iconv" because I always have conda environment
 # open, and it ships with its own ported from linux
 # which doesn't have CP437
 # the mac-native one does
-/usr/bin/iconv -f CP437 -t UTF-8 ${1}
+
+if ${DO_TEST}; then
+  /usr/bin/iconv -f CP437 -t UTF-8 bbstest.ans
+else
+  /usr/bin/iconv -f CP437 -t UTF-8 ${1}
+fi
 
