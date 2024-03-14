@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://xkcd.com/json.html
+
 TODAY=$(curl -s -L https://xkcd.com/info.0.json)
 ALT=$(echo "${TODAY}" | jq -r '.alt')
 TITLE=$(echo "${TODAY}" | jq -r '.title')
