@@ -33,6 +33,7 @@ void screensaver_mode(const char *directory, const int speed, const int width) {
         char file[256];
         unsigned int i = rand() % n;
         snprintf(file, sizeof(file), "%s/%s", directory, namelist[i]->d_name);
+        fprintf(stdout, "%s\n", file);
         draw_ansi_art(file, speed, width);
         usleep(1500000);
     }
