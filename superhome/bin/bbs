@@ -16,6 +16,6 @@ fi
 if ${DO_TEST}; then
   /usr/bin/iconv -f CP437 -t UTF-8 bbstest.ans
 else
-  /usr/bin/iconv -f CP437 -t UTF-8 ${1}
+  /usr/bin/iconv -f CP437 -t UTF-8 "${1}"
 fi
 
