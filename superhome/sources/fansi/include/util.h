@@ -13,7 +13,7 @@
 void print_logo();
 void print_usage();
 char *trimwhitespace(char *str);
-void screensaver_mode(const char *directory, const int speed);
+void screensaver_mode(const char *directory, const int speed, const int width);
 int isArrayNumeric(const char *str);
 
 #endif // UTIL_H

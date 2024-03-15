@@ -23,6 +23,8 @@ int main(int argc, char *argv[]) {
 
     // define rendering speed for ANSI Art
     unsigned int speed = 110;
+    // define expected width of terminal (almost always 80)
+    unsigned int width = 80;
 
     // parse cmd line options
     int opt = 0;
@@ -34,6 +36,7 @@ int main(int argc, char *argv[]) {
             {"sauce",   required_argument, NULL,    0},
             {"ssaver",  required_argument, NULL,  's'},
             {"speed",   required_argument, NULL,    0},
+            {"width",   required_argument, NULL,    0},
             {NULL,      0,                 NULL,    0}
         };
 
@@ -53,16 +56,27 @@ int main(int argc, char *argv[]) {
                         exit(1);
                     }
                 }
+                if (strcmp(long_options[option_index].name, "width") == 0 && optarg) {
+                    if (isArrayNumeric(optarg) == 0) {
+                        width = atoi(optarg);
+                    } else {
+                        fprintf(stderr, "Invalid width specified\n");
+                        exit(1);
+                    }
+                    if (width < 80) {
+                      fprintf(stderr, "Invalid width, must be uint > 80\n");
+                    }
+                }
                 if (strcmp(long_options[option_index].name, "sauce") == 0 && optarg) {
                     print_sauce_info(optarg);
                 } else if (strcmp(long_options[option_index].name, "cp437") == 0) {
                     print_cp437();
                 } else if (strcmp(long_options[option_index].name, "ssaver") == 0 && optarg) {
-                    screensaver_mode(optarg, speed);
+                    screensaver_mode(optarg, speed, width);
                 }
                 break;
             case 's':
-                screensaver_mode(optarg, speed);
+                screensaver_mode(optarg, speed, width);
                 break;
             case 'h':
                 print_usage();
@@ -84,7 +98,7 @@ int main(int argc, char *argv[]) {
 
     // only one argument provided, try to render ansi art for that file
     if ((argc == 2 || argc == 4) && (optind == 1 || optind == 3)) {
-        draw_ansi_art(argv[optind], speed);
+        draw_ansi_art(argv[optind], speed, width);
         exit(0);
     }
 

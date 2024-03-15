@@ -18,7 +18,7 @@ static int ansi_art_found(const struct dirent *dir) {
     return 0;
 }
 
-void screensaver_mode(const char *directory, const int speed) {
+void screensaver_mode(const char *directory, const int speed, const int width) {
     struct dirent **namelist;
     int n;
     n = scandir(directory, &namelist, ansi_art_found, alphasort);
@@ -33,7 +33,7 @@ void screensaver_mode(const char *directory, const int speed) {
         char file[256];
         unsigned int i = rand() % n;
         snprintf(file, sizeof(file), "%s/%s", directory, namelist[i]->d_name);
-        draw_ansi_art(file, speed);
+        draw_ansi_art(file, speed, width);
         usleep(1500000);
     }
 
@@ -48,6 +48,7 @@ void print_usage() {
             "       --speed  value      Set rendering speed. Default speed is 110 - increase it to slow down the output\n"
             "  -s   --ssaver dirname    Screen Saver mode\n"
             "       --sauce  filename   Print SAUCE metadata for file\n"
+            "       --width  int >= 80  Terminal width expected, default is 80\n"
             "       --cp437             Print Code Page 437 table as UTF-8 characters\n"
             "  -h   --help              Display this information\n");
 }

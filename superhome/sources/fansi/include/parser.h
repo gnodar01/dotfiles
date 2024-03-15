@@ -19,6 +19,6 @@ typedef enum {
 // prototypes
 char *read_ansi_file(const char *filename);
 unsigned char is_csi_cmd(char c);
-void draw_ansi_art(const char *filename, const int speed);
+void draw_ansi_art(const char *filename, const int speed, const int width);
 
 #endif // PARSER_H

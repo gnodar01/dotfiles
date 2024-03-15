@@ -15,7 +15,7 @@ char *read_ansi_file(const char *filename) {
     for (i = 0; i < strlen(ext); i++)
         ext[i] = tolower(ext[i]);
 
-    if (!ext || ext == filename || strcmp(ext, ".ans") != 0) {
+    if (!ext || ext == filename || ( strcmp(ext, ".ans") != 0 && strcmp(ext, ".asc") != 0 )) {
         fprintf(stderr, "Error: Only ANSI Art files are supported\n");
         exit(1);
     }
@@ -46,7 +46,7 @@ char *read_ansi_file(const char *filename) {
     return artwork;
 }
 
-void draw_ansi_art(const char *filename, const int speed) {
+void draw_ansi_art(const char *filename, const int speed, const int width) {
     // check terminal size
     // https://man7.org/linux/man-pages/man4/tty_ioctl.4.html
     struct winsize term_size;
@@ -103,7 +103,8 @@ next_state:
                         fputwc(btowc(*artwork), stdout); // print character directly
 
                     // typically ANSI art has a limit of 80 characters per row
-                    if (cursor_pos < 79) {
+                    // which must be passed in as default for "width"
+                    if (cursor_pos < width-1) {
                         cursor_pos++;
                     } else {
                         // if this is the last character reset the terminal
@@ -163,9 +164,9 @@ next_state:
                 // move cursor forward
                 else if (*artwork == 'C') {
                     cursor_pos = cursor_pos + args[0];
-                    if (cursor_pos >= 80) {
+                    if (cursor_pos >= width) {
                         wprintf(L"\e[0m\n");
-                        cursor_pos = cursor_pos % 80;
+                        cursor_pos = cursor_pos % width;
                     }
                 }
 
