@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # https://github.com/PhMajerus/ANSI-art
+#
+# getting vim to recognize cp437:
+# https://stackoverflow.com/questions/1006295/how-can-i-make-vim-recognize-the-files-encoding
 
 DO_TEST=false
 
