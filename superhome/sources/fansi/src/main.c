@@ -1,5 +1,6 @@
 #include <getopt.h>
 #include <locale.h>
+#include <stdbool.h>
 
 #include "cp437.h"
 #include "parser.h"
@@ -25,6 +26,13 @@ int main(int argc, char *argv[]) {
     unsigned int speed = 110;
     // define expected width of terminal (almost always 80)
     unsigned int width = 80;
+		// print cp437 charset
+		bool do_cp437 = false;
+    // print the sauce
+    bool do_sauce = false;
+    // go into screen save mode
+    bool do_ssaver = false;
+
 
     // parse cmd line options
     int opt = 0;
@@ -33,14 +41,14 @@ int main(int argc, char *argv[]) {
         static struct option long_options[] = {
             {"cp437",   no_argument,       NULL,    0},
             {"help",    no_argument,       NULL,  'h'},
-            {"sauce",   required_argument, NULL,    0},
-            {"ssaver",  required_argument, NULL,  's'},
+            {"sauce",   no_argument,       NULL,    0},
+            {"ssaver",  no_argument,       NULL,  's'},
             {"speed",   required_argument, NULL,    0},
             {"width",   required_argument, NULL,    0},
             {NULL,      0,                 NULL,    0}
         };
 
-        opt = getopt_long(argc, argv, ":s:h", long_options, &option_index);
+        opt = getopt_long(argc, argv, ":sh", long_options, &option_index);
 
         switch (opt) {
             // no args
@@ -67,16 +75,16 @@ int main(int argc, char *argv[]) {
                       fprintf(stderr, "Invalid width, must be uint > 80\n");
                     }
                 }
-                if (strcmp(long_options[option_index].name, "sauce") == 0 && optarg) {
-                    print_sauce_info(optarg);
+                if (strcmp(long_options[option_index].name, "sauce") == 0) {
+                    do_sauce = true;
                 } else if (strcmp(long_options[option_index].name, "cp437") == 0) {
-                    print_cp437();
-                } else if (strcmp(long_options[option_index].name, "ssaver") == 0 && optarg) {
-                    screensaver_mode(optarg, speed, width);
+									  do_cp437 = true;
+                } else if (strcmp(long_options[option_index].name, "ssaver") == 0) {
+                    do_ssaver = true;
                 }
                 break;
             case 's':
-                screensaver_mode(optarg, speed, width);
+                do_ssaver = true;
                 break;
             case 'h':
                 print_usage();
@@ -96,11 +104,17 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // only one argument provided, try to render ansi art for that file
-    if ((argc == 2 || argc == 4) && (optind == 1 || optind == 3)) {
+		if (do_cp437) {
+		  	print_cp437();
+    } else if (do_sauce) {
+        print_sauce_info(argv[optind]);
+    } else if (do_ssaver) {
+        screensaver_mode(argv[optind], speed, width);
+    } else {
         draw_ansi_art(argv[optind], speed, width);
-        exit(0);
     }
+
+    exit(0);
 
     return 0;
 }
