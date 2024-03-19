@@ -4,6 +4,7 @@
 #
 # getting vim to recognize cp437:
 # https://stackoverflow.com/questions/1006295/how-can-i-make-vim-recognize-the-files-encoding
+# basically: `:e ++enc=cp437`
 
 DO_TEST=false
 
