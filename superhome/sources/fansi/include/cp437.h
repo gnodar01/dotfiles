@@ -2,6 +2,7 @@
 #define CP437_H
 
 #include <wchar.h>
+#include <stdio.h>
 
 // prototypes
 extern wchar_t cp437[];

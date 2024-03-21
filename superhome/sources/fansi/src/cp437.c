@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "cp437.h"
 
 wchar_t cp437[] = {
