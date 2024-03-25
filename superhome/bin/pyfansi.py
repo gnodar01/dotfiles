@@ -27,10 +27,12 @@ Although (re)written from scratch, much of this program was written in reference
 to elkrammer/fansi C program (MIT License):
     https://github.com/elkrammer/fansi
 
-This program is not particularly efficient or "complete", and will likely
-not support some more esoteric (but still valid) ANSI files. It's mostly made
-and distributed for illustrative purposes. As a consequence the code is kept
-intentionally simple (and hopefully understandable).
+This program is not particularly efficient or "complete":
+    https://forum.16colo.rs/t/how-to-render-ansi-properly/201
+It will likely not support some more esoteric (but still valid) ANSI files.
+It's mostly made and distributed for illustrative purposes.
+As a consequence the code is kept intentionally simple
+(and hopefully understandable).
 """
 
 import sys
