@@ -1,0 +1,33 @@
+cd alias folders notes
+
+https://superuser.com/questions/253984/mac-terminal-cd-to-a-folder-alias/254005#254005
+
+11/4/2018
+
+Wanted to cd into mac's alias folders.
+
+The file `getTrueName.c`, which I got from above link, or directly here:
+http://web.archive.org/web/20100110234300/http://www.macosxhints.com/dlfiles/getTrueName.txt
+is for getting the path of a directory an alias points to.
+
+Compiled it:
+`gcc -o getTrueName -framework Carbon getTrueName.c`
+
+But a few of the function it uses are deprecated, so I don't trust it.
+
+It's purpose was to get receive the alias directory as an argument, and ouput the POSIX path to the directory it points to.
+
+I found this as an alternative:
+https://github.com/rptb1/aliasPath
+found from here:
+https://stackoverflow.com/questions/1175094/os-x-terminal-command-to-resolve-path-of-an-alias
+
+Cloned the directory called `aliasPath`.
+Cd in and Compiled with `sudo xcodebuild install`.
+This creates `/usr/local/bin/aliasPath`.
+
+Then in `~/.zshrc` I created a function modified from top link.
+It's called `cda` for `cd alias`.
+This gets the true path of the argument (expected to be an alias), and calls cd on the true path.
+Since calling `cd ..` doesn't get you back to where you were. I have `cda` set a variable `back` to the `pwd`.
+Then I created another function `cdback` which cd's into the value of `back` varaible.

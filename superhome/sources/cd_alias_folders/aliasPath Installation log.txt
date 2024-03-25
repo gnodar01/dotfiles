@@ -1,0 +1,78 @@
+~/Documents/System Changes/File System
+† cd cd\ Alias\ folders
+~/Documents/System Changes/File System/cd Alias folders
+† l
+total 32
+drwxr-xr-x  5 Nodar  staff   170B Nov  4 10:56 .
+drwxr-xr-x  7 Nodar  staff   238B Nov  4 10:30 ..
+-rw-r--r--@ 1 Nodar  staff   6.0K Nov  4 10:55 .DS_Store
+-rw-r--r--@ 1 Nodar  staff   832B Nov  4 10:57 cd alias folders notes.txt
+-rw-r--r--  1 Nodar  staff   2.1K Nov  4 10:31 getTrueName.c
+~/Documents/System Changes/File System/cd Alias folders
+† git clone https://github.com/rptb1/aliasPath.git
+Cloning into 'aliasPath'...
+remote: Enumerating objects: 56, done.
+remote: Total 56 (delta 0), reused 0 (delta 0), pack-reused 56
+Unpacking objects: 100% (56/56), done.
+~/Documents/System Changes/File System/cd Alias folders
+† l
+total 32
+drwxr-xr-x  6 Nodar  staff   204B Nov  4 10:58 .
+drwxr-xr-x  7 Nodar  staff   238B Nov  4 10:30 ..
+-rw-r--r--@ 1 Nodar  staff   6.0K Nov  4 10:58 .DS_Store
+drwxr-xr-x  8 Nodar  staff   272B Nov  4 10:58 aliasPath
+-rw-r--r--@ 1 Nodar  staff   832B Nov  4 10:57 cd alias folders notes.txt
+-rw-r--r--  1 Nodar  staff   2.1K Nov  4 10:31 getTrueName.c
+~/Documents/System Changes/File System/cd Alias folders
+† cd aliasPath
+~/Documents/System Changes/File System/cd Alias folders/aliasPath <master ✔ > [0a00463]
+† sudo xcodebuild install
+Password:
+=== BUILD TARGET aliasPath OF PROJECT aliasPath WITH THE DEFAULT CONFIGURATION (Release) ===
+
+Check dependencies
+
+Write auxiliary files
+write-file /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath.hmap
+write-file /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-project-headers.hmap
+write-file /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-all-non-framework-target-headers.hmap
+write-file /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-all-target-headers.hmap
+/bin/mkdir -p /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64
+write-file /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64/aliasPath.LinkFileList
+write-file /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-own-target-headers.hmap
+write-file /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-generated-files.hmap
+
+SymLink build/Release/aliasPath /usr/local/bin/aliasPath
+    cd "/Users/Nodar/Documents/System Changes/File System/cd Alias folders/aliasPath"
+    /bin/ln -sfh /usr/local/bin/aliasPath /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/Release/aliasPath
+
+CompileC build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64/aliasPath.o aliasPath.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+    cd "/Users/Nodar/Documents/System Changes/File System/cd Alias folders/aliasPath"
+    export LANG=en_US.US-ASCII
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch x86_64 -fmessage-length=204 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wno-bool-conversion -Wenum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -g -fvisibility=hidden -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -iquote /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-generated-files.hmap -I/Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-own-target-headers.hmap -I/Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-all-target-headers.hmap -iquote /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/aliasPath-project-headers.hmap -I/Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/Release/include -I/Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/DerivedSources/x86_64 -I/Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/DerivedSources -F/Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/Release -MMD -MT dependencies -MF /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64/aliasPath.d --serialize-diagnostics /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64/aliasPath.dia -c /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/aliasPath.m -o /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64/aliasPath.o
+
+Ld /usr/local/bin/aliasPath normal x86_64
+    cd "/Users/Nodar/Documents/System Changes/File System/cd Alias folders/aliasPath"
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -L/Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/Release -F/Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/Release -filelist /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64/aliasPath.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64/aliasPath_lto.o -Xlinker -final_output -Xlinker /usr/local/bin/aliasPath -fobjc-arc -fobjc-link-runtime -framework Foundation -Xlinker -dependency_info -Xlinker /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/aliasPath.build/Release/aliasPath.build/Objects-normal/x86_64/aliasPath_dependency_info.dat -o /usr/local/bin/aliasPath
+
+GenerateDSYMFile build/Release/aliasPath.dSYM /usr/local/bin/aliasPath
+    cd "/Users/Nodar/Documents/System Changes/File System/cd Alias folders/aliasPath"
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /usr/local/bin/aliasPath -o /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/Release/aliasPath.dSYM
+
+Strip /usr/local/bin/aliasPath
+    cd "/Users/Nodar/Documents/System Changes/File System/cd Alias folders/aliasPath"
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip /usr/local/bin/aliasPath
+
+SetOwnerAndGroup root:wheel /usr/local/bin/aliasPath
+    cd "/Users/Nodar/Documents/System Changes/File System/cd Alias folders/aliasPath"
+    /usr/sbin/chown -RH root:wheel /usr/local/bin/aliasPath
+
+SetMode u+w,go-w,a+rX /usr/local/bin/aliasPath
+    cd "/Users/Nodar/Documents/System Changes/File System/cd Alias folders/aliasPath"
+    /bin/chmod -RH u+w,go-w,a+rX /usr/local/bin/aliasPath
+
+Touch build/Release/aliasPath.dSYM
+    cd "/Users/Nodar/Documents/System Changes/File System/cd Alias folders/aliasPath"
+    /usr/bin/touch -c /Users/Nodar/Documents/System\ Changes/File\ System/cd\ Alias\ folders/aliasPath/build/Release/aliasPath.dSYM
+
+** INSTALL SUCCEEDED **
