@@ -130,6 +130,9 @@ function ce(){
 # leaving here until you remember
 alias psa="ps -A | grep -v grep"
 
+alias pycolors="pycolors.py"
+alias pyfansi="pyfansi.py"
+
 # python
 # set this in case you want sys.path to include some custom path to a package
 # note: also check path/to/site-packages/easy-install.pth for things that `pip install -e` puts into sys.path
