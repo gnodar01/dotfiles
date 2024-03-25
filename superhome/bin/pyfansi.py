@@ -109,6 +109,8 @@ PRINT_BEFORE = True
 PRINT_AFTER = True
 # shuffle the directory contents used for screen saver
 SHUFFLE_SSAVER = True
+# convert null characters to spaces
+NULL_TO_SPACE = True
 
 CP437_CODEPOINTS = [
     # 0 - 127
@@ -443,6 +445,11 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
                 # can just do artwork_c.isascii()
                 if (NO_CONVERT_ASCII and artwork_c > b"\x7f"):
                     write(b_to_ch(artwork_c))
+                # if encountering the NUL character let it flow through as
+                # a space instead; here's an example file with NULs:
+                # https://github.com/blocktronics/artpacks/blob/master/Detention%20Block%20AA-23/ANSI_Star_Wars_misfit%20-%20ig-88.ans
+                elif (NULL_TO_SPACE and artwork_c == b"\x00"):
+                    write(b" ")
                 else:
                     write(artwork_c)
 
