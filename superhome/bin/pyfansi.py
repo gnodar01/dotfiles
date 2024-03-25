@@ -107,6 +107,8 @@ FILTER_EXT = True
 PRINT_BEFORE = True
 # print the filename after displaying
 PRINT_AFTER = True
+# shuffle the directory contents used for screen saver
+SHUFFLE_SSAVER = True
 
 CP437_CODEPOINTS = [
     # 0 - 127
@@ -465,6 +467,14 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             if (artwork_c in CSI or artwork_c == b";"):
                 state = State.PARSE_CSI_SEQ
                 cmd = artwork_c
+            # there are some private sequences of the form CSI ? <some_num> <cmd>
+            # adding "?" to buffer will break the int conversion later on of "cmd_arg_buffer"
+            # later on, and we don't rely on "?" internally anyway, so just let it flow through
+            # nothing about the cursor position needs to change
+            # this .ANS file shows an example ("\x1b[?33h" at the beginning):
+            # https://github.com/blocktronics/artpacks/blob/master/ACiD%20Trip/ziiig-LOL.ANS
+            elif (artwork_c == b"?"):
+                write(artwork_c)
             else:
                 # chars used in esqcape sequences are all ascii
                 # store them as such
@@ -629,7 +639,7 @@ if __name__ == "__main__":
         exit_err(f"width must be positive, got {args.width}")
 
     if FILTER_EXT and args.filename is not None:
-        ext = os.path.splitext(args.filename)
+        ext = os.path.splitext(args.filename)[-1]
         if not valid_ext(ext):
             exit_err(f"filename must have {', '.join(EXTS).lower()} as extension, got {args.filename} ({ext})")
 
@@ -638,6 +648,12 @@ if __name__ == "__main__":
         from pathlib import Path
 
         file_gen = Path(args.ssaver).rglob('*.*')
+
+        if SHUFFLE_SSAVER:
+            import random
+            file_gen = list(file_gen)
+            random.shuffle(file_gen)
+
         for f in file_gen:
             ext = os.path.splitext(f)[-1]
             if FILTER_EXT and valid_ext(ext):
@@ -662,23 +678,25 @@ if __name__ == "__main__":
             f_stream = open(f, "rb")
             try:
                 stream_ansi(f_stream, speed=args.speed, width=args.width)
-            except:
+            except KeyboardInterrupt:
                 f_stream.close()
                 write(RESET_N)
                 print(f)
-                exit(0)
+                exit(1)
             PRINT_AFTER and print(f"^^^ {f} ^^^")
             f_stream.close()
     elif args.filename is not None:
-        PRINT_BEFORE and print(f"vvv {f} vvv")
+        PRINT_BEFORE and print(f"vvv {args.filename} vvv")
         f_stream = open(args.filename, "rb")
         try:
             stream_ansi(f_stream, speed=args.speed, width=args.width)
         except KeyboardInterrupt:
+            f_stream.close()
             write(RESET_N)
             print(args.filename)
+            exit(1)
         f_stream.close()
-        PRINT_AFTER and print(f"^^^ {f} ^^^")
+        PRINT_AFTER and print(f"^^^ {args.filename} ^^^")
         exit(0)
     elif rlist:
         # don't want utf-8, want raw bytes
@@ -687,7 +705,7 @@ if __name__ == "__main__":
             stream_ansi(f_stream, speed=args.speed, width=args.width)
         except KeyboardInterrupt:
             write(RESET_N)
-            print(args.filename)
+            exit(1)
         exit(0)
 
     exit(1)
