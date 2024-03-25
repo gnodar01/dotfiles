@@ -96,6 +96,16 @@ not all of the lower 7 bits are exactly ascii:
 for example in ascii, 0x03 is ETX (end of text), but in code page 437
 it is a heart ♥
 """
+
+# PARAMETERS
+NO_CONVERT_ASCII = True
+# only accept .ans .asc
+FILTER_EXT = True
+# print the filename before displaying
+PRINT_BEFORE = True
+# print the filename after displaying
+PRINT_AFTER = True
+
 CP437_CODEPOINTS = [
     # 0 - 127
     "\u0000","\u263A","\u263B","\u2665",
@@ -169,6 +179,30 @@ CP437_CODEPOINTS = [
 # baud rate / characters per second
 DEFAULT_SPEED = 800
 DEFAULT_WIDTH = 80
+
+# list of accepted extensions if FILTER_EXT is True
+EXTS = ['.ASC', '.ANS']
+def valid_ext(ext):
+    ext = ext.upper()
+    if (ext[0] != '.'):
+        ext = f".{ext}"
+    return ext in EXTS
+
+# Command Sequence Introducer - started by \e[ or \033[ or \x1b
+# https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences
+CSI = [b"A", b"B", b"C", b"D", b"E", b"F", b"G", b"H", b"J", b"K",
+       b"S", b"T", b"f", b"m", b"n", b"s", b"u", b"l", b"h"]
+ESC = b"\x1B"
+# in ASCII this is SUB, but generally ^Z
+# https://en.wikipedia.org/wiki/End-of-file#EOF_character
+EOF = b"\x1A"
+RESET = b"\x1B\x5B\x30\x6D" # ESC[0m - normal mode (reset SGR)
+RESET_N = b"\x1B\x5B\x30\x6D\x0A" # ESC[0m\n
+SAUCE_STR = "SAUC00"
+
+write = sys.stdout.buffer.write
+# convert int to string and encode as bytes to write
+write_int = lambda num: write(str(num).encode('utf8'))
 
 def utf8_encode(codepoint, res_type="bytes"):
     """
@@ -286,31 +320,12 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
         e.g. open(fname, "rb") or open(fname, "rb", encoding="utf-8").buffer
              or sys.stdin.buffer, etc
     """
-    # PARAMETERS
-    NO_CONVERT_ASCII = True
-
-    # Command Sequence Introducer - started by \e[ or \033[ or \x1b
-    # https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences
-    CSI = [b"A", b"B", b"C", b"D", b"E", b"F", b"G", b"H", b"J", b"K",
-           b"S", b"T", b"f", b"m", b"n", b"s", b"u", b"l", b"h"]
-    ESC = b"\x1B"
-    # in ASCII this is SUB, but generally ^Z
-    # https://en.wikipedia.org/wiki/End-of-file#EOF_character
-    EOF = b"\x1A"
-    RESET = b"\x1B\x5B\x30\x6D" # ESC[0m - normal mode (reset SGR)
-    RESET_N = b"\x1B\x5B\x30\x6D\x0A" # ESC[0m\n
-    SAUCE_STR = "SAUC00"
-
     # could just do .encode("utf8") instead of utf8_encode
     b_to_ch = lambda abyte: \
             utf8_encode(
                 CP437_CODEPOINTS[
                     # or could just do abyte[0] since we know its 1 byte
                     int(artwork_c.hex(), 16)])
-
-    write = sys.stdout.buffer.write
-    # convert int to string and encode as bytes to write
-    write_int = lambda num: write(str(num).encode('utf8'))
 
     # FSM
     State = Enum("State",
@@ -579,7 +594,25 @@ if __name__ == "__main__":
     if args.width < 1:
         exit_err(f"width must be positive, got {args.width}")
 
-    # TODO CHECK FILE IS .asc .ans ?
+    if FILTER_EXT and args.filename is not None:
+        ext = os.path.splitext(args.filename)
+        if not valid_ext(ext):
+            exit_err(f"filename must have {', '.join(EXTS).lower()} as extension, got {args.filename} ({ext})")
+
+    ssaver_files = []
+    if args.ssaver is not None:
+        from pathlib import Path
+
+        file_gen = Path(args.ssaver).rglob('*.*')
+        for f in file_gen:
+            ext = os.path.splitext(f)[-1]
+            if FILTER_EXT and valid_ext(ext):
+                ssaver_files.append(f)
+            elif not FILTER_EXT:
+                ssaver_files.append(f)
+
+        if (len(ssaver_files) == 0):
+            exit_err(f"No ANSI Art files found in directory {args.ssaver}")
 
     if print_info:
         if args.cp437_long:
@@ -592,16 +625,38 @@ if __name__ == "__main__":
         #print_sauce(args.filename)
         ...
     elif args.ssaver is not None:
-        #screen_Saver(dirname, speed=args.speed, width=args.width)
-        ...
+        for f in ssaver_files:
+            PRINT_BEFORE and print(f"vvv {f} vvv")
+            f_stream = open(f, "rb")
+            try:
+                stream_ansi(f_stream, speed=args.speed, width=args.width)
+            except:
+                f_stream.close()
+                write(RESET_N)
+                print(f)
+                exit(0)
+            PRINT_AFTER and print(f"^^^ {f} ^^^")
+            f_stream.close()
     elif args.filename is not None:
+        PRINT_BEFORE and print(f"vvv {f} vvv")
         f_stream = open(args.filename, "rb")
-        stream_ansi(f_stream, speed=args.speed, width=args.width)
+        try:
+            stream_ansi(f_stream, speed=args.speed, width=args.width)
+        except KeyboardInterrupt:
+            write(RESET_N)
+            print(args.filename)
         f_stream.close()
+        PRINT_AFTER and print(f"^^^ {f} ^^^")
+        exit(0)
     elif rlist:
         # don't want utf-8, want raw bytes
         f_stream = rlist[0].buffer if type(rlist[0]) == io.TextIOWrapper else rlist[0]
-        stream_ansi(f_stream, speed=args.speed, width=args.width)
+        try:
+            stream_ansi(f_stream, speed=args.speed, width=args.width)
+        except KeyboardInterrupt:
+            write(RESET_N)
+            print(args.filename)
+        exit(0)
 
-    exit(0)
+    exit(1)
 
