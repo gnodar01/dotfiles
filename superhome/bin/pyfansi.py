@@ -198,7 +198,39 @@ ESC = b"\x1B"
 EOF = b"\x1A"
 RESET = b"\x1B\x5B\x30\x6D" # ESC[0m - normal mode (reset SGR)
 RESET_N = b"\x1B\x5B\x30\x6D\x0A" # ESC[0m\n
+
+r"""
+https://www.acid.org/info/sauce/sauce.htm
+http://www.retroarchive.org/swag/DATATYPE/0036.PAS.html
+
+struct sauce_record {
+	char                ID[5];
+	char                Version[2];
+	char                Title[35];
+	char                Author[20];
+	char                Group[20];
+	char                Date[8];
+	uint32_t            FileSize;
+	unsigned char		DataType;
+	unsigned char		FileType;
+	uint16_t            TInfo1;
+	uint16_t            TInfo2;
+	uint16_t            TInfo3;
+	uint16_t            TInfo4;
+	uint16_t            Flags;
+	char                Filler[22];
+};
+
+we only care about these fields for now
+struct sauce_info {
+    char    *workname;
+    char    *author;
+    char    *group;
+    char    *date;
+};
+"""
 SAUCE_STR = "SAUC00"
+
 
 write = sys.stdout.buffer.write
 # convert int to string and encode as bytes to write
@@ -620,8 +652,6 @@ if __name__ == "__main__":
         if args.cp437:
             print_cp437()
     elif args.sauce:
-        # https://www.acid.org/info/sauce/sauce.htm
-        # http://www.retroarchive.org/swag/DATATYPE/0036.PAS.html
         #print_sauce(args.filename)
         ...
     elif args.ssaver is not None:
