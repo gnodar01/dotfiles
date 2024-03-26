@@ -6,6 +6,7 @@
 [pager]
 	diff = less -FX
 	log = less -FX
+    difftool = true
 [alias]
 	graph = log --pretty=format:\"%h %s\" --graph
 	logp=log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
@@ -26,6 +27,8 @@
 	helpers = !githelpers help
 	aliases = !githelpers aliases
 	sbranch = !githelpers sbranch
+    dft = difftool
+    dlog = "!f() { : git log ; GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
 [init]
 	defaultBranch = main
 [core]
@@ -38,9 +41,14 @@
 [push]
 	default = upstream
 [diff]
+    tool = difftastic
 	colormoved = zebra
 	colormovedws = allow-indentation-change
 	algorithm = histogram
+[difftool]
+    prompt = false
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
 [status]
 	showStash = true
 [rerere]
