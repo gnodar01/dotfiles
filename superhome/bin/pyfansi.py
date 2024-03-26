@@ -461,9 +461,12 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
                 if (cursor_pos < width-1):
                     cursor_pos += 1
                 else:
-                    write(RESET_N)
+                    if (artwork_c == b"\n"):
+                        write(RESET)
+                    else:
+                        write(RESET_N)
+                        did_newline = True
                     cursor_pos = 0
-                    did_newline = True
 
                 # reset cursor_pos if this is a newline
                 if (artwork_c == b"\n" or artwork_c == b"\r"):
