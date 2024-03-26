@@ -490,7 +490,17 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             else:
                 # chars used in esqcape sequences are all ascii
                 # store them as such
-                cmd_arg_buffer.append(artwork_c.decode("ascii"))
+                try:
+                    cmd_arg_buffer.append(artwork_c.decode("ascii"))
+                except:
+                    # something went wrong, for example the xterm specific
+                    # control sequence has "CSI Pt ; Pl ; Pb ; Pr ; Pm $ t"
+                    # which is not valid in plain ANSI
+                    # example that uses this:
+                    # https://github.com/blocktronics/artpacks/blob/master/Detention%20Block%20AA-23/ANSI_Star_Wars_WZ%20-%20Droids.ans
+                    raise Exception(f"oh no at char {fs.tell()}")
+                    return
+                    
         elif (state == State.PARSE_CSI_SEQ):
             # concat the argument parts and convert to int
             # add to the list of arguments for this CSI command
