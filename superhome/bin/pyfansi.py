@@ -111,6 +111,8 @@ PRINT_AFTER = True
 SHUFFLE_SSAVER = True
 # convert null characters to spaces
 NULL_TO_SPACE = True
+# replace set bg to black (40m) with default bg color (49m)
+BLACK_TO_DEFAULT = True
 
 CP437_CODEPOINTS = [
     # 0 - 127
@@ -189,6 +191,8 @@ DEFAULT_WIDTH = 80
 # list of accepted extensions if FILTER_EXT is True
 EXTS = ['.ASC', '.ANS']
 def valid_ext(ext):
+    if ext is None or len(ext) == 0:
+        return False
     ext = ext.upper()
     if (ext[0] != '.'):
         ext = f".{ext}"
@@ -239,8 +243,6 @@ SAUCE_STR = "SAUC00"
 
 
 write = sys.stdout.buffer.write
-# convert int to string and encode as bytes to write
-write_int = lambda num: write(str(num).encode('utf8'))
 
 def utf8_encode(codepoint, res_type="bytes"):
     """
@@ -494,18 +496,6 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             # reset the buffer for the next arg
             cmd_arg_buffer = []
 
-            # TODO
-            # this is for SGR mode
-            # instead of setting background black
-            # set it to default
-            # works well but, obviously would interfere with other CSI commands
-            # like cursor movements, etc
-            # the only work around would be to buffer the entire command until
-            # we know for sure we're in SGR mode (when 'm' char appears), and
-            # only then do the replacement
-            if (cmd_args[-1] == 40):
-                cmd_args[-1] = 49
-
             # CSI n (E | F)
             # Cursor Next Line (CNL) or Cursor Previous Line (CPL)
             # move cursor to next (E) or previous (F) line
@@ -553,12 +543,25 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             if (cmd == b'u'):
                 cursor_pos = saved_cursor
 
-            write_int(cmd_args[-1])
-            write(cmd)
-
             # CSI char or ; puts us in parsing state but only
             # CSI char ends checking/parsing
             if cmd in CSI:
+
+                # this is for SGR mode
+                # instead of setting background black
+                # set it to default
+                # only with "m" else would interfere with other CSI commands
+                # like cursor movements, etc
+                if (BLACK_TO_DEFAULT and cmd == b'm' and 40 in cmd_args):
+                    cmd_args = [ca if ca != 40 else 49 for ca in cmd_args]
+
+                cmd_seq = ';'.join(map(lambda num: str(num), cmd_args))
+
+                for ca in cmd_seq:
+                    write(ca.encode('utf8'))
+
+                write(cmd)
+
                 cmd = None
                 cmd_args = []
                 state = State.CONTINUE
