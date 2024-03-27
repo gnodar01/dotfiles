@@ -198,10 +198,20 @@ def valid_ext(ext):
         ext = f".{ext}"
     return ext in EXTS
 
+# unsupported cmds, for example the xterm specific
+# control sequence has "CSI Pt ; Pl ; Pb ; Pr ; Pm $ t"
+# which is not valid in plain ANSI
+# example that uses this:
+# https://github.com/blocktronics/artpacks/blob/master/Detention%20Block%20AA-23/ANSI_Star_Wars_WZ%20-%20Droids.ans
+UNSUPPORTED_CSI = [b"t"]
 # Command Sequence Introducer - started by \e[ or \033[ or \x1b
 # https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences
-CSI = [b"A", b"B", b"C", b"D", b"E", b"F", b"G", b"H", b"J", b"K",
-       b"S", b"T", b"f", b"m", b"n", b"s", b"u", b"l", b"h"]
+SUPPORTED_CSI = [b"A", b"B", b"C", b"D", b"E", b"F", b"G", b"H", b"J", b"K",
+                 b"S", b"T", b"f", b"m", b"n", b"s", b"u", b"l", b"h"]
+# we still want to let unsupported chars to flow through because terminal will
+# handle them gracefully enough, and our FSM below is simpler, we just don't
+# adjust the cursor with respect to them
+CSI = UNSUPPORTED_CSI + SUPPORTED_CSI
 ESC = b"\x1B"
 # in ASCII this is SUB, but generally ^Z
 # https://en.wikipedia.org/wiki/End-of-file#EOF_character
@@ -490,17 +500,7 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             else:
                 # chars used in esqcape sequences are all ascii
                 # store them as such
-                try:
-                    cmd_arg_buffer.append(artwork_c.decode("ascii"))
-                except:
-                    # something went wrong, for example the xterm specific
-                    # control sequence has "CSI Pt ; Pl ; Pb ; Pr ; Pm $ t"
-                    # which is not valid in plain ANSI
-                    # example that uses this:
-                    # https://github.com/blocktronics/artpacks/blob/master/Detention%20Block%20AA-23/ANSI_Star_Wars_WZ%20-%20Droids.ans
-                    raise Exception(f"oh no at char {fs.tell()}")
-                    return
-                    
+                cmd_arg_buffer.append(artwork_c.decode("ascii"))
         elif (state == State.PARSE_CSI_SEQ):
             # concat the argument parts and convert to int
             # add to the list of arguments for this CSI command
