@@ -534,7 +534,7 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             # Cursor Forward (CUF)
             # move cursor forward
             if (cmd == b'C'):
-                cursor_pos = cursor_pos + cmd_args[0]
+                cursor_pos = cursor_pos + (cmd_args[0] if len(cmd_args) > 0 else 1)
                 if (cursor_pos >= width):
                     write(RESET_N)
                     cursor_pos = cursor_pos % width
@@ -544,7 +544,7 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             # move cursor back
             if (cmd == b'D'):
                 if (cursor_pos != 0):
-                    cursor_pos = cursor_pos - args[0]
+                    cursor_pos = cursor_pos - (cmd_args[0] if len(cmd_args) > 0 else 1)
 
             # CSI s
             # Save Current Curosr Position (SCP / SCOSC)
