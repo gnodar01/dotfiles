@@ -219,39 +219,6 @@ EOF = b"\x1A"
 RESET = b"\x1B\x5B\x30\x6D" # ESC[0m - normal mode (reset SGR)
 RESET_N = b"\x1B\x5B\x30\x6D\x0A" # ESC[0m\n
 
-r"""
-https://www.acid.org/info/sauce/sauce.htm
-http://www.retroarchive.org/swag/DATATYPE/0036.PAS.html
-
-struct sauce_record {
-	char                ID[5];
-	char                Version[2];
-	char                Title[35];
-	char                Author[20];
-	char                Group[20];
-	char                Date[8];
-	uint32_t            FileSize;
-	unsigned char		DataType;
-	unsigned char		FileType;
-	uint16_t            TInfo1;
-	uint16_t            TInfo2;
-	uint16_t            TInfo3;
-	uint16_t            TInfo4;
-	uint16_t            Flags;
-	char                Filler[22];
-};
-
-we only care about these fields for now
-struct sauce_info {
-    char    *workname;
-    char    *author;
-    char    *group;
-    char    *date;
-};
-"""
-SAUCE_STR = "SAUC00"
-
-
 write = sys.stdout.buffer.write
 
 def utf8_encode(codepoint, res_type="bytes"):
@@ -363,6 +330,160 @@ def print_cp437():
         if (y == 32):
             print("\u000A", end="")
             y = 0;
+
+def parse_sauce_record(fs):
+    r"""
+    fs: filestream is a raw I/O stream
+        e.g. open(fname, "rb") or open(fname, "rb", encoding="utf-8").buffer
+             or sys.stdin.buffer, etc
+
+    more reliable (I think, e.g. says FileSize is unsined LE long):
+        https://www.acid.org/info/sauce/sauce.htm
+    less reliable (I think, e.g. says FileSize is signed long)
+        http://www.retroarchive.org/swag/DATATYPE/0036.PAS.html
+    
+    """
+    # sizes (in bytes), for each field
+    # sauce record is exactly 128 bytes
+    sauce_record_sizes = {
+        "id": 5, # char*
+        "version": 2, # char*
+        "title": 35, # char*
+        "author": 20, # char*
+        "group": 20, # char*
+        "date": 8, # char*
+        "file_size": 4, # long (uint32, LE)
+        "data_type": 1, # unsigned char (uint8)
+        "file_type": 1, # unsigned char (uint8)
+        "t_info_1": 2, # word (uint16)
+        "t_info_2": 2, # word (uint16)
+        "t_info_3": 2, # word (uint16)
+        "t_info_4": 2, # word (uint16)
+        "comments": 1, # uint8, how many lines of comments, (each is 64 chars wide)
+        "t_flags": 1, # uint8
+        "t_info_s": 22, # char * (null terminated, c-style string)
+    }
+    data_types = {
+        0: "none",
+        1: "char", # character based file
+        2: "bitmap", # bitmap and animation
+        3: "vector", # vector graphic file
+        4: "audio", # audio file
+        5: "bin", # binary text
+        6: "xbin", # eXtended BIN file
+        7: "archive", # archive file
+        8: "exec", # executable file
+    }
+
+    no_sauce = False
+
+    while True:
+        ch = fs.read(1)
+        if (ch == b""):
+            no_sauce = True
+            break
+        if (ch == EOF):
+            break
+
+    if no_sauce:
+        exit_err("No sauce found, end of text reached")
+
+    # between ^Z and start of sauce comes some arbitrary length comment block
+    # then usually you see something like SAUCE00
+    # "SAUCE" is the 5 byte id
+    # "00" is the 2 byte version
+    # I don't think there is a version past 00, so we treat "SAUCE00" as start
+    SAUCE = [b"S",b"A",b"U",b"C",b"E",b"0",b"0"]
+    match_idx = 0
+    while True:
+        ch = fs.read(1)
+        if (ch == b""):
+            no_sauce = True
+            break
+
+        if (ch == SAUCE[match_idx]):
+            match_idx += 1
+        else:
+            match_idx = 0
+
+        if (match_idx == len(SAUCE)):
+            break
+
+    if no_sauce:
+        exit_err("No sauce found, end of text reached")
+
+    sauce_record = {
+        "Id": "SAUCE",
+        "Version": "00",
+    }
+
+    sauce_record["Title"] = fs.\
+            read(sauce_record_sizes["title"]).decode("cp437").strip()
+    sauce_record["Author"] = fs.\
+            read(sauce_record_sizes["author"]).decode("cp437").strip()
+    sauce_record["Group"] = fs.\
+            read(sauce_record_sizes["group"]).decode("cp437").strip()
+    date = fs.\
+            read(sauce_record_sizes["date"]).decode("cp437")
+    sauce_record["Date (y)"] = date[0:4]
+    sauce_record["Date (m)"] = date[5:6]
+    sauce_record["Date (d)"] = date[6:8]
+    file_size = fs.\
+            read(sauce_record_sizes["file_size"])
+    sauce_record["File Size"] = int.from_bytes(file_size, 'little', signed=False)
+    data_type = fs.\
+            read(sauce_record_sizes["data_type"])
+    data_type = int.from_bytes(data_type, "little", signed=False)
+    sauce_record["Data Type"] = data_types[data_type]
+    file_type = fs.\
+            read(sauce_record_sizes["file_type"])
+    file_type = int.from_bytes(file_type, "little", signed=False)
+    # file type + data type determine kind of file
+    # and also what TInfo[1-4] mean
+    # table is huge, maybe implement it in the future
+    # for now just print numbers
+    sauce_record["File Type"] = str(file_type)
+    t_info_1 = fs.\
+            read(sauce_record_sizes["t_info_1"])
+    t_info_1 = int.from_bytes(t_info_1, "little", signed=False)
+    sauce_record["T Info 1"] = str(t_info_1)
+    t_info_2 = fs.\
+            read(sauce_record_sizes["t_info_2"])
+    t_info_2 = int.from_bytes(t_info_2, "little", signed=False)
+    sauce_record["T Info 2"] = str(t_info_2)
+    t_info_3 = fs.\
+            read(sauce_record_sizes["t_info_3"])
+    t_info_3 = int.from_bytes(t_info_3, "little", signed=False)
+    sauce_record["T Info 3"] = str(t_info_3)
+    t_info_4 = fs.\
+            read(sauce_record_sizes["t_info_4"])
+    t_info_4 = int.from_bytes(t_info_4, "little", signed=False)
+    sauce_record["T Info 4"] = str(t_info_4)
+    comments = fs.\
+            read(sauce_record_sizes["comments"])
+    comments = int.from_bytes(comments, "little", signed=False)
+    sauce_record["Comments (num lines, 64 char each)"] = comments
+    t_flags = fs.\
+            read(sauce_record_sizes["t_flags"])
+    t_flags = int.from_bytes(t_flags, "little", signed=False)
+    sauce_record["TFlags"] = str(t_flags)
+    t_info_s = fs.\
+            read(sauce_record_sizes["t_info_s"]).decode("cp437").strip()
+    # c-style string is up until vector terminal
+    sauce_record["TInfoS"] = t_info_s[:t_info_s.find("\x00")]
+
+    return sauce_record
+
+def print_sauce(fs):
+    sauce_record = parse_sauce_record(fs)
+    for k,v in sauce_record.items():
+        print(f"{k}: {v}")
+    if ((sauce_record["File Type"] == "0" or sauce_record["File Type"] == "1") and
+        sauce_record["Data Type"] == "char"):
+        char_width = sauce_record["T Info 1"]
+        num_lines = sauce_record["T Info 2"]
+        print(f"Char Width: {char_width}")
+        print(f"Num Lines: {num_lines}")
 
 def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
     """
@@ -693,8 +814,17 @@ if __name__ == "__main__":
         if args.cp437:
             print_cp437()
     elif args.sauce:
-        #print_sauce(args.filename)
-        ...
+        f_stream = open(args.sauce, "rb")
+        print_sauce(f_stream)
+        #try:
+        #    print_sauce(f_stream)
+        #except Exception:
+        #    f_stream.close()
+        #    write(RESET_N)
+        #    print(args.sauce)
+        #    exit(1)
+        f_stream.close()
+        exit(0)
     elif args.ssaver is not None:
         for f in ssaver_files:
             PRINT_BEFORE and print(f"vvv {f} vvv")
