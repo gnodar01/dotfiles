@@ -815,14 +815,8 @@ if __name__ == "__main__":
             print_cp437()
     elif args.sauce:
         f_stream = open(args.sauce, "rb")
+        print(args.sauce)
         print_sauce(f_stream)
-        #try:
-        #    print_sauce(f_stream)
-        #except Exception:
-        #    f_stream.close()
-        #    write(RESET_N)
-        #    print(args.sauce)
-        #    exit(1)
         f_stream.close()
         exit(0)
     elif args.ssaver is not None:
