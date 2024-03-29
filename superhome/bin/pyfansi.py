@@ -485,12 +485,26 @@ def print_sauce(fs):
         print(f"Char Width: {char_width}")
         print(f"Num Lines: {num_lines}")
 
+def find_width(fs):
+    # TInfo1 is 32 bytes from end
+    # os.SEEK_END = 2
+    fs.seek(-32,2)
+    ts_info_1 = fs.read(2)
+    width = int.from_bytes(ts_info_1, "little", signed=False)
+    if (width == 0):
+        raise Exception("Could not find width")
+    fs.seek(0)
+    return width
+
 def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
     """
     fs: filestream is a raw I/O stream
         e.g. open(fname, "rb") or open(fname, "rb", encoding="utf-8").buffer
              or sys.stdin.buffer, etc
     """
+    if (width == 0):
+        width = find_width(fs)
+
     # could just do .encode("utf8") instead of utf8_encode
     b_to_ch = lambda abyte: \
             utf8_encode(
@@ -731,12 +745,13 @@ if __name__ == "__main__":
     parser.add_argument("-s", "--ssaver", nargs=1, metavar="dirname", help="Screen Saver mode.")
     parser.add_argument("--sauce", nargs=1, metavar="filename", help="Print SAUCE metadata for file.")
     parser.add_argument("--width", nargs=1, metavar="int >= 80", type=int, default=DEFAULT_WIDTH,
-                        help=f"Terminal width expected, default is {DEFAULT_WIDTH}.")
+                        help=f"Terminal width expected, default is {DEFAULT_WIDTH}. Use 0 for auto (assumes SAUCE).")
     parser.add_argument("--cp437", action="store_true", help="Print Code Page 437 table as UTF-8 characters.")
     parser.add_argument("--cp437-long", action="store_true", help="Print info on each character in Code Page 437.")
     parser.add_argument("filename", nargs="?")
 
     args = parser.parse_args()
+    print(args)
 
     # nargs provide lists, even when nargs=1
     if args.ssaver is not None:
@@ -779,8 +794,8 @@ if __name__ == "__main__":
         exit_err(f"{args.ssaver} is not a directory")
     if args.speed < 0:
         exit_err(f"speed must be non-negative, got {args.speed}")
-    if args.width < 1:
-        exit_err(f"width must be positive, got {args.width}")
+    if args.width < 0:
+        exit_err(f"width must be non-negative, got {args.width}")
 
     if FILTER_EXT and args.filename is not None:
         ext = os.path.splitext(args.filename)[-1]
