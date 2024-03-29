@@ -751,7 +751,6 @@ if __name__ == "__main__":
     parser.add_argument("filename", nargs="?")
 
     args = parser.parse_args()
-    print(args)
 
     # nargs provide lists, even when nargs=1
     if args.ssaver is not None:
