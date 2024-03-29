@@ -221,6 +221,11 @@ RESET_N = b"\x1B\x5B\x30\x6D\x0A" # ESC[0m\n
 
 write = sys.stdout.buffer.write
 
+class EncodeError(Exception):
+    pass
+class ParseError(Exception):
+    pass
+
 def utf8_encode(codepoint, res_type="bytes"):
     """
     encodes codepoint to utf-8 representation
@@ -278,7 +283,7 @@ def utf8_encode(codepoint, res_type="bytes"):
         CPB = f"{CPB:0>24}"
         utf_binary = f"11110{CPB[4:7]}10{CPB[7:13]}10{CPB[13:19]}10{CPB[19:25]}"
     else:
-        raise Exception(f"Not a valid codepoint {codepoint}, (int) {int_val}, (hex) {hex(int_val)}")
+        raise EncodeError(f"Not a valid codepoint {codepoint}, (int) {int_val}, (hex) {hex(int_val)}")
 
     if res_type == "binary":
         return utf_binary
@@ -485,14 +490,19 @@ def print_sauce(fs):
         print(f"Char Width: {char_width}")
         print(f"Num Lines: {num_lines}")
 
-def find_width(fs):
+def find_width(fs, check_sauce=True):
+    if (check_sauce):
+        fs.seek(-128,2)
+        sauce = fs.read(7)
+        if (sauce != b"SAUCE00"):
+            raise ParseError("Could not find SAUCE")
     # TInfo1 is 32 bytes from end
     # os.SEEK_END = 2
     fs.seek(-32,2)
     ts_info_1 = fs.read(2)
     width = int.from_bytes(ts_info_1, "little", signed=False)
     if (width == 0):
-        raise Exception("Could not find width")
+        raise ParseError("Could not find width")
     fs.seek(0)
     return width
 
@@ -844,6 +854,9 @@ if __name__ == "__main__":
                 write(RESET_N)
                 print(f)
                 exit(1)
+            except ParseError as E:
+                f_stream.close()
+                print(E)
             PRINT_AFTER and print(f"^^^ {f} ^^^")
             f_stream.close()
     elif args.filename is not None:
