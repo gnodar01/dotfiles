@@ -113,6 +113,8 @@ SHUFFLE_SSAVER = True
 NULL_TO_SPACE = True
 # replace set bg to black (40m) with default bg color (49m)
 BLACK_TO_DEFAULT = True
+# when placing newlines, reset/normal
+RESET_ON_NL = True
 
 CP437_CODEPOINTS = [
     # 0 - 127
@@ -218,6 +220,9 @@ ESC = b"\x1B"
 EOF = b"\x1A"
 RESET = b"\x1B\x5B\x30\x6D" # ESC[0m - normal mode (reset SGR)
 RESET_N = b"\x1B\x5B\x30\x6D\x0A" # ESC[0m\n
+
+maybe_reset = lambda: RESET if RESET_ON_NL else b""
+maybe_reset_n = lambda: RESET_N if RESET_ON_NL else b"\n"
 
 write = sys.stdout.buffer.write
 
@@ -617,9 +622,9 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
                     cursor_pos += 1
                 else:
                     if (artwork_c == b"\n"):
-                        write(RESET)
+                        write(maybe_reset())
                     else:
-                        write(RESET_N)
+                        write(maybe_reset_n())
                         did_newline = True
                     cursor_pos = 0
 
@@ -659,7 +664,7 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             # move cursor to next (E) or previous (F) line
             if (cmd == b'E' or cmd == b'F'):
                 cursor_pos = 0
-                write(RESET_N)
+                write(maybe_reset_n())
 
             # CSI n G
             # Cursor Horizontal Absolute (CHA)
@@ -681,7 +686,7 @@ def stream_ansi(fs, speed=DEFAULT_SPEED, width=DEFAULT_WIDTH):
             if (cmd == b'C'):
                 cursor_pos = cursor_pos + (cmd_args[0] if len(cmd_args) > 0 else 1)
                 if (cursor_pos >= width):
-                    write(RESET_N)
+                    write(maybe_reset_n())
                     cursor_pos = cursor_pos % width
 
             # CSI n D
