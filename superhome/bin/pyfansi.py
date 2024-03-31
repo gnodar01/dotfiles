@@ -115,6 +115,8 @@ NULL_TO_SPACE = True
 BLACK_TO_DEFAULT = True
 # when placing newlines, reset/normal
 RESET_ON_NL = True
+# if sauce not found on auto width, fail
+AUTO_WIDTH_FAIL = False
 
 CP437_CODEPOINTS = [
     # 0 - 127
@@ -499,15 +501,20 @@ def find_width(fs, check_sauce=True):
     if (check_sauce):
         fs.seek(-128,2)
         sauce = fs.read(7)
-        if (sauce != b"SAUCE00"):
+        if (sauce != b"SAUCE00" and AUTO_WIDTH_FAIL):
             raise ParseError("Could not find SAUCE")
+        elif (sauce != b"SAUCE00"):
+            fs.seek(0)
+            return 80
     # TInfo1 is 32 bytes from end
     # os.SEEK_END = 2
     fs.seek(-32,2)
     ts_info_1 = fs.read(2)
     width = int.from_bytes(ts_info_1, "little", signed=False)
-    if (width == 0):
+    if (width == 0 and AUTO_WIDTH_FAIL):
         raise ParseError("Could not find width")
+    elif (width == 0):
+        width = 80
     fs.seek(0)
     return width
 
