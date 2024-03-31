@@ -1,0 +1,16 @@
+#!python
+
+"""
+print decimal codepoint, hex codepoint, character of unicode character stream
+"""
+
+import sys
+
+contents = sys.stdin.read()
+
+codepoints = []
+for c in contents:
+    c = c.strip()
+    if c:
+        print(ord(c),hex(ord(c)),c)
+
