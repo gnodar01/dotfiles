@@ -8,6 +8,9 @@ int to unicode codepoint
 #   https://en.wikipedia.org/wiki/Private_Use_Areas
 #
 # for (( i=0xE000; i<0xEEA0; i++ )); do printf "%s " $(echo -ne $i | unichr); done; printf "\n"
+#
+# Nerd Font ranges documented here:
+#   https://github.com/ryanoasis/nerd-fonts/wiki/Glyph-Sets-and-Code-Points#overview
 
 import sys
 
