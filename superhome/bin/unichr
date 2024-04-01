@@ -5,36 +5,121 @@
 # print out Private Use Area:
 #   https://en.wikipedia.org/wiki/Private_Use_Areas
 #
+# unichar -f 57344 -t 61088
+# same as (slower):
 # for (( i=0xE000; i<0xEEA0; i++ )); do printf "%s " $(echo -ne $i | unichr); done; printf "\n"
 #
 # Nerd Font ranges documented here:
 #   https://github.com/ryanoasis/nerd-fonts/wiki/Glyph-Sets-and-Code-Points#overview
 
-read -r contents
+function validate_dec() {
+  valid_dec=$1
 
-if [[ $contents =~ ^[0-9]+$ ]]; then
-    contents=$((10#$contents))
+  if [[ $valid_dec =~ ^[0-9]+$ ]]; then
+      valid_dec=$((10#$valid_dec))
+  else
+      echo "$valid_dec is not a decimal" >&2
+      exit 1
+  fi
+
+  if [[ $valid_dec -lt 0 ]]; then
+      echo "$valid_dic is not a positive int" >&2
+      exit 1
+  fi
+  
+  if [[ $valid_dec -ge 0x110000 ]]; then
+      echo "$valid_dec is out of range" >&2
+      exit 1
+  fi
+}
+ 
+
+function print_single_char() {
+  validate_dec $1
+  dec_char=$valid_dec
+
+  # Convert decimal to hexadecimal
+  hex_char=$(printf "%X" "$dec_char")
+  
+  if [[ $hex_char == 25 ]];
+  then
+    echo -ne "%"
+  else
+    # Print Unicode character using printf
+    printf -v unicode_char "\U$hex_char"
+    
+    # Print the Unicode character
+    echo -ne "$unicode_char"
+  fi
+}
+
+function usage() {
+    echo "unichr prints unicode characters from decimals"
+    echo "Usage: unichr [<dec> | -f <from_dec> -t <to_dec>]"
+}
+
+# if we're piping from stdin
+if [ ! -t 0 ]; then
+  read -r contents
+  print_single_char $contents
+  exit 0
+fi
+
+# not piping from stdin, args required
+if [[ -z $1 ]]; then
+  echo "Pipe in from stdin or provide args" >&2
+  exit 1
+fi
+
+from=""
+to=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+      -f)
+          from="$2"
+          shift 2
+          ;;
+      -t)
+          to="$2"
+          shift 2
+          ;;
+      -h)
+          usage
+          exit 0
+          ;;
+      --help)
+          usage
+          exit 0
+          ;;
+      *)
+          contents="$1"
+          break
+          ;;
+  esac
+done
+
+# for (( i=0xE000; i<0xEEA0; i++ )); do printf "%s " $(echo -ne $i | unichr); done; printf "\n"
+if [[ -n $from ]]; then
+  if [[ -n $to ]]; then
+    validate_dec $from
+    from=$valid_dec
+    validate_dec $to
+    to=$valid_dec
+    for (( i=$from; i<$to; i++ )); do
+      print_single_char $i
+      printf " "
+    done
+    printf "\n"
+  else
+    echo "missing -t" >&2
+    exit 1
+  fi
+elif [[ -n $contents ]]; then
+  print_single_char $contents
+  printf "\n"
 else
-    echo "$contents is not a decimal" >&2
-    exit 1
+  echo "missing -f" >&2
+  exit 1
 fi
-
-if [[ $contents -lt 0 ]]; then
-    echo "$contents is not a positive int" >&2
-    exit 1
-fi
-
-if [[ $contents -ge 0x110000 ]]; then
-    echo "$contents is out of range" >&2
-    exit 1
-fi
-
-# Convert decimal to hexadecimal
-hex_contents=$(printf "%X" "$contents")
-
-# Print Unicode character using printf
-printf -v unicode_char "\\U$hex_contents"
-
-# Print the Unicode character
-echo -ne "$unicode_char"
+exit 0
 
