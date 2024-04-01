@@ -1,0 +1,27 @@
+#!python
+
+"""
+int to unicode codepoint
+"""
+
+import sys
+
+contents = sys.stdin.read()
+
+if contents.isdecimal():
+    contents = int(contents)
+else:
+    sys.stderr.write(f"{contents} is not a decimal\n")
+    exit(1)
+
+if contents < 0:
+    sys.stderr.write(f"{contents} is not a positive int\n")
+    exit(1)
+
+if contents >= 0x110000:
+    sys.stderr.write(f"{contents} is out of range\n")
+    exit(1)
+
+contents = chr(int(contents))
+
+sys.stdout.write(contents)
