@@ -4,6 +4,11 @@
 int to unicode codepoint
 """
 
+# print out Private Use Area:
+#   https://en.wikipedia.org/wiki/Private_Use_Areas
+#
+# for (( i=0xE000; i<0xEEA0; i++ )); do printf "%s " $(echo -ne $i | unichr); done; printf "\n"
+
 import sys
 
 contents = sys.stdin.read()
