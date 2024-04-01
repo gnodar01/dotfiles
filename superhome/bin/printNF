@@ -1,0 +1,57 @@
+#!/bin/zsh
+
+# print Nerd Fonts
+# https://github.com/ryanoasis/nerd-fonts/wiki/Glyph-Sets-and-Code-Points
+
+echo "Seti-UI + Custom e5fa-e6b2"
+unichr -f 0xe5fa -t 0xe6b2
+
+echo "\nDevicons e700-e7c5"
+unichr -f 0xe700 -t 0xe7c5
+
+echo "\nFont Awesome f000-f2e0"
+unichr -f 0xf000 -t 0xf2e0
+
+echo "\nFont Awesome Extension e200-e2a9"
+unichr -f 0xe200 -t 0xe2a9
+
+echo "\nMaterial Design Icons f0001-f1af0"
+unichr -f 0xf0001 -t 0xf1af0
+
+echo "\nWeather e300-e3e3"
+unichr -f 0xe300 -t 0xe3e3
+
+echo "\nOcticons f400-f532,2665,26a1"
+unichr -f 0xf400 -t 0xf532
+unichr 0x2665
+unichr 0x26a1
+
+echo "\nPowerline Symbols e0a0-e0a2,e0b0-e0b3"
+unichr -f 0xe0a0 -t 0xe0a2
+unichr -f 0xe0b0 -t 0xe0b3
+
+echo "\nPowerline Extra Symbols e0a3,e0b4-e0c8,e0ca,e0cc-e0d4"
+unichr 0xe0a3
+unichr -f 0xe0b4 -t 0xe0c8
+unichr 0xe0ca
+unichr -f 0xe0cc -t 0xe0d4
+
+echo "\nIEC Power Symbols 23fb-23fe,2b58"
+unichr -f 0x23fb -t 0x23fe
+unichr 0x2b58
+
+echo "\nFont Logos (Formerly Font Linux) f300-f372"
+unichr -f 0xf300 -t 0xf372
+
+echo "\nPomicons e000-e00a"
+unichr -f 0xe000 -t 0xe00a
+
+echo "\nCodicons ea60-ebeb"
+unichr -f 0xea60 -t 0xebeb
+
+echo "\nAdditional Sets"
+echo "\n\tHeavy Angle Brackets e276c-2771"
+unichr -f 0xe276c -t 0x2771
+echo "\n\tBox Drawing 2500-259f"
+unichr -f 0x2500 -t 0x259f
+
