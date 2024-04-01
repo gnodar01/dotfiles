@@ -63,6 +63,7 @@ function print_single_char() {
 function usage() {
     echo "unichr prints unicode characters from [hexa]decimals"
     echo "Usage: unichr [<dec> | -f <from_dec> -t <to_dec>]"
+    echo "-f and -t are inclusive"
 }
 
 # if we're piping from stdin
@@ -105,14 +106,13 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# for (( i=0xE000; i<0xEEA0; i++ )); do printf "%s " $(echo -ne $i | unichr); done; printf "\n"
 if [[ -n $from ]]; then
   if [[ -n $to ]]; then
     validate_dec $from
     from=$valid_dec
     validate_dec $to
     to=$valid_dec
-    for (( i=$from; i<$to; i++ )); do
+    for (( i=$from; i<=$to; i++ )); do
       print_single_char $i
       printf " "
     done
