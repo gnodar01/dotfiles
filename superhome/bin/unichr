@@ -68,8 +68,10 @@ function usage() {
 
 # if we're piping from stdin
 if [ ! -t 0 ]; then
-  read -r contents
-  print_single_char $contents
+  while read -r contents; do
+    print_single_char $contents
+  done
+  printf "\n"
   exit 0
 fi
 
