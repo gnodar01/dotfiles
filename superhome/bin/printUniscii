@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+echo "Uniscii defined"
+
 unichr 0x1f3ce
 unichr -f 0x1fb00 -t 0x1fbca
 unichr -f 0x1fbf0 -t 0x1fbf9
@@ -22,3 +24,327 @@ unichr -f 0x2bca -t 0x2bcb
 unichr 0xb7
 unichr -f 0xe870 -t 0xe871
 
+echo "fansi mappings"
+## 0 - 127
+#unichr -n 0x0000
+#unichr -n 0x263A
+#unichr -n 0x263B
+#unichr -n 0x2665
+#
+#unichr -n 0x2666
+#unichr -n 0x2663
+#unichr -n 0x2660
+#unichr -n 0x2022
+#
+#unichr -n 0x25D8
+#unichr -n 0x25CB
+#unichr -n 0x25D9
+#unichr -n 0x2642
+#
+#unichr -n 0x2640
+#unichr -n 0x266A
+#unichr -n 0x266B
+#unichr -n 0x263C
+#
+#unichr -n 0x25BA
+#unichr -n 0x25C4
+#unichr -n 0x2195
+#unichr -n 0x203C
+#
+#unichr -n 0x00B6
+#unichr -n 0x00A7
+#unichr -n 0x25AC
+#unichr -n 0x21A8
+#
+#unichr -n 0x2191
+#unichr -n 0x2193
+#unichr -n 0x2192
+#unichr -n 0x2190
+#
+#unichr -n 0x221F
+#unichr -n 0x2194
+#unichr -n 0x25B2
+#unichr -n 0x25BC
+#
+#unichr -n 0x0020
+#unichr -n 0x0021
+#unichr -n 0x0022
+#unichr -n 0x0023
+#
+#unichr -n 0x0024
+#unichr -n 0x0025
+#unichr -n 0x0026
+#unichr -n 0x0027
+#
+#unichr -n 0x0028
+#unichr -n 0x0029
+#unichr -n 0x002A
+#unichr -n 0x002B
+#
+#unichr -n 0x002C
+#unichr -n 0x002D
+#unichr -n 0x002E
+#unichr -n 0x002F
+#
+#unichr -n 0x0030
+#unichr -n 0x0031
+#unichr -n 0x0032
+#unichr -n 0x0033
+#
+#unichr -n 0x0034
+#unichr -n 0x0035
+#unichr -n 0x0036
+#unichr -n 0x0037
+#
+#unichr -n 0x0038
+#unichr -n 0x0039
+#unichr -n 0x003A
+#unichr -n 0x003B
+#
+#unichr -n 0x003C
+#unichr -n 0x003D
+#unichr -n 0x003E
+#unichr -n 0x003F
+#
+#unichr -n 0x0040
+#unichr -n 0x0041
+#unichr -n 0x0042
+#unichr -n 0x0043
+#
+#unichr -n 0x0044
+#unichr -n 0x0045
+#unichr -n 0x0046
+#unichr -n 0x0047
+#
+#unichr -n 0x0048
+#unichr -n 0x0049
+#unichr -n 0x004A
+#unichr -n 0x004B
+#
+#unichr -n 0x004C
+#unichr -n 0x004D
+#unichr -n 0x004E
+#unichr -n 0x004F
+#
+#unichr -n 0x0050
+#unichr -n 0x0051
+#unichr -n 0x0052
+#unichr -n 0x0053
+#
+#unichr -n 0x0054
+#unichr -n 0x0055
+#unichr -n 0x0056
+#unichr -n 0x0057
+#
+#unichr -n 0x0058
+#unichr -n 0x0059
+#unichr -n 0x005A
+#unichr -n 0x005B
+#
+#unichr -n 0x005C
+#unichr -n 0x005D
+#unichr -n 0x005E
+#unichr -n 0x005F
+#
+#unichr -n 0x0060
+#unichr -n 0x0061
+#unichr -n 0x0062
+#unichr -n 0x0063
+#
+#unichr -n 0x0064
+#unichr -n 0x0065
+#unichr -n 0x0066
+#unichr -n 0x0067
+#
+#unichr -n 0x0068
+#unichr -n 0x0069
+#unichr -n 0x006A
+#unichr -n 0x006B
+#
+#unichr -n 0x006C
+#unichr -n 0x006D
+#unichr -n 0x006E
+#unichr -n 0x006F
+#
+#unichr -n 0x0070
+#unichr -n 0x0071
+#unichr -n 0x0072
+#unichr -n 0x0073
+#
+#unichr -n 0x0074
+#unichr -n 0x0075
+#unichr -n 0x0076
+#unichr -n 0x0077
+#
+#unichr -n 0x0078
+#unichr -n 0x0079
+#unichr -n 0x007A
+#unichr -n 0x007B
+#
+#unichr -n 0x007C
+#unichr -n 0x007D
+#unichr -n 0x007E
+#unichr -n 0x2302
+#
+#
+## 128-255
+#unichr -n 0x00C7
+#unichr -n 0x00FC
+#unichr -n 0x00E9
+#unichr -n 0x00E2
+#
+#unichr -n 0x00E4
+#unichr -n 0x00E0
+#unichr -n 0x00E5
+#unichr -n 0x00E7
+#
+#unichr -n 0x00EA
+#unichr -n 0x00EB
+#unichr -n 0x00E8
+#unichr -n 0x00EF
+#
+#unichr -n 0x00EE
+#unichr -n 0x00EC
+#unichr -n 0x00C4
+#unichr -n 0x00C5
+#
+#unichr -n 0x00C9
+#unichr -n 0x00E6
+#unichr -n 0x00C6
+#unichr -n 0x00F4
+#
+#unichr -n 0x00F6
+#unichr -n 0x00F2
+#unichr -n 0x00FB
+#unichr -n 0x00F9
+#
+#unichr -n 0x00FF
+#unichr -n 0x00D6
+#unichr -n 0x00DC
+#unichr -n 0x00A2
+#
+#unichr -n 0x00A3
+#unichr -n 0x00A5
+#unichr -n 0x20A7
+#unichr -n 0x0192
+#
+#unichr -n 0x00E1
+#unichr -n 0x00ED
+#unichr -n 0x00F3
+#unichr -n 0x00FA
+#
+#unichr -n 0x00F1
+#unichr -n 0x00D1
+#unichr -n 0x00AA
+#unichr -n 0x00BA
+#
+#unichr -n 0x00BF
+#unichr -n 0x2310
+#unichr -n 0x00AC
+#unichr -n 0x00BD
+#
+#unichr -n 0x00BC
+#unichr -n 0x00A1
+#unichr -n 0x00AB
+#unichr -n 0x00BB
+#
+#unichr -n 0x2591
+#unichr -n 0x2592
+#unichr -n 0x2593
+#unichr -n 0x2502
+#
+#unichr -n 0x2524
+#unichr -n 0x2561
+#unichr -n 0x2562
+#unichr -n 0x2556
+#
+#unichr -n 0x2555
+#unichr -n 0x2563
+#unichr -n 0x2551
+#unichr -n 0x2557
+#
+#unichr -n 0x255D
+#unichr -n 0x255C
+#unichr -n 0x255B
+#unichr -n 0x2510
+#
+#unichr -n 0x2514
+#unichr -n 0x2534
+#unichr -n 0x252C
+#unichr -n 0x251C
+#
+#unichr -n 0x2500
+#unichr -n 0x253C
+#unichr -n 0x255E
+#unichr -n 0x255F
+#
+#unichr -n 0x255A
+#unichr -n 0x2554
+#unichr -n 0x2569
+#unichr -n 0x2566
+#
+#unichr -n 0x2560
+#unichr -n 0x2550
+#unichr -n 0x256C
+#unichr -n 0x2567
+#
+#unichr -n 0x2568
+#unichr -n 0x2564
+#unichr -n 0x2565
+#unichr -n 0x2559
+#
+#unichr -n 0x2558
+#unichr -n 0x2552
+#unichr -n 0x2553
+#unichr -n 0x256B
+#
+#unichr -n 0x256A
+#unichr -n 0x2518
+#unichr -n 0x250C
+#unichr -n 0x2588
+#
+#unichr -n 0x2584
+#unichr -n 0x258C
+#unichr -n 0x2590
+#unichr -n 0x2580
+#
+#unichr -n 0x03B1
+#unichr -n 0x00DF
+#unichr -n 0x0393
+#unichr -n 0x03C0
+#
+#unichr -n 0x03A3
+#unichr -n 0x03C3
+#unichr -n 0x00B5
+#unichr -n 0x03C4
+#
+#unichr -n 0x03A6
+#unichr -n 0x0398
+#unichr -n 0x03A9
+#unichr -n 0x03B4
+#
+#unichr -n 0x221E
+#unichr -n 0x03C6
+#unichr -n 0x03B5
+#unichr -n 0x2229
+#
+#unichr -n 0x2261
+#unichr -n 0x00B1
+#unichr -n 0x2265
+#unichr -n 0x2264
+#
+#unichr -n 0x2320
+#unichr -n 0x2321
+#unichr -n 0x00F7
+#unichr -n 0x2248
+#
+#unichr -n 0x00B0
+#unichr -n 0x2219
+#unichr -n 0x00B7
+#unichr -n 0x221A
+#
+#unichr -n 0x207F
+#unichr -n 0x00B2
+#unichr -n 0x25A0
+#unichr -n 0x00A0
+#

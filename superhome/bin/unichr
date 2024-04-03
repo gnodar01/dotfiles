@@ -62,8 +62,9 @@ function print_single_char() {
 
 function usage() {
     echo "unichr prints unicode characters from [hexa]decimals"
-    echo "Usage: unichr [<dec> | -f <from_dec> -t <to_dec>]"
+    echo "Usage: unichr [-n] [<dec> | -f <from_dec> -t <to_dec>]"
     echo "-f and -t are inclusive"
+    echo "-n to NOT do newline"
 }
 
 # if we're piping from stdin
@@ -81,6 +82,7 @@ if [[ -z $1 ]]; then
   exit 1
 fi
 
+do_newline=true
 from=""
 to=""
 while [[ $# -gt 0 ]]; do
@@ -96,6 +98,10 @@ while [[ $# -gt 0 ]]; do
       -h)
           usage
           exit 0
+          ;;
+      -n)
+          do_newline=false
+          shift 1
           ;;
       --help)
           usage
@@ -118,14 +124,18 @@ if [[ -n $from ]]; then
       print_single_char $i
       printf " "
     done
-    printf "\n"
+    if $do_newline; then
+      printf "\n"
+    fi
   else
     echo "missing -t" >&2
     exit 1
   fi
 elif [[ -n $contents ]]; then
   print_single_char $contents
-  printf "\n"
+  if $do_newline; then
+    printf "\n"
+  fi
 else
   echo "missing -f" >&2
   exit 1
