@@ -53,6 +53,8 @@ function npmglobals() {
 }
 
 # --- pip/pypi ---
+#
+# General note: `SYSTEM_VERSION_COMPAT=0 pip install ...` will get around compatibility tag issues
 
 function pypi() {
     # this works but is deprecated (especially releases key, which may be removed)
