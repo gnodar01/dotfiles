@@ -1,16 +1,79 @@
 #!python
 
-"""
-print decimal codepoint, hex codepoint, character of unicode character stream
-"""
-
 import sys
 
-contents = sys.stdin.read()
+# f[rom] <fmt> t[o] <fmt>
+# fmt: ( c[odepoint] | d[ecimal] | u[nicode] | b[ytes] | n[ame] )
+# from default: codepoint
+# to default: unicode
+# codepoint formats (case insensitive): 0x00ae | u+00a2 | \u00a2 | 00a2
+# decimal fromat: decimal equivilent of codepoint, e.g. 162
+# unicode: the literal unicode character, e.g. ¢
+# bytes: the byte encoding of the unicode, e.g. \xc2\xa2
 
-codepoints = []
-for c in contents:
-    c = c.strip()
-    if c:
-        print(ord(c),hex(ord(c)),c)
+#codepoints = []
+#for c in contents:
+#    c = c.strip()
+#    if c:
+#        print(ord(c),hex(ord(c)),c)
+
+def exit_err(msg):
+    parser.print_usage(file=sys.stderr)
+    print(f"fansi: error: {msg}", file=sys.stderr)
+    parser.exit(2)
+
+if __name__ == "__main__":
+    import select
+    import argparse
+
+    choices = [
+        ("c", "codepoint"),
+        ("d", "decimal"),
+        ("u", "unicode"),
+        ("b", "bytes"),
+        ("n", "name"),
+    ]
+    formats = {
+        choices[0][0]: choices[0],
+        choices[0][1]: choices[0],
+        choices[1][0]: choices[1],
+        choices[1][1]: choices[1],
+        choices[2][0]: choices[2],
+        choices[2][1]: choices[2],
+        choices[3][0]: choices[3],
+        choices[3][0]: choices[3],
+        choices[4][1]: choices[4],
+        choices[4][1]: choices[4],
+    }
+
+    parser = argparse.ArgumentParser(
+             prog="pycodepoints",
+             description="Converts from a unicode representation to another one",
+             formatter_class=argparse.RawDescriptionHelpFormatter)
+
+    parser.add_argument("-f", default="unicode", choices=formats.keys())
+    parser.add_argument("-t", default="codepoint", choices=formats.keys())
+    parser.add_argument("filename", nargs="?")
+
+    args = parser.parse_args()
+
+    # determine if stdin is available for reading
+    # this is just the select syscall; man select
+    # this method is preferable to sys.stdin.isatty becaus it works even in the
+    # case of remote invocation (eg ssh)
+    rlist,_,_ = select.select([sys.stdin],[],[],0)
+   
+    bcontents = b""
+    if args.f in formats["b"]:
+        if args.filename is not None:
+            with open(args.filename, "rb") as f:
+                bcontents = f.read()
+        elif len(rlist) != 0:
+            bcontents = sys.stdin.buffer.read()
+        else:
+            parser.print_usage(file=sys.stderr)
+            print("provide one of stdin or filename", file=sys.stderr)
+            exit(1)
+
+    print(bcontents)
 
