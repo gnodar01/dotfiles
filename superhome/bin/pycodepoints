@@ -48,12 +48,22 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
              prog="pycodepoints",
-             description="Converts from a unicode representation to another one",
+             description=r"""
+Converts from a unicode representation to another one
+                
+    bytes are always delimited by \x, whitespace is ignored
+
+    codepoints can be delimited by 0x, 0X, u+, U+, \u, \U
+        or every length n hex is taken, where n is specified by the -l flag;
+        whitespace is always ignored
+
+    name, decimal, and unicode can have custom delimiters, but by default it is \n
+             """,
              formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument("-f", default="unicode", choices=formats.keys(), help="from format")
     parser.add_argument("-t", default="codepoint", choices=formats.keys(), help="to format")
-    parser.add_argument("-s", "--delim", default="\n", help="delimiter to use for input; default is \\n")
+    parser.add_argument("-s", "--delim", default="\n", help="delimiter to use for unicode, name, and decimal; default is \\n")
     parser.add_argument("filename", nargs="?")
 
     args = parser.parse_args()
@@ -81,11 +91,24 @@ if __name__ == "__main__":
    
     bcontents = b""
     if args.f in formats["b"]:
-        bcontents = f_stream.read()
-    if args.f in formats["d"]:
+        from functools import reduce
+        bcontents = reduce(
+            lambda x,y: x+y,
+            map(
+                lambda c: int(c, 16).to_bytes(1,'big'),
+                filter(
+                    lambda c: c not in [b'', b' ', b'\t', b'\n'],
+                    f_stream.read().lower().split(b'\\x')
+                )
+            ),
+            b''
+        )
+    elif args.f in formats["d"]:
         bcontents = ''.join(map(
             lambda c: chr(int(c)), f_stream.read().split(delim)
         )).encode('utf8')
+    elif args.f in formats["u"]:
+        bcontents = f_stream.read()
 
     if args.filename is not None:
         f_stream.close()
