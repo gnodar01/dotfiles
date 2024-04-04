@@ -51,8 +51,9 @@ if __name__ == "__main__":
              description="Converts from a unicode representation to another one",
              formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    parser.add_argument("-f", default="unicode", choices=formats.keys())
-    parser.add_argument("-t", default="codepoint", choices=formats.keys())
+    parser.add_argument("-f", default="unicode", choices=formats.keys(), help="from format")
+    parser.add_argument("-t", default="codepoint", choices=formats.keys(), help="to format")
+    parser.add_argument("-s", "--delim", default="\n", help="delimiter to use for input; default is \\n")
     parser.add_argument("filename", nargs="?")
 
     args = parser.parse_args()
@@ -62,18 +63,32 @@ if __name__ == "__main__":
     # this method is preferable to sys.stdin.isatty becaus it works even in the
     # case of remote invocation (eg ssh)
     rlist,_,_ = select.select([sys.stdin],[],[],0)
+
+    if args.filename is not None:
+        f_stream = open(args.filename, "rb")
+    elif len(rlist) != 0:
+        f_stream = sys.stdin.buffer
+    else:
+        parser.print_usage(file=sys.stderr)
+        print("provide one of stdin or filename", file=sys.stderr)
+        exit(1)
+
+    if len(args.delim) != 1:
+        parser.print_usage(file=sys.stderr)
+        print("delim must be a single character")
+        exit(1)
+    delim = args.delim.encode('utf8')
    
     bcontents = b""
     if args.f in formats["b"]:
-        if args.filename is not None:
-            with open(args.filename, "rb") as f:
-                bcontents = f.read()
-        elif len(rlist) != 0:
-            bcontents = sys.stdin.buffer.read()
-        else:
-            parser.print_usage(file=sys.stderr)
-            print("provide one of stdin or filename", file=sys.stderr)
-            exit(1)
+        bcontents = f_stream.read()
+    if args.f in formats["d"]:
+        bcontents = ''.join(map(
+            lambda c: chr(int(c)), f_stream.read().split(delim)
+        )).encode('utf8')
 
+    if args.filename is not None:
+        f_stream.close()
+        
     print(bcontents)
 
