@@ -58,13 +58,12 @@ Converts from a unicode representation to another one
         or every length n hex is taken, where n is 4 by default or 8 if -U flag provided;
         whitespace is always ignored
 
-    name, decimal, and unicode can have custom delimiters, but by default it is \n
+    decimal, and unicode are delimited by any whitespace
              """,
              formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument("-f", default="unicode", choices=formats.keys(), help="from format")
     parser.add_argument("-t", default="codepoint", choices=formats.keys(), help="to format")
-    parser.add_argument("-s", "--delim", default="\n", help="delimiter to use for unicode, name, and decimal; default is \\n")
     parser.add_argument("-U", action="store_true")
     parser.add_argument("filename", nargs="?")
 
@@ -85,12 +84,6 @@ Converts from a unicode representation to another one
         print("provide one of stdin or filename", file=sys.stderr)
         exit(1)
 
-    if len(args.delim) != 1:
-        parser.print_usage(file=sys.stderr)
-        print("delim must be a single character")
-        exit(1)
-    delim = args.delim.encode("utf8")
-   
     WHITESPACE = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F\x20"
     bcontents = b""
     if args.f in formats["b"]:
@@ -104,7 +97,9 @@ Converts from a unicode representation to another one
         )
     elif args.f in formats["d"]:
         bcontents = "".join(map(
-            lambda c: chr(int(c)), f_stream.read().split(delim)
+            lambda c: chr(int(c)), f_stream.read().translate(
+                bytes.maketrans(WHITESPACE, b" "*len(WHITESPACE))
+            ).strip(b" ").split(b" ")
         )).encode("utf8")
     elif args.f in formats["u"]:
         bcontents = f_stream.read()
@@ -112,11 +107,17 @@ Converts from a unicode representation to another one
         contents = f_stream.read().translate(None, WHITESPACE).lower()
         if contents.startswith(b"u+"):
             contents = contents.split(b"u+")[1:]
+        elif contents.startswith(b"\u"):
+            contents = contents.split(b"\u")[1:]
+        elif contents.startswith(b"0x"):
+            contents = contents.split(b"0x")[1:]
 
         bcontents = reduce(
             lambda x,y: x+y,
             map(lambda c: chr(int(c, 16)).encode("utf8"), contents)
         )
+
+        del contents
 
     if args.filename is not None:
         f_stream.close()
