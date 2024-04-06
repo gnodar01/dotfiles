@@ -132,6 +132,7 @@ alias psa="ps -A | grep -v grep"
 
 alias pycolors="pycolors.py"
 alias pyfansi="pyfansi.py"
+alias pycodepoints="pycodepoints.py"
 
 # python
 # set this in case you want sys.path to include some custom path to a package
