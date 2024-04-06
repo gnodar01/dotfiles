@@ -1,6 +1,10 @@
 #!python
 
 import sys
+import unicodedata
+
+
+WHITESPACE = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F\x20"
 
 # f[rom] <fmt> t[o] <fmt>
 # fmt: ( c[odepoint] | d[ecimal] | u[nicode] | b[ytes] | n[ame] )
@@ -16,6 +20,65 @@ import sys
 #    c = c.strip()
 #    if c:
 #        print(ord(c),hex(ord(c)),c)
+
+def n_to_u(name):
+    ...
+
+def u_to_n(bchr):
+    if bchr == '\n':
+        return "LINE FEED"
+    else:
+        return unicodedata.name(bchr)
+
+def names_to_bytes(names_b):
+    return "".join(map(
+        lambda n: unicodedata.lookup(n), filter(
+            lambda b: b != b"", names_b.split(b'\n')
+        )
+    )).encode("utf8")
+
+def codepoints_to_bytes(codepoints_b, long_fmt=False):
+    contents = codepoints_b.translate(None, WHITESPACE).lower()
+
+    if contents.startswith(b"u+"):
+        contents = contents.split(b"u+")[1:]
+    elif contents.startswith(b"\u"):
+        contents = contents.split(b"\u")[1:]
+    elif contents.startswith(b"0x"):
+        contents = contents.split(b"0x")[1:]
+    else:
+        new_contents = []
+        n = 8 if long_fmt else 4
+        start = 0
+        end = n
+        while end <= len(contents):
+            new_contents.append(contents[start:end])
+            start += n
+            end += n
+        contents = new_contents
+
+    return reduce(
+        lambda x,y: x+y,
+        map(lambda c: chr(int(c, 16)).encode("utf8"), contents)
+    )
+
+def dec_to_bytes(dec_b):
+    bcontents = "".join(map(
+        lambda c: chr(int(c)), dec_b.translate(
+            bytes.maketrans(WHITESPACE, b" "*len(WHITESPACE))
+        ).strip(b" ").split(b" ")
+    )).encode("utf8")
+
+def bytes_to_bytes(byets_b):
+    return reduce(
+        lambda x,y: x+y,
+        map(
+            lambda c: int(c, 16).to_bytes(1,"big"),
+            bytes_b.translate(None, WHITESPACE).lower().split(b"\\x")[1:]
+        ),
+        b''
+    )
+
 
 def exit_err(msg):
     parser.print_usage(file=sys.stderr)
@@ -43,7 +106,7 @@ if __name__ == "__main__":
         choices[2][1]: choices[2],
         choices[3][0]: choices[3],
         choices[3][0]: choices[3],
-        choices[4][1]: choices[4],
+        choices[4][0]: choices[4],
         choices[4][1]: choices[4],
     }
 
@@ -59,6 +122,8 @@ Converts from a unicode representation to another one
         whitespace is always ignored
 
     decimal, and unicode are delimited by any whitespace
+
+    names must be delimted by newline
              """,
              formatter_class=argparse.RawDescriptionHelpFormatter)
 
@@ -84,40 +149,17 @@ Converts from a unicode representation to another one
         print("provide one of stdin or filename", file=sys.stderr)
         exit(1)
 
-    WHITESPACE = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F\x20"
     bcontents = b""
     if args.f in formats["b"]:
-        bcontents = reduce(
-            lambda x,y: x+y,
-            map(
-                lambda c: int(c, 16).to_bytes(1,"big"),
-                f_stream.read().translate(None, WHITESPACE).lower().split(b"\\x")[1:]
-            ),
-            b''
-        )
+        bcontents = bytes_to_bytes(f_stream.read())
     elif args.f in formats["d"]:
-        bcontents = "".join(map(
-            lambda c: chr(int(c)), f_stream.read().translate(
-                bytes.maketrans(WHITESPACE, b" "*len(WHITESPACE))
-            ).strip(b" ").split(b" ")
-        )).encode("utf8")
+        bcontents = dec_to_bytes(f_stream.read())
     elif args.f in formats["u"]:
         bcontents = f_stream.read()
     elif args.f in formats["c"]:
-        contents = f_stream.read().translate(None, WHITESPACE).lower()
-        if contents.startswith(b"u+"):
-            contents = contents.split(b"u+")[1:]
-        elif contents.startswith(b"\u"):
-            contents = contents.split(b"\u")[1:]
-        elif contents.startswith(b"0x"):
-            contents = contents.split(b"0x")[1:]
-
-        bcontents = reduce(
-            lambda x,y: x+y,
-            map(lambda c: chr(int(c, 16)).encode("utf8"), contents)
-        )
-
-        del contents
+        bcontents = codepoints_to_bytes(f_stream.read(), args.U)
+    elif args.f in formats["n"]:
+        bcontents = names_to_bytes(f_stream.read())
 
     if args.filename is not None:
         f_stream.close()
