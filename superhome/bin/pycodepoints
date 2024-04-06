@@ -6,20 +6,10 @@ import unicodedata
 
 WHITESPACE = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F\x20"
 
-# f[rom] <fmt> t[o] <fmt>
-# fmt: ( c[odepoint] | d[ecimal] | u[nicode] | b[ytes] | n[ame] )
-# from default: codepoint
-# to default: unicode
 # codepoint formats (case insensitive): 0x00ae | u+00a2 | \u00a2 | 00a2
 # decimal fromat: decimal equivilent of codepoint, e.g. 162
 # unicode: the literal unicode character, e.g. ¢
 # bytes: the byte encoding of the unicode, e.g. \xc2\xa2
-
-#codepoints = []
-#for c in contents:
-#    c = c.strip()
-#    if c:
-#        print(ord(c),hex(ord(c)),c)
 
 # https://www.unicode.org/reports/tr44/
 def u_to_n(bchr):
@@ -113,6 +103,28 @@ def bytes_to_names(bcontents):
     u = bytes_to_unicode(bcontents)
     return "\n".join(map(lambda c: u_to_n(c), u))
 
+def bytes_to_bytesr(bcontents):
+    """
+    bytes is actualy bytes
+    bytesr is printable representation of bytes
+    """
+    u = bytes_to_unicode(bcontents)
+    res = ""
+    for c in u:
+        int_val = ord(c)
+        if int_val <= 0x7f:
+            res += f"\\x{hex(int_val)[2:]:>02}"
+        else:
+            # bytes in big endian, but str fmt
+            be = hex(int.from_bytes(c.encode("utf8"), "big"))[2:]
+            start = 0
+            end = 2
+            while end <= len(be):
+                res += f"\\x{be[start:end]}"
+                start += 2
+                end += 2
+    return res
+
 def names_to_bytes(names_b):
     return "".join(map(
         lambda n: unicodedata.lookup(n), filter(
@@ -152,7 +164,7 @@ def dec_to_bytes(dec_b):
         ).strip(b" ").split(b" ")
     )).encode("utf8")
 
-def bytes_to_bytes(bytes_b):
+def bytesr_to_bytes(bytesr_b):
     return reduce(
         lambda x,y: x+y,
         map(
@@ -187,7 +199,7 @@ if __name__ == "__main__":
         choices[2][0]: choices[2],
         choices[2][1]: choices[2],
         choices[3][0]: choices[3],
-        choices[3][0]: choices[3],
+        choices[3][1]: choices[3],
         choices[4][0]: choices[4],
         choices[4][1]: choices[4],
     }
@@ -232,7 +244,7 @@ Converts from a unicode representation to another one
 
     bcontents = b""
     if args.f in formats["b"]:
-        bcontents = bytes_to_bytes(f_stream.read())
+        bcontents = bytesr_to_bytes(f_stream.read())
     elif args.f in formats["d"]:
         bcontents = dec_to_bytes(f_stream.read())
     elif args.f in formats["u"]:
@@ -243,7 +255,7 @@ Converts from a unicode representation to another one
         bcontents = names_to_bytes(f_stream.read())
 
     if args.t in formats["b"]:
-        print(bytes_to_bytes(bcontents))
+        print(bytes_to_bytesr(bcontents))
     elif args.t in formats["d"]:
         print(bytes_to_dec(bcontents))
     elif args.t in formats["u"]:
