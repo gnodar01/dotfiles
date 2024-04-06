@@ -169,7 +169,7 @@ def bytesr_to_bytes(bytesr_b):
         lambda x,y: x+y,
         map(
             lambda c: int(c, 16).to_bytes(1,"big"),
-            bytes_b.translate(None, WHITESPACE).lower().split(b"\\x")[1:]
+            bytesr_b.translate(None, WHITESPACE).lower().split(b"\\x")[1:]
         ),
         b''
     )
