@@ -21,14 +21,29 @@ WHITESPACE = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\
 #    if c:
 #        print(ord(c),hex(ord(c)),c)
 
-def n_to_u(name):
-    ...
-
 def u_to_n(bchr):
     if bchr == '\n':
         return "LINE FEED"
     else:
         return unicodedata.name(bchr)
+
+def bytes_to_unicode(bcontents):
+    return bcontents.decode("utf8")
+
+def bytes_to_dec(bcontents):
+    u = bytes_to_unicode(bcontents)
+    return " ".join(map(lambda c: str(ord(c)), u))
+
+def bytes_to_codepoints(bcontents, prefix="U+", long_fmt=False):
+    u = bytes_to_unicode(bcontents)
+    if long_fmt:
+        return " ".join(map(lambda c: f"{prefix}{hex(ord(c))[2:]:>08}", u))
+    else:
+        return " ".join(map(lambda c: f"{prefix}{hex(ord(c))[2:]:>04}", u))
+
+def bytes_to_names(bcontents):
+    u = bytes_to_unicode(bcontents)
+    return "\n".join(map(lambda c: u_to_n(c), u))
 
 def names_to_bytes(names_b):
     return "".join(map(
@@ -63,13 +78,13 @@ def codepoints_to_bytes(codepoints_b, long_fmt=False):
     )
 
 def dec_to_bytes(dec_b):
-    bcontents = "".join(map(
+    return "".join(map(
         lambda c: chr(int(c)), dec_b.translate(
             bytes.maketrans(WHITESPACE, b" "*len(WHITESPACE))
         ).strip(b" ").split(b" ")
     )).encode("utf8")
 
-def bytes_to_bytes(byets_b):
+def bytes_to_bytes(bytes_b):
     return reduce(
         lambda x,y: x+y,
         map(
@@ -78,7 +93,6 @@ def bytes_to_bytes(byets_b):
         ),
         b''
     )
-
 
 def exit_err(msg):
     parser.print_usage(file=sys.stderr)
@@ -161,8 +175,19 @@ Converts from a unicode representation to another one
     elif args.f in formats["n"]:
         bcontents = names_to_bytes(f_stream.read())
 
+    if args.t in formats["b"]:
+        print(bytes_to_bytes(bcontents))
+    elif args.t in formats["d"]:
+        print(bytes_to_dec(bcontents))
+    elif args.t in formats["u"]:
+        print(bytes_to_unicode(bcontents))
+    elif args.t in formats["c"]:
+        print(bytes_to_codepoints(bcontents, prefix="U+", long_fmt=args.U))
+    elif args.t in formats["n"]:
+        print(bytes_to_names(bcontents))
+
     if args.filename is not None:
         f_stream.close()
-        
-    print(bcontents)
+
+    exit(0)
 
