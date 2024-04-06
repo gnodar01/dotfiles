@@ -22,10 +22,83 @@ WHITESPACE = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\
 #        print(ord(c),hex(ord(c)),c)
 
 def u_to_n(bchr):
-    if bchr == '\n':
-        return "LINE FEED"
-    else:
-        return unicodedata.name(bchr)
+    try:
+        if ord(bchr) == 0x00:
+            return "NULL"
+        elif ord(bchr) == 0x01:
+            return "START OF HEADING"
+        elif ord(bchr) == 0x02:
+            return "START OF TEXT"
+        elif ord(bchr) == 0x03:
+            return "END OF TEXT"
+        elif ord(bchr) == 0x04:
+            return "END OF TRANSMISSION"
+        elif ord(bchr) == 0x05:
+            return "ENQUIRY"
+        elif ord(bchr) == 0x06:
+            return "ACKNOWLEDGE"
+        elif ord(bchr) == 0x07:
+            return "BEL"
+        elif ord(bchr) == 0x08:
+            return "BACKSPACE"
+        elif ord(bchr) == 0x09:
+            return "TAB"
+        elif ord(bchr) == 0x0a:
+            return "NEW LINE"
+        elif ord(bchr) == 0x0b:
+            return "VERTICAL TABULATION"
+        elif ord(bchr) == 0x0c:
+            return "FORM FEED"
+        elif ord(bchr) == 0x0d:
+            return "CARRIAGE RETURN"
+        elif ord(bchr) == 0x0e:
+            return "SHIFT OUT"
+        elif ord(bchr) == 0x0f:
+            return "SHIFT IN"
+        elif ord(bchr) == 0x10:
+            return "DATA LINK ESCAPE"
+        elif ord(bchr) == 0x11:
+            return "DEVICE CONTROL ONE"
+        elif ord(bchr) == 0x12:
+            return "DEVICE CONTROL TWO"
+        elif ord(bchr) == 0x13:
+            return "DEVICE CONTROL THREE"
+        elif ord(bchr) == 0x14:
+            return "DEVICE CONTROL FOUR"
+        elif ord(bchr) == 0x15:
+            return "NEGATIVE ACKNOWLEDGE"
+        elif ord(bchr) == 0x16:
+            return "SYNCHRONOUS IDLE"
+        elif ord(bchr) == 0x17:
+            return "END OF TRANSMISSION BLOCK"
+        elif ord(bchr) == 0x18:
+            return "CANCEL"
+        elif ord(bchr) == 0x19:
+            return "END OF MEDIUM"
+        elif ord(bchr) == 0x1a:
+            return "SUBSTITUTE"
+        elif ord(bchr) == 0x1b:
+            return "ESCAPE"
+        elif ord(bchr) == 0x1c:
+            return "FILE SEPARATOR"
+        elif ord(bchr) == 0x1d:
+            return "GROUP SEPARATOR"
+        elif ord(bchr) == 0x1e:
+            return "RECORD SEPARATOR"
+        elif ord(bchr) == 0x1f:
+            return "UNIT SEPARATOR"
+        elif ord(bchr) == 0x20:
+            return "SP"
+        elif ord(bchr) == 0x7f:
+            return "DELETE"
+        else:
+            return unicodedata.name(bchr)
+    except ValueError:
+        print("v")
+        print(ord(bchr) == 0x00)
+        print(ord(bchr))
+        print("^")
+        exit(1)
 
 def bytes_to_unicode(bcontents):
     return bcontents.decode("utf8")
