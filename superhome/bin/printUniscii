@@ -24,7 +24,7 @@ unichr -f 0x2bca -t 0x2bcb
 unichr 0xb7
 unichr -f 0xe870 -t 0xe871
 
-echo "fansi mappings"
+#echo "fansi mappings"
 ## 0 - 127
 #unichr -n 0x0000
 #unichr -n 0x263A
