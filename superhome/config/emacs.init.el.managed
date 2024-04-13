@@ -1,0 +1,25 @@
+;; In ~/.emacs: (load (concat (getenv "HOME") "/superhome/config/emacs.init.el.managed"))
+
+(setq user-emacs-directory (concat (getenv "HOME") "/superhome/config/.emacs.d"))
+;; elpa is already the default, just changing it to point at superhome
+;; otherwise it will use ~/.emacs.d
+(setq package-user-dir (concat (getenv "HOME") "/superhome/config/.emacs.d/elpa"))
+(require 'package)
+(require 'use-package)
+
+(package-initialize)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/"))
+
+(use-package org
+  :ensure t)
+
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1))
+
+;; Change to the path where you cloned the config to
+;;(org-babel-load-file (concat (getenv "HOME") "/superhome/config/.emacs.d/myinit.org"))
+(org-babel-load-file (expand-file-name "myinit.org" user-emacs-directory))
+
