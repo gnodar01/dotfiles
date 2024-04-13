@@ -4,20 +4,44 @@
 ;; elpa is already the default, just changing it to point at superhome
 ;; otherwise it will use ~/.emacs.d
 (setq package-user-dir (concat (getenv "HOME") "/superhome/config/.emacs.d/elpa"))
-(require 'package)
-(require 'use-package)
 
+;; package list
+(setq package-archives
+  '(("melpa" . "https://stable.melpa.org/packages/")
+    ("org" . "https://orgmode.org/elpa/")
+    ("gnu" . "https://elpa.gnu.org/packages/")))
+
+;; booststrap use-package
 (package-initialize)
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/"))
+
+(setq use-package-always-ensure t)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile (require 'use-package))
+
+(use-package evil
+  :demand t
+  ;; esc to get out prompts and the like
+  :bind (("<escape>" . keyboard-escape-quit))
+  :init
+  ;; allows for using cgn
+  ;; (setq evil-search-module 'evil-search)
+  (setq evil-want-keybinding nil)
+  ;; no vim insert bindings
+  :config
+  (evil-mode 1))
+
+;; vim bindings everywhere else
+(use-package evil-collection
+  :after evil
+  :config
+  (setq evil-want-integration t)
+  (evil-collection-init))
 
 (use-package org
   :ensure t)
-
-(use-package evil
-  :ensure t
-  :config
-  (evil-mode 1))
 
 ;; Change to the path where you cloned the config to
 ;;(org-babel-load-file (concat (getenv "HOME") "/superhome/config/.emacs.d/myinit.org"))
