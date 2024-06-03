@@ -42,13 +42,13 @@ alias plistbuddy="/usr/libexec/PlistBuddy"
 # syntax highlight man pages with bat
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-# use exa instead of ls
-alias l="exa --all --icons --classify"
-alias ll="exa --long --all --git --header --icons --classify"
-alias t="exa --oneline --all --icons --classify"
-alias tt="exa --tree --all --classify --icons --level=2"
-alias ttt="exa --tree --all --classify --icons --level=3"
-alias tttt="exa --tree --all --classify --icons --level=4"
+# use eza instead of ls
+alias l="eza --all --icons --classify"
+alias ll="eza --long --all --git --header --icons --classify"
+alias t="eza --oneline --all --icons --classify"
+alias tt="eza --tree --all --classify --icons --level=2"
+alias ttt="eza --tree --all --classify --icons --level=3"
+alias tttt="eza --tree --all --classify --icons --level=4"
 
 alias cdd="cd ~/Desktop"
 

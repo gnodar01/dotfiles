@@ -15,7 +15,7 @@ fi
 
 if [ -d "$TARGET" ]; then
   #tree -a -C -L 3 "$1"
-  exa --tree --all --classify --icons --level=2 "$TARGET"
+  eza --tree --all --classify --icons --level=2 "$TARGET"
 else
   BAT_TEST=$(file --mime "$TARGET")
   if [[ $BAT_TEST == *binary ]]; then
