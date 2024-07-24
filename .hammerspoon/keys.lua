@@ -2,6 +2,7 @@
 
 require "functions/push"
 require "functions/mouseListeners"
+require "functions/applescripts"
 
 local hyper = {"ctrl", "cmd", "alt"}
 local super = {"cmd", "ctrl", "alt"}
@@ -44,6 +45,7 @@ hs.hotkey.bind(layoutSuper, "k", thunk_push_win("prev"))
 -- move spaces
 hs.hotkey.bind(layoutSuuper, "l", thunk_push_space("left"))
 hs.hotkey.bind(layoutSuuper, "h", thunk_push_space("right"))
+hs.hotkey.bind(layoutSuuper, "h", thunk_push_space("right"))
 
 -- listeners
 hs.hotkey.bind(hyper, "m", function()
@@ -65,6 +67,8 @@ hs.hotkey.bind(hyper, "d", function()
         mouseEventTapLower:start()
     end
 end)
+
+hs.hotkey.bind(layoutSuper, "n", killNotifications)
 
 -- window switcher
 -- default windowfilter: only visible windows, all Spaces
