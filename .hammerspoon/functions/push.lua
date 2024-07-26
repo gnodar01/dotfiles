@@ -66,6 +66,10 @@ function thunk_push_win(dir)
   return thunk
 end
 
+-- broken on macOS 14.5 with HS 0.9.100
+-- issue here: https://github.com/Hammerspoon/hammerspoon/issues/3636
+-- PR here: https://github.com/Hammerspoon/hammerspoon/pull/3638
+-- pre-release build here: https://github.com/Hammerspoon/hammerspoon/pull/3638#issuecomment-2195783259
 function push_space(dir)
     local window = hs.window.focusedWindow()
     local windowId = window:id()
@@ -75,13 +79,13 @@ function push_space(dir)
     local allScreenSpaces = hs.spaces.allSpaces()[screenId]
     local spaceIdx = indexOf(allScreenSpaces, spaceId)
     local nextIdx
-    if dir == "left" then
+    if dir == "right" then
         if spaceIdx >= #allScreenSpaces then
             nextIdx = 1
         else
             nextIdx = spaceIdx + 1
         end
-    elseif dir == "right" then
+    elseif dir == "left" then
         if spaceIdx <= 1 then
             nextIdx = #allScreenSpaces
         else
@@ -91,6 +95,11 @@ function push_space(dir)
     local nextSpaceId = allScreenSpaces[nextIdx]
     hs.spaces.moveWindowToSpace(windowId, nextSpaceId)
     --hs.spaces.gotoSpace(nextSpaceId)
+    if dir == "right" then
+        hs.eventtap.keyStroke({"option"},"l",0)
+    elseif dir == "left" then
+        hs.eventtap.keyStroke({"option"},"h",0)
+    end
 end
 
 function thunk_push_space(dir)

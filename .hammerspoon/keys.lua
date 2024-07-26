@@ -43,8 +43,8 @@ hs.hotkey.bind(layoutSuper, "j", thunk_push_win("next"))
 hs.hotkey.bind(layoutSuper, "k", thunk_push_win("prev"))
 
 -- move spaces
-hs.hotkey.bind(layoutSuuper, "l", thunk_push_space("left"))
-hs.hotkey.bind(layoutSuuper, "h", thunk_push_space("right"))
+hs.hotkey.bind(layoutSuuper, "h", thunk_push_space("left"))
+hs.hotkey.bind(layoutSuuper, "l", thunk_push_space("right"))
 
 -- listeners
 hs.hotkey.bind(hyper, "m", function()
