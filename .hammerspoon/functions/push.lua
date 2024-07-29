@@ -100,6 +100,9 @@ function push_space(dir)
     elseif dir == "left" then
         hs.eventtap.keyStroke({"option"},"h",0)
     end
+
+    -- get focus back
+    window:focus()
 end
 
 function thunk_push_space(dir)
