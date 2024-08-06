@@ -70,6 +70,7 @@ end
 -- issue here: https://github.com/Hammerspoon/hammerspoon/issues/3636
 -- PR here: https://github.com/Hammerspoon/hammerspoon/pull/3638
 -- pre-release build here: https://github.com/Hammerspoon/hammerspoon/pull/3638#issuecomment-2195783259
+-- UPDATE: now fixed in release 1.0.0
 function push_space(dir)
     local window = hs.window.focusedWindow()
     local windowId = window:id()
