@@ -38,6 +38,16 @@ hs.hotkey.bind(layoutSuper, "o", thunk_push{top=0, left=1/2, width=1/2, height=1
 hs.hotkey.bind(layoutSuper, "n", thunk_push{top=1/2, left=0, width=1/2, height=1/2})
 hs.hotkey.bind(layoutSuper, ".", thunk_push{top=1/2, left=1/2, width=1/2, height=1/2})
 
+hs.hotkey.bind(layoutSuper, "w", thunk_push{top=0, left=1/4, width=1/2, height=1/2})
+hs.hotkey.bind(layoutSuper, "a", thunk_push{top=1/4, left=0, width=1/2, height=1/2})
+hs.hotkey.bind(layoutSuper, "d", thunk_push{top=1/4, left=1/2, width=1/2, height=1/2})
+hs.hotkey.bind(layoutSuper, "s", thunk_push{top=1/2, left=1/4, width=1/2, height=1/2})
+
+hs.hotkey.bind(layoutSuuper, "w", thunk_push{top=0, left=1/3, width=1/3, height=1/2})
+hs.hotkey.bind(layoutSuuper, "a", thunk_push{top=1/4, left=0, width=1/3, height=1/2})
+hs.hotkey.bind(layoutSuuper, "d", thunk_push{top=1/4, left=2/3, width=1/3, height=1/2})
+hs.hotkey.bind(layoutSuuper, "s", thunk_push{top=1/2, left=1/3, width=1/3, height=1/2})
+
 -- move screens
 hs.hotkey.bind(layoutSuper, "j", thunk_push_win("next"))
 hs.hotkey.bind(layoutSuper, "k", thunk_push_win("prev"))
