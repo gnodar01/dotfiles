@@ -11,6 +11,7 @@ local glyphs = {
   cmd = '⌘',
   ctrl = '⌃',
   opt = '⌥',
+  alt = '⌥',
   shift = '⇧',
 }
 

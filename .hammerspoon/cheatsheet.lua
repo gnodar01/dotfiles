@@ -1,16 +1,58 @@
--- ⌘ ⌃ ⌥ ⇧
+-- ⌘ ⌃ ⌥ ⇧ ↹
 
 local markdowncontent = [[
 
 # Hotkeys
 
-## Program
+## Hammerspoon
 
-| Command | Description |
+**hyper**
+`⌘ ⌃ ⌥ _`
+**super**
+`⌘ ⌃ ⌥ _`
+**layoutSuper**
+`⌘ ⌃ _`
+**layoutSuuper**
+`⌘ ⌃ ⇧ _`
+
+| Description | Command |
 | :---    |        ---: |
 | --- | --- |
-| cmd k | List all new or modified files |
-| alt-cmd z | Show file differences that haven't been staged |
+| toggle shortcuts (this window) | `⌘ ⌃ /` |
+| window layout - max | `⌘ ⌃ m` |
+| window layout - center `3/4` | `⌘ ⌃ ,` |
+| window layou - center `1/2` | `⌘ ⌃ c` |
+| window layout - left `1/2` | `⌘ ⌃ h` |
+| window layout - right `1/2` | `⌘ ⌃ l` |
+| window layout - center `2/3` | `⌘ ⌃ i` |
+| window layout - left `2/3` | `⌘ ⌃ <-` |
+| window layout - right `2/3` | `⌘ ⌃ ->` |
+| window layout - top left `1/2` | `⌘ ⌃ u` |
+| window layout - top right `1/2` | `⌘ ⌃ o` |
+| window layout - bottom left `1/2` | `⌘ ⌃ n` |
+| window layout - bottom right `1/2` | `⌘ ⌃ .` |
+| window layout - top left `1/3` | `⌘ ⌃ ⇧ u` |
+| window layout - top right `1/3` | `⌘ ⌃ ⇧ o` |
+| window layout - bottom left `1/3` | `⌘ ⌃ ⇧ n` |
+| window layout - bottom right `1/2` | `⌘ ⌃ ⇧ .` |
+| window layout - center top `1/2` | `⌘ ⌃ w` |
+| window layout - center left `1/2` | `⌘ ⌃ a` |
+| window layout - center right `1/2` | `⌘ ⌃ d` |
+| window layout - center bottom `1/2` | `⌘ ⌃ s` |
+| window layout - center top `1/3` | `⌘ ⌃ ⇧ w` |
+| window layout - center left `1/3` | `⌘ ⌃ ⇧ a` |
+| window layout - center right `1/3` | `⌘ ⌃ ⇧ d` |
+| window layout - center bottom `1/2` | `⌘ ⌃ ⇧ s` |
+| window layout - move to next screen | `⌘ ⌃ j` |
+| window layout - move to prev screen | `⌘ ⌃ k` |
+| window layout - move to left space | `⌘ ⌃ ⇧ h` |
+| window layout - move to right space | `⌘ ⌃ ⇧ l` |
+| toggle menu bar on/off | `⌘ ⌃ ⌥ m` |
+| toggle dock on/off | `⌘ ⌃ ⌥ d` |
+| kill notifications | `⌘ ⌃ ⌥ n` |
+| kill notifications | `⌥ n` |
+| window switcher next window |  `⌥ ↹` |
+| open debug console | `⌘ ⌃ ⌥ c` |
 
 <style>
 
