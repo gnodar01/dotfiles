@@ -1,5 +1,3 @@
--- ⌘ ⌃ ⌥ ⇧
-
 require "functions/push"
 require "functions/mouseListeners"
 require "functions/applescripts"
@@ -9,10 +7,20 @@ local super = {"cmd", "ctrl", "alt"}
 local layoutSuper = {"cmd", "ctrl"}
 local layoutSuuper = {"cmd", "ctrl", "shift"}
 
+local glyphs = {
+  cmd = '⌘',
+  ctrl = '⌃',
+  opt = '⌥',
+  shift = '⇧',
+}
+
 -- show grid
 -- broken because of the move+resize issue and fix wont work
 -- see functions/patch.lua
 -- hs.hotkey.bind(super, "g", hs.grid.show)
+
+-- show shortcuts
+hs.hotkey.bind(layoutSuper, '/', toggleShortcuts)
 
 -- full screens
 hs.hotkey.bind(layoutSuper, "m", thunk_push{width=1, height=1})

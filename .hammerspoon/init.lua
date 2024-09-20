@@ -10,7 +10,7 @@ hs.grid.GRIDWIDTH = 6
 hs.grid.GRIDHEIGHT = 4
 
 require "functions/patch"
+require "cheatsheet"
 require "keys"
 require "layout"
-
 
