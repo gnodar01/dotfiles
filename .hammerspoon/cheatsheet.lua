@@ -1,34 +1,16 @@
+-- ⌘ ⌃ ⌥ ⇧
+
 local markdowncontent = [[
 
-# Header
+# Hotkeys
 
-this is a `wonderful` *hello* **bar**
-
-* one
-* two
-* thre
-
-## sub
-
-yay
-
-### some maths
-
-$1 + 1 = 2$
-
-$$
-10 + 10 = 20
-$$
+## Program
 
 | Command | Description |
+| :---    |        ---: |
 | --- | --- |
-| git status | List all new or modified files |
-| git diff | Show file differences that haven't been staged |
-
-| Left-aligned | Center-aligned | Right-aligned | Left-aligned | Center-aligned | Right-aligned |
-| :---         |     :---:      |          ---: | :---         |     :---:      |          ---: |
-| git status   | git status     | git status    | git status   | git status     | git status    |
-| git diff     | git diff       | git diff      | git diff     | git diff       | git diff      |
+| cmd k | List all new or modified files |
+| alt-cmd z | Show file differences that haven't been staged |
 
 <style>
 
@@ -239,10 +221,6 @@ blockquote {
 local htmlcontent = hs.doc.markdown.convert(markdowncontent, "gfm")
 
 local scrollScript = [[
-let scrolling = false;
-let scrollDirection = 0; // 1 for down, -1 for up
-let scrollSpeed = 5; // Adjust the scroll speed as needed
-
 // Create the keydown event for the "j" key
 const eventJ = new KeyboardEvent('keydown', {
   key: 'j',
@@ -262,28 +240,12 @@ const eventK = new KeyboardEvent('keydown', {
 });
 
 
-// Function to scroll the window
-function scrollWindow() {
-  if (scrolling) {
-    window.scrollBy(0, scrollSpeed * scrollDirection);
-    //requestAnimationFrame(scrollWindow); // Continuously scroll
-    scrolling = false;
-  }
-  console.log(eventJ);
-}
-
 // Event listener for keydown
 document.addEventListener('keydown', (event) => {
-  if (!scrolling) {
-    if (event.key === 'j') {
-      scrolling = true;
-      scrollDirection = 1; // Scroll down
-      scrollWindow();
-    } else if (event.key === 'k') {
-      scrolling = true;
-      scrollDirection = -1; // Scroll up
-      scrollWindow();
-    }
+  if (event.key === 'j') {
+    window.scrollBy(0, window.innerHeight/2);
+  } else if (event.key === 'k') {
+    window.scrollBy(0, -(window.innerHeight/2));
   }
 });
 
@@ -303,45 +265,45 @@ local function JScb(result, err)
 end
 
 local wv = nil
-local jHK = nil
-local kHK = nil
+--local jHK = nil
+--local kHK = nil
 
-local function issueJ()
-  local js = [[
-  // Dispatch the event on the document
-  document.dispatchEvent(eventJ);
-  ]]
-  wv:evaluateJavaScript(js, JScb)
-end
+--local function issueJ()
+--  local js = [[
+--  // Dispatch the event on the document
+--  document.dispatchEvent(eventJ);
+--  ]]
+--  wv:evaluateJavaScript(js, JScb)
+--end
 
-local function issueK()
-  local js = [[
-  // Dispatch the event on the document
-  document.dispatchEvent(eventK);
-  ]]
-  wv:evaluateJavaScript(js, JScb)
-end
+--local function issueK()
+--  local js = [[
+--  // Dispatch the event on the document
+--  document.dispatchEvent(eventK);
+--  ]]
+--  wv:evaluateJavaScript(js, JScb)
+--end
 
 function toggleShortcuts()
-  if jHK then
-    if jHK.enabled then
-      jHK:disable()
-      --jHK:delete()
-      --jHK = nil
-    else
-      jHK:enable()
-    end
-  end
+  --if jHK then
+  --  if jHK.enabled then
+  --    jHK:disable()
+  --    --jHK:delete()
+  --    --jHK = nil
+  --  else
+  --    jHK:enable()
+  --  end
+  --end
 
-  if kHK then
-    if kHK.enabled then
-      kHK:disable()
-      --kHK:delete()
-      --kHK = nil
-    else
-      kHK:enable()
-    end
-  end
+  --if kHK then
+  --  if kHK.enabled then
+  --    kHK:disable()
+  --    --kHK:delete()
+  --    --kHK = nil
+  --  else
+  --    kHK:enable()
+  --  end
+  --end
 
   if wv then
     if wv:isVisible() then
@@ -421,8 +383,8 @@ function toggleShortcuts()
   end
   wv:navigationCallback(donecb)
 
-  jHK = hs.hotkey.bind({"alt"}, "j", issueJ)
-  kHK = hs.hotkey.bind({"alt"}, "k", issueK)
+  --jHK = hs.hotkey.bind({"alt"}, "j", issueJ)
+  --kHK = hs.hotkey.bind({"alt"}, "k", issueK)
 
   wv:show()
 end
