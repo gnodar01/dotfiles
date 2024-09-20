@@ -335,12 +335,12 @@ function toggleShortcuts()
   -- descriptions here:
   -- https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview.m#L2528
   wv:windowStyle(
-    masks.titled |
-    masks.closable |
-    masks.resizable |
-    masks.utility |
-    masks.nonactivating |
-    masks.HUD
+    --masks.titled |
+    --masks.closable |
+    --masks.resizable |
+    --masks.utility |
+    --masks.HUD |
+    masks.nonactivating 
   )
   -- hs.drawing.windowBehaviors
   -- https://developer.apple.com/documentation/appkit/nswindow/collectionbehavior
@@ -366,7 +366,7 @@ function toggleShortcuts()
   wv:allowNewWindows(false)
   wv:allowTextEntry(true)
   --wv:allowNavigationGestures(true)
-  wv:alpha(0.75)
+  wv:alpha(0.80)
   wv:bringToFront(true)
   wv:closeOnEscape(true)
   --wv:deleteOnClose(true)
