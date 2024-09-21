@@ -52,7 +52,6 @@ local markdowncontent = [[
 | toggle menu bar on/off | `⌘ ⌃ ⌥ m` |
 | toggle dock on/off | `⌘ ⌃ ⌥ d` |
 | kill notifications | `⌘ ⌃ ⌥ n` |
-| kill notifications | `⌥ n` |
 | window switcher next window |  `⌥ ↹` |
 | open debug console | `⌘ ⌃ ⌥ c` |
 
