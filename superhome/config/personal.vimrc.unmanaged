@@ -17,7 +17,8 @@ endfunc
 " ~/vim/colors for any of your own
 "colorscheme elflord
 "colorscheme dark-meadow
-colorscheme default
+colorscheme vim
+set notermguicolors
 
 " syntax coloring
 :syntax on
