@@ -263,27 +263,28 @@ blockquote {
 local htmlcontent = hs.doc.markdown.convert(markdowncontent, "gfm")
 
 local scrollScript = [[
-// Create the keydown event for the "j" key
-const eventJ = new KeyboardEvent('keydown', {
-  key: 'j',
-  code: 'KeyJ',
-  keyCode: 74, // KeyCode for "j"
-  which: 74,   // Which for "j"
-  bubbles: true // Allows the event to bubble up
-});
-
-// Create the keydown event for the "k" key
-const eventK = new KeyboardEvent('keydown', {
-  key: 'k',
-  code: 'KeyK',
-  keyCode: 75, // KeyCode for "k"
-  which: 75,   // Which for "k"
-  bubbles: true // Allows the event to bubble up
-});
+//// Create the keydown event for the "j" key
+//const eventJ = new KeyboardEvent('keydown', {
+//  key: 'j',
+//  code: 'KeyJ',
+//  keyCode: 74, // KeyCode for "j"
+//  which: 74,   // Which for "j"
+//  bubbles: true // Allows the event to bubble up
+//});
+//
+//// Create the keydown event for the "k" key
+//const eventK = new KeyboardEvent('keydown', {
+//  key: 'k',
+//  code: 'KeyK',
+//  keyCode: 75, // KeyCode for "k"
+//  which: 75,   // Which for "k"
+//  bubbles: true // Allows the event to bubble up
+//});
 
 
 // Event listener for keydown
 document.addEventListener('keydown', (event) => {
+  event.preventDefault();
   if (event.key === 'j') {
     window.scrollBy(0, window.innerHeight/2);
   } else if (event.key === 'k') {
@@ -293,6 +294,7 @@ document.addEventListener('keydown', (event) => {
 
 // Event listener for keyup
 document.addEventListener('keyup', (event) => {
+  event.preventDefault();
   if (event.key === 'j' || event.key === 'k') {
     scrolling = false; // Stop scrolling when either key is released
   }
