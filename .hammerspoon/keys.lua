@@ -37,6 +37,9 @@ hs.hotkey.bind(layoutSuper, "i", thunk_push{left=1/6, width=2/3})
 hs.hotkey.bind(layoutSuper, "left", thunk_push{width=2/3})
 hs.hotkey.bind(layoutSuper, "right", thunk_push{width=2/3, left=1/3})
 
+hs.hotkey.bind(layoutSuuper, "left", thunk_push{width=1/3})
+hs.hotkey.bind(layoutSuuper, "right", thunk_push{width=1/3, left=2/3})
+
 hs.hotkey.bind(layoutSuuper, "u", thunk_push{top=0, left=0, width=1/3, height=1/2})
 hs.hotkey.bind(layoutSuuper, "o", thunk_push{top=0, left=2/3, width=1/3, height=1/2})
 hs.hotkey.bind(layoutSuuper, "n", thunk_push{top=1/2, left=0, width=1/3, height=1/2})

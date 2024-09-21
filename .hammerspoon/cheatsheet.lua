@@ -39,6 +39,8 @@ local markdowncontent = [[
 | window layout - center left `1/2` | `⌘ ⌃ a` |
 | window layout - center right `1/2` | `⌘ ⌃ d` |
 | window layout - center bottom `1/2` | `⌘ ⌃ s` |
+| window layout - left `1/3` | `⌘ ⌃ ⇧ <-` |
+| window layout - right `1/3` | `⌘ ⌃ ⇧ ->` |
 | window layout - center top `1/3` | `⌘ ⌃ ⇧ w` |
 | window layout - center left `1/3` | `⌘ ⌃ ⇧ a` |
 | window layout - center right `1/3` | `⌘ ⌃ ⇧ d` |
