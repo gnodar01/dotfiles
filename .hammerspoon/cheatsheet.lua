@@ -1,4 +1,4 @@
--- ⌘ ⌃ ⌥ ⇧ ↹
+-- ⌘ ⌃ ⌥ ⇧ ↹ ↩ ⌫
 
 local markdowncontent = [[
 
@@ -54,6 +54,100 @@ local markdowncontent = [[
 | kill notifications | `⌘ ⌃ ⌥ n` |
 | window switcher next window |  `⌥ ↹` |
 | open debug console | `⌘ ⌃ ⌥ c` |
+
+## VS Code
+
+### window layout and navigation
+
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| expand group toggle | `⌃ ,` |
+| move editor group l/d/u/r | `⇧ ⌥ h/j/k/l` |
+| editor into group l/d/u/r | `⇧ ⌃ h/j/k/l` |
+| split editor l/d/u/r | `⌃ ⌥ h/j/k/l` |
+| navigate to view on l/d/u/r | `⌃ h/j/k/l` |
+| 2x2 layout | `⇧ ⌃ =` |
+| zen mode | `⌘ k, z` |
+
+## debugger
+
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| start | `⌘ ⌃ b` |
+| start and wait on entry | `⌘ ⌃ w` |
+| restart | `⌘ ⌃ a` |
+| disconnect | `⌘ ⌃ x` |
+| stop | `⌘ ⌃ z` |
+| continue | `⌘ ⌃ p` |
+| step in | `⌘ ⌃ ]` |
+| step over | `⌘ ⌃ \` |
+| step out | `⌘ ⌃ [` |
+
+#### debugger - misc
+
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| toggle breakpoint | `⌘ k, ⌘ b` |
+| toggle logpoint | `⌘ k, ⌘ l` |
+| edit breakpoint | `⌘ k, ⌘ m` |
+| show hover (in debug mode) | `⌘ k, ⌘ i` |
+
+### other
+
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| show type def preview | `⌘ k, ⌘ z` |
+| multicursor | `⇧ ⌥ i` |
+| reveal file in explorer | `⌘ k, g` |
+
+## Vimac
+
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| element select (hint mode) | `⌃ f` |
+| scroll mode | `⌃ s` |
+| right click label | `⇧ _` |
+| double click label | `⌘ _` |
+| move mouse label | `⌥ _` |
+| move through right click menu | `⌃ n/p` |
+
+## Scoot
+
+[usage](https://github.com/mjrusso/scoot?tab=readme-ov-file#usage)
+
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| element selection | `⌘ ⇧ j` |
+| grid | `⌘ ⇧ j` |
+| freestyle start (pointer mode) | `⌘ ⇧ l` |
+| grid mode - cancel label | `⌘ .` |
+| move direction | `h/j/k/l` |
+| move cursor full page | `⌃ h/j/k/l` |
+| move cursor full step | `⌘ h/j/k/l` |
+| move cursor next cell center | `⌃ l` |
+| center | `⇧ m` |
+| click | `↩` |
+| click and hold start | `=` |
+| hold release | `↩` |
+| double click | `\` |
+| middle mouse click | `[` |
+| right mouse click | `]` |
+| size grid cell | `⌘ ⇧ +/-` |
+| toggle grid line visible | `⌃ ⇧ =` |
+| toggle grid lable visible | `⌃ =` |
+
+## Misc
+
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| remove cookies, local storage, etc in Chrome | `⌘ ⇧ ⌫` |
 
 <style>
 
