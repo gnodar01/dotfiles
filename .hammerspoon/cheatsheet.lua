@@ -118,7 +118,7 @@ local markdowncontent = [[
 
 ## Scoot
 
-[usage](https://github.com/mjrusso/scoot?tab=readme-ov-file#usage)
+https://github.com/mjrusso/scoot?tab=readme-ov-file#usage
 
 | Description | Command |
 | :---    |        ---: |
@@ -504,7 +504,7 @@ function toggleShortcuts()
   wv:allowMagnificationGestures(true)
   wv:allowNewWindows(false)
   wv:allowTextEntry(true)
-  --wv:allowNavigationGestures(true)
+  wv:allowNavigationGestures(true)
   wv:alpha(0.80)
   wv:bringToFront(true)
   wv:closeOnEscape(true)
