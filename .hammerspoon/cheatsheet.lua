@@ -403,7 +403,7 @@ local function JScb(result, err)
   --print(dump(err))
 end
 
-local wv = nil
+wv = nil
 --local jHK = nil
 --local kHK = nil
 
@@ -447,8 +447,10 @@ function toggleShortcuts()
   if wv then
     if wv:isVisible() then
       wv:hide()
-      --wv:delete(true)
-      --wv = nil
+    elseif wv:url() ~= "about:blank" then
+      wv:delete(true)
+      wv = nil
+      toggleShortcuts()
     else
       wv:show()
     end
@@ -474,9 +476,13 @@ function toggleShortcuts()
   -- descriptions here:
   -- https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview.m#L2528
   wv:windowStyle(
+    masks.borderless |
     --masks.titled |
     --masks.closable |
     --masks.resizable |
+    --masks.minaturizable |
+    --masks.fullSizeContentView |
+    --masks.texturedBackground |
     --masks.utility |
     --masks.HUD |
     masks.nonactivating 
@@ -499,16 +505,16 @@ function toggleShortcuts()
   })
   -- https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/drawing/drawing.lua#L707
   wv:level(hs.drawing.windowLevels.overlay)
-  wv:titleVisibility('hidden')
   wv:windowTitle('shortcut_keys_wv')
+  wv:titleVisibility('hidden')
   wv:allowMagnificationGestures(true)
   wv:allowNewWindows(false)
   wv:allowTextEntry(true)
   wv:allowNavigationGestures(true)
   wv:alpha(0.80)
   wv:bringToFront(true)
-  wv:closeOnEscape(true)
-  --wv:deleteOnClose(true)
+  --wv:closeOnEscape(true)
+  wv:deleteOnClose(false)
   wv:shadow(true)
 
   wv:html(htmlcontent)
