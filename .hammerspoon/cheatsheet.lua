@@ -457,7 +457,8 @@ function toggleShortcuts()
     return
   end
 
-  local frame = hs.screen.mainScreen():frame()
+  --local frame = hs.screen.mainScreen():frame()
+  local frame = hs.screen.primaryScreen():frame()
   local rect = hs.geometry.rect({
     x=frame.x+frame.w*0.15/2,
     y=frame.y+frame.h*0.25/2,
