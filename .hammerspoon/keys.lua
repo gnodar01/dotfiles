@@ -102,6 +102,14 @@ hs.hotkey.bind(hyper, "c", function()
 end)
 
 --[[
+hs.hotkey.bind(hyper, "z", function()
+    n = hs.notify.new()
+    n = n:withdrawAfter(60)
+    n:send()
+end)
+--]]
+
+--[[
 doScrollTimer = nil
 
 local checkScroll = function()
