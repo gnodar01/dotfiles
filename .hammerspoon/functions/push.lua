@@ -71,7 +71,8 @@ end
 -- PR here: https://github.com/Hammerspoon/hammerspoon/pull/3638
 -- pre-release build here: https://github.com/Hammerspoon/hammerspoon/pull/3638#issuecomment-2195783259
 -- UPDATE: now fixed in release 1.0.0
-function push_space(dir)
+-- UPDATE: now broken again in Sanoma, probably permanently
+function push_space_broken(dir)
     local window = hs.window.focusedWindow()
     local windowId = window:id()
     local screen = window:screen()
@@ -104,6 +105,62 @@ function push_space(dir)
 
     -- get focus back
     window:focus()
+end
+
+-- https://gist.github.com/jdtsmith/8f08cf22a7177884b437cd25c0fba7d5
+function switchSpace(skip, dir)
+    local indicate = nil
+    if dir == "left" then
+        indicate = "h"
+    elseif dir == "right" then
+        indicate = "l"
+    end
+
+    for i = 1, skip do
+        hs.eventtap.keyStroke({"option"}, indicate, 0)
+    end
+end
+
+function push_space(dir, switch)
+    local win = getGoodFocusedWindow(true)
+    if not win then return end
+    local screen = win:screen()
+    local uuid = screen:getUUID()
+    local userSpaces = nil
+    
+    for k,v in pairs(hs.spaces.allSpaces()) do
+        userSpaces = v
+        if k == uuid then break end
+    end
+
+    if not userSpaces then return end
+
+    for i, spc in ipairs(userSpaces) do
+        if hs.spaces.spaceType(spc) ~= "user" then -- skippable space
+            table.remove(userSpaces, i)
+        end
+    end
+
+    if not userSpaces then return end
+
+    local initialSpace = hs.spaces.windowSpaces(win)
+    if not initialSpace then return else initialSpace = initialSpace[1] end
+    local currentCursor = hs.mouse.getRelativePosition()
+
+    if (dir == "right" and initialSpace == userSpaces[#userSpaces]) or
+       (dir == "left" and initialSpace == userSpaces[1]) then
+       flashScreen(screen) -- end of valid spaces
+   else
+       local zoomPoint = hs.geometry(win:zoomButtonRect())
+       local safePoint = zoomPoint:move({-1,-1}).topleft
+       hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDown, safePoint):post()
+       switchSpace(1, dir)
+       hs.timer.waitUntil(
+          function () return hs.spaces.windowSpaces(win)[1] ~= initialSpace end,
+          function ()
+              hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseUp, safePoint):post()
+       end, 0.05)
+   end
 end
 
 function thunk_push_space(dir)

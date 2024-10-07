@@ -8,3 +8,20 @@ function indexOf(array, value)
     return nil
 end
 
+function getGoodFocusedWindow(nofull)
+    local win = hs.window.focusedWindow()
+    if not win or not win:isStandard() then return end
+    if nofull and win:isFullScreen() then return end
+    return win
+end
+
+function flashScreen(screen)
+    local flash=hs.canvas.new(screen:fullFrame()):appendElements({
+    	action = "fill",
+	    fillColor = { alpha = 0.35, red=1},
+	    type = "rectangle"})
+
+    flash:show()
+    hs.timer.doAfter(.25, function () flash:delete() end)
+end 
+

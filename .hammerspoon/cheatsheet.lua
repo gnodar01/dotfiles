@@ -21,7 +21,7 @@ local markdowncontent = [[
 | toggle shortcuts (this window) | `⌘ ⌃ /` |
 | window layout - max | `⌘ ⌃ m` |
 | window layout - center `3/4` | `⌘ ⌃ ,` |
-| window layou - center `1/2` | `⌘ ⌃ c` |
+| window layout - center `1/2` | `⌘ ⌃ c` |
 | window layout - left `1/2` | `⌘ ⌃ h` |
 | window layout - right `1/2` | `⌘ ⌃ l` |
 | window layout - center `2/3` | `⌘ ⌃ i` |
