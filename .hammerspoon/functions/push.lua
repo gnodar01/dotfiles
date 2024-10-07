@@ -159,6 +159,7 @@ function push_space(dir, switch)
           function () return hs.spaces.windowSpaces(win)[1] ~= initialSpace end,
           function ()
               hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseUp, safePoint):post()
+              hs.mouse.setRelativePosition(currentCursor, screen)
        end, 0.05)
    end
 end
