@@ -103,11 +103,13 @@ end)
 
 --[[
 hs.hotkey.bind(hyper, "z", function()
-    n = hs.notify.new()
-    n = n:withdrawAfter(60)
-    n:send()
+  n = hs.notify.new()
+  n = n:alwaysPresent(true)
+  n = n:informativeText("hello")
+  n = n:withdrawAfter(60)
+  n:send()
 end)
---]]
+]]--
 
 --[[
 doScrollTimer = nil
