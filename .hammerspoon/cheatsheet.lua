@@ -75,12 +75,12 @@ local markdowncontent = [[
 | Description | Command |
 | :---    |        ---: |
 | --- | --- |
-| start | `⌘ ⌃ b` |
-| start and wait on entry | `⌘ ⌃ w` |
-| restart | `⌘ ⌃ a` |
-| disconnect | `⌘ ⌃ x` |
-| stop | `⌘ ⌃ z` |
-| continue | `⌘ ⌃ p` |
+| start | `⌘ d, b` |
+| start and wait on entry | `⌘ d, w` |
+| restart | `⌘ d, r` |
+| disconnect | `⌘ d, x` |
+| stop | `⌘ d, z` |
+| continue | `⌘ d, p` |
 | step in | `⌘ ⌃ ]` |
 | step over | `⌘ ⌃ \` |
 | step out | `⌘ ⌃ [` |
