@@ -34,6 +34,10 @@ function usage() {
     echo "\t--paths: path setting files"
 }
 
+if [ $# = 0 ]; then
+  usage
+fi
+
 while test $# -gt 0
 do
   case "$1" in
@@ -45,9 +49,9 @@ do
       ;;
     --help) usage
       ;;
-    --*) echo "bad option: $1"
+    --*) echo "bad option: $1\n" && usage
       ;;
-    *) echo "bad argument: $1"
+    *) echo "bad argument: $1\n" && usage
       ;;
   esac
   shift
