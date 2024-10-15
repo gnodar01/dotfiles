@@ -9,7 +9,7 @@
     difftool = true
 [alias]
 	graph = log --pretty=format:\"%h %s\" --graph
-	logp=log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	logp = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 	lg =  log --graph --date-order --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	lgb = log --graph --date-order --branches --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	lga = log --graph --date-order --all --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
