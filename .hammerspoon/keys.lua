@@ -1,6 +1,7 @@
 require "functions/push"
 require "functions/mouseListeners"
 require "functions/applescripts"
+require "functions/utils"
 
 local hyper = {"ctrl", "cmd", "alt"}
 local super = {"cmd", "ctrl", "alt"}
@@ -100,6 +101,8 @@ hs.hotkey.bind('alt','tab',hs.window.switcher.nextWindow)
 hs.hotkey.bind(hyper, "c", function()
   hs.openConsole()
 end)
+
+hs.hotkey.bind(hyper, "l", clickOut)
 
 --[[
 hs.hotkey.bind(hyper, "z", function()
