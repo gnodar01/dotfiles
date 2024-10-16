@@ -142,6 +142,21 @@ https://github.com/mjrusso/scoot?tab=readme-ov-file#usage
 | toggle grid line visible | `⌃ ⇧ =` |
 | toggle grid lable visible | `⌃ =` |
 
+## Browser
+
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| vimiumc shortcuts | ? |
+| focus address bar | `⌘ l` |
+| defocus address bar | `⌘ ⌃ ⌥opt l` |
+| beginning of line | `⌃ a` |
+| end of line | `⌃ e` |
+| back char | `⌃ b` |
+| del char to right | `⌃ d` |
+| back one word | `⌃ ⌥ b` |
+| forward one word | `⌃ ⌥ f` |
+
 ## Misc
 
 | Description | Command |
