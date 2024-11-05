@@ -474,11 +474,13 @@ function toggleShortcuts()
 
   --local frame = hs.screen.mainScreen():frame()
   local frame = hs.screen.primaryScreen():frame()
+  local rectWidthScale = 0.50
+  local rectHeightScale = 0.05
   local rect = hs.geometry.rect({
-    x=frame.x+frame.w*0.15/2,
-    y=frame.y+frame.h*0.25/2,
-    w=frame.w*0.85,
-    h=frame.h*0.75,
+    x=frame.x+frame.w*rectWidthScale/2,
+    y=frame.y+frame.h*rectHeightScale/2,
+    w=frame.w*(1-rectWidthScale),
+    h=frame.h*(1-rectHeightScale),
   })
 
   wv = hs.webview.new(rect, {
