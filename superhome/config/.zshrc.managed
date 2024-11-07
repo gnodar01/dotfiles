@@ -118,6 +118,8 @@ alias npmglobals="utilhelpers npmglobals"
 alias pypi="utilhelpers pypi"
 alias pipcompat="utilhelpers pipcompat"
 
+alias dockersize="utilhelpers dockersize"
+
 alias nv="nvim"
 
 alias ca="conda activate"

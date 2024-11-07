@@ -83,6 +83,23 @@ function pipcompat() {
     fi
 }
 
+# --- dockerhub ---
+#
+function dockersize() {
+  local repo=$1
+  local image=$2
+  local tag=$3
+
+  if [[ -z "$repo" || -z "$image" || -z "$tag" ]]; then
+    echo "Usage: docker_image_size <repo> <image> <tag>"
+    return 1
+  fi
+
+  curl -s "https://hub.docker.com/v2/repositories/$repo/$image/tags/$tag" | \
+  jq '.images[0].size' | \
+  awk '{printf "%.2f MB\n", $1 / (1024 * 1024)}'
+}
+
 # --- help ---
 
 function usage() {
@@ -100,6 +117,7 @@ function usage() {
     echo "\tnpmglobals: list globally installed npm packages"
     echo "\tpypi <pkg> - get releases for pypi package"
     echo "\tpipcompat [-a] - get current compatibility tag (different on each python interpretor)"
+    echo "\tdockersize <repo> <image_name> <tag_name> - get size, in MB, of image"
     echo "\t\t-a: list all, if not provided then only main returned"
 }
 
@@ -136,6 +154,9 @@ case "$1" in
         ;;
     pipcompat)
         pipcompat "$2"
+        ;;
+    dockersize)
+        dockersize "$2" "$3" "$4"
         ;;
     help)
         usage
