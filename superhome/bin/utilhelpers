@@ -90,9 +90,14 @@ function dockersize() {
   local image=$2
   local tag=$3
 
-  if [[ -z "$repo" || -z "$image" || -z "$tag" ]]; then
-    echo "Usage: docker_image_size <repo> <image> <tag>"
+  if [[ -z "$image" || -z "$tag" ]]; then
+    echo "Usage: docker_image_size <repo>|"" <image> <tag>"
     return 1
+  fi
+
+  # Construct the URL, using 'library' for official images if no repo is provided
+  if [[ -z "$repo" ]]; then
+    repo="library"
   fi
 
   curl -s "https://hub.docker.com/v2/repositories/$repo/$image/tags/$tag" | \
