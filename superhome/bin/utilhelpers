@@ -91,7 +91,7 @@ function dockersize() {
   local tag=$3
 
   if [[ -z "$image" || -z "$tag" ]]; then
-    echo "Usage: docker_image_size <repo>|"" <image> <tag>"
+    echo "Usage: docker_image_size (<repo>|\"\") <image> <tag>"
     return 1
   fi
 
@@ -122,7 +122,7 @@ function usage() {
     echo "\tnpmglobals: list globally installed npm packages"
     echo "\tpypi <pkg> - get releases for pypi package"
     echo "\tpipcompat [-a] - get current compatibility tag (different on each python interpretor)"
-    echo "\tdockersize <repo> <image_name> <tag_name> - get size, in MB, of image"
+    echo "\tdockersize (<repo>|\"\") <image_name> <tag_name> - get size, in MB, of image"
     echo "\t\t-a: list all, if not provided then only main returned"
 }
 
