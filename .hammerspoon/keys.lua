@@ -104,6 +104,7 @@ end)
 
 hs.hotkey.bind(hyper, "l", clickOut)
 
+--[[
 hs.hotkey.bind(hyper, "z", function()
   n = hs.notify.new()
   n = n:alwaysPresent(true)
@@ -111,6 +112,7 @@ hs.hotkey.bind(hyper, "z", function()
   n = n:withdrawAfter(60)
   n:send()
 end)
+--]]
 
 --[[
 doScrollTimer = nil
