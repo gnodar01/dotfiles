@@ -48,7 +48,7 @@ alias ll="eza --long --all --git --header --icons=auto --classify=auto"
 alias t="eza --oneline --all --icons=auto --classify=auto"
 alias tt="eza --tree --all --classify=auto --icons=auto --level=2"
 alias ttt="eza --tree --all --classify=auto --icons=auto --level=3"
-alias tttt="eza --tree --all --classify=aut --icons=auto --level=4"
+alias tttt="eza --tree --all --classify=auto --icons=auto --level=4"
 
 alias cdd="cd ~/Desktop"
 
