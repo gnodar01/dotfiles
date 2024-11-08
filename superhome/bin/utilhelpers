@@ -91,7 +91,7 @@ function dockersize() {
   local tag=$3
 
   if [[ -z "$image" || -z "$tag" ]]; then
-    echo "Usage: docker_image_size (<repo>|\"\") <image> <tag>"
+    echo "Usage: dockersize (<repo>|\"\") <image> <tag>"
     return 1
   fi
 
@@ -103,6 +103,17 @@ function dockersize() {
   curl -s "https://hub.docker.com/v2/repositories/$repo/$image/tags/$tag" | \
   jq '.images[0].size' | \
   awk '{printf "%.2f MB\n", $1 / (1024 * 1024)}'
+}
+
+function dockerplatform() {
+    local image=$1
+
+    if [[ -z "$image" ]]; then
+        echo "Usage: dockerplatform <image>>"
+        return 1
+    fi
+
+    docker image inspect $image | jq -r '.[] | "\(.Os)/\(.Architecture)"'
 }
 
 # --- help ---
@@ -123,6 +134,7 @@ function usage() {
     echo "\tpypi <pkg> - get releases for pypi package"
     echo "\tpipcompat [-a] - get current compatibility tag (different on each python interpretor)"
     echo "\tdockersize (<repo>|\"\") <image_name> <tag_name> - get size, in MB, of image"
+    echo "\tdockerplatform <image_name> - get os/architecture platform of docker image"
     echo "\t\t-a: list all, if not provided then only main returned"
 }
 
@@ -162,6 +174,9 @@ case "$1" in
         ;;
     dockersize)
         dockersize "$2" "$3" "$4"
+        ;;
+    dockerplatform)
+        dockerplatform "$2"
         ;;
     help)
         usage
