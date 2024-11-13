@@ -70,7 +70,7 @@ local markdowncontent = [[
 | 2x2 layout | `⇧ ⌃ =` |
 | zen mode | `⌘ k, z` |
 
-## debugger
+### debugger
 
 | Description | Command |
 | :---    |        ---: |
@@ -103,6 +103,8 @@ local markdowncontent = [[
 | show type def preview | `⌘ k, ⌘ z` |
 | multicursor | `⇧ ⌥ i` |
 | reveal file in explorer | `⌘ k, g` |
+| toggle terminal | `⌘ ⌃ t` |
+| toggle maximize terminal | `⌘ ⌃ ⌥ t` |
 
 ## Vimac
 
