@@ -105,6 +105,7 @@ local markdowncontent = [[
 | reveal file in explorer | `⌘ k, g` |
 | toggle terminal | `⌘ ⌃ t` |
 | toggle maximize terminal | `⌘ ⌃ ⌥ t` |
+| rename symbol under cursor | `⌘k, ⌘r` |
 
 ## Vimac
 
