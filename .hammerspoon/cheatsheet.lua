@@ -166,6 +166,7 @@ https://github.com/mjrusso/scoot?tab=readme-ov-file#usage
 | :---    |        ---: |
 | --- | --- |
 | remove cookies, local storage, etc in Chrome | `⌘ ⇧ ⌫` |
+| show all tabs in finder | `⌘ ⇧ \` |
 
 <style>
 
