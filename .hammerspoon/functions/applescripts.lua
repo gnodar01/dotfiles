@@ -33,10 +33,41 @@ end
 
 function runiTermCmd()
    script = [[
+        tell application "System Events"
+            -- Get the name of the frontmost application
+            set frontApp to name of first application process whose frontmost is true
+        end tell
+
         tell application "iTerm"
             -- Create a new terminal window
-            create window with default profile command "zsh -c $HOME/superhome/bin/vimclip"
+            set newWindow to (create window with default profile command "zsh -c $HOME/superhome/bin/vimclip")
+            set newWindowID to id of newWindow
+        end tell
+
+        repeat
+            delay 1
+            tell application "iTerm"
+                -- Check if the window with the id still exists
+                set windowExists to false
+                repeat with aWindow in windows
+                    if id of aWindow is equal to newWindowID then
+                        set windowExists to true
+                        exit repeat
+                    end if
+                end repeat
+            end tell
+
+            -- Exit the loop if the window no longer exists
+            if not windowExists then
+                exit repeat
+            end if
+        end repeat
+
+        tell application frontApp
+            -- Bring the preivously active application to the foreground
+            activate
         end tell
     ]]
     hs.osascript.applescript(script)
 end
+

@@ -35,7 +35,7 @@ if ! [ -x "$(command -v $VIMCLIP_CLIPBOARD_COMMAND)" ]; then
   exit 1
 fi
 
-$VC_EDITOR "$TMP"
+pbpaste > "$TMP" && $VC_EDITOR "$TMP"
 
 if [ -s "$TMP" ]; then
     $VIMCLIP_CLIPBOARD_COMMAND < "$TMP"
