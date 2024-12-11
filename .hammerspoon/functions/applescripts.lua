@@ -33,6 +33,22 @@ end
 
 function runiTermCmd()
    script = [[
+        -- Save the current clipboard content
+        set originalClipboard to the clipboard
+
+        -- Copy the currently selected/highlighted text or set clipboard to an empty string
+        delay 0.5 -- Allow time for the copy operation to complete
+        tell application "System Events"
+            keystroke "c" using {command down} -- Simulate ⌘C to copy the selection
+        end tell
+        delay 0.5 -- Allow time for the copy operation to complete
+
+        -- Check if the clipboard changed; if not, set it to an empty string
+        set newClipboard to the clipboard
+        if newClipboard is equal to originalClipboard then
+            set the clipboard to "" -- If clipboard content is unchanged, set it to an empty string
+        end if
+
         tell application "System Events"
             -- Get the name of the frontmost application
             set frontApp to name of first application process whose frontmost is true
@@ -66,6 +82,11 @@ function runiTermCmd()
         tell application frontApp
             -- Bring the preivously active application to the foreground
             activate
+        end tell
+
+        -- Paste the restored clipboard contents
+        tell application "System Events"
+            keystroke "v" using {command down} -- Simulate ⌘V to paste
         end tell
     ]]
     hs.osascript.applescript(script)

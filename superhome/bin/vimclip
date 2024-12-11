@@ -35,7 +35,9 @@ if ! [ -x "$(command -v $VIMCLIP_CLIPBOARD_COMMAND)" ]; then
   exit 1
 fi
 
-pbpaste > "$TMP" && $VC_EDITOR "$TMP"
+# -b for binary mode and noeeol for no automatic newline at end of file
+# https://stackoverflow.com/questions/16222530/why-do-i-need-vim-in-binary-mode-for-noeol-to-work
+pbpaste > "$TMP" && $VC_EDITOR -b -c "set noeol" "$TMP"
 
 if [ -s "$TMP" ]; then
     $VIMCLIP_CLIPBOARD_COMMAND < "$TMP"
