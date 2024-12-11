@@ -30,3 +30,13 @@ function killNotifications()
     killNotificationsSequoiaPlusPlus()
   end
 end
+
+function runiTermCmd()
+   script = [[
+        tell application "iTerm"
+            -- Create a new terminal window
+            create window with default profile command "zsh -c $HOME/superhome/bin/vimclip"
+        end tell
+    ]]
+    hs.osascript.applescript(script)
+end

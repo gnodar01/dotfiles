@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# vimclip is a tiny script to spawn your favorite $EDITOR and leave what you
+# typed in your clipboard.
+#
+# Usage: vimclip
+#
+# The following environment variables can be set to customize vimclip's behavior:
+#
+# - EDITOR: The text editor to use. If not set, vim is used by default.
+# - VIMCLIP_CLIPBOARD_COMMAND: The command to use to copy text to the clipboard.
+#   If not set, vimclip falls back to using pbcopy on macOS, wl-copy in a Wayland
+#   session and xsel -i -b otherwise.
+
+VC_EDITOR="${EDITOR:-/usr/local/bin/nvim}"
+if ! [ -x "$(command -v $VC_EDITOR)" ]; then
+  echo "'$VC_EDITOR' is not found or not executable. Please set \$EDITOR." >&2
+  exit 1
+fi
+
+if [ "Darwin" = "$(uname -s)" ]; then
+    : "${VIMCLIP_CLIPBOARD_COMMAND:=pbcopy}"
+    TMP=$(mktemp -t vimclip)
+else
+    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+      : "${VIMCLIP_CLIPBOARD_COMMAND:=wl-copy --trim-newline}"
+    else
+      : "${VIMCLIP_CLIPBOARD_COMMAND:=xsel -i -b}"
+    fi
+    TMP=$(mktemp -p /tmp vimclip.XXXXXXXX)
+fi
+
+if ! [ -x "$(command -v $VIMCLIP_CLIPBOARD_COMMAND)" ]; then
+  echo "'$VIMCLIP_CLIPBOARD_COMMAND' is not found or not executable. Please set \$VIMCLIP_CLIPBOARD_COMMAND." >&2
+  exit 1
+fi
+
+$VC_EDITOR "$TMP"
+
+if [ -s "$TMP" ]; then
+    $VIMCLIP_CLIPBOARD_COMMAND < "$TMP"
+else  # don't override clipboard if the temp file is empty
+    rm "$TMP"
+fi
+

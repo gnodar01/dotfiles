@@ -133,3 +133,4 @@ hs.hotkey.bind(hyper, "j", function()
 end)
 ]]--
 
+hs.hotkey.bind(layoutSuper, "v", runiTermCmd)
