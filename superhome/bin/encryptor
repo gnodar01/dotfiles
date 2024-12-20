@@ -17,9 +17,10 @@ elif [ $1 == "-d" ];
 then
     if [ -f "$2" ];
     then
+        # keep this around in case of older style decription needed
         #openssl aes-256-cbc -d -salt -pbkdf2 -in "$2" -out "$2.decrypt"
         # 11/25/2020 - was getting a "bad magic number" error without the -a flag
-        # has something to do with needing to encode in bas64 with the -a flag
+        # has something to do with needing to encode in base64 with the -a flag
         # https://stackoverflow.com/questions/19161716/bad-magic-number-error-when-trying-to-decrypt-file-in-openssl
         openssl aes-256-cbc -a -d -salt -pbkdf2 -in "$2" -out "$2.decrypt"
     else
