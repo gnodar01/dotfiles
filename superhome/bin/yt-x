@@ -747,6 +747,7 @@ playlist_explorer() {
       ;;
     esac
     id=$(echo "$title" | sed -E 's/^([0-9]+) .*/\1/g')
+    id=10#$id
     video="$(echo "$search_results" | jq ".entries[$((id - 1))]")"
     title=$(echo "$video" | jq '.title' -r | sed 's/^[0-9]\+ //g')
 
