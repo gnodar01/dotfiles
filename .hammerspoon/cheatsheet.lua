@@ -68,6 +68,7 @@ local markdowncontent = [[
 | split editor l/d/u/r | `⌃ ⌥ h/j/k/l` |
 | navigate to view on l/d/u/r | `⌃ h/j/k/l` |
 | 2x2 layout | `⇧ ⌃ =` |
+| 2 col layout | `⇧ ⌘ '` |
 | zen mode | `⌘ k, z` |
 
 ### debugger
