@@ -77,8 +77,14 @@ vmap <C-c> "*y
 " paste when in insert mode
 imap <C-v> <ESC>"*p
 
-:map <leader><leader> :noh<CR>
+map <leader>o o<esc>^DA
+map <leader>O O<esc>^DA
+map <leader>u o<esc>^Do.<esc>k0Dj$xA
+map <leader>U O<esc>^DO.<esc>j0Dk$xA
 
+" turn on highlight of search terms
+set nohls
+map <leader>\ :set hls!<CR>
 
 " }}}
 
