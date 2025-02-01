@@ -25,12 +25,12 @@ require "layout"
 -- https://github.com/dbalatero/VimMode.spoon/tree/dda997f79e240a2aebf1929ef7213a1e9db08e97
 
 local VimMode = hs.loadSpoon("VimMode")
-local vim = VimMode:new()
+local zvim = VimMode:new()
 
 -- Configure apps you do *not* want Vim mode enabled in
 -- For example, you don't want this plugin overriding your control of Terminal
--- vim
-vim
+-- zvim
+zvim
   :disableForApp('Code')
   :disableForApp('zoom.us')
   :disableForApp('iTerm')
@@ -40,26 +40,26 @@ vim
 
 -- If you want the screen to dim (a la Flux) when you enter normal mode
 -- flip this to true.
-vim:shouldDimScreenInNormalMode(false)
+zvim:shouldDimScreenInNormalMode(false)
 
 -- If you want to show an on-screen alert when you enter normal mode, set
 -- this to true
-vim:shouldShowAlertInNormalMode(true)
+zvim:shouldShowAlertInNormalMode(true)
 
 -- You can configure your on-screen alert font
-vim:setAlertFont("Courier New")
+zvim:setAlertFont("Courier New")
 
 -- Enter normal mode by typing a key sequence
-vim:enterWithSequence('qp')
+zvim:enterWithSequence('qp')
 
--- if you want to bind a single key to entering vim, remove the
+-- if you want to bind a single key to entering zvim, remove the
 -- :enterWithSequence('jk') line above and uncomment the bindHotKeys line
 -- below:
 --
 -- To customize the hot key you want, see the mods and key parameters at:
 --   https://www.hammerspoon.org/docs/hs.hotkey.html#bind
 --
--- vim:bindHotKeys({ enter = { {'ctrl'}, ';' } })
+-- zvim:bindHotKeys({ enter = { {'ctrl'}, ';' } })
 
 --------------------------------
 -- END VIM CONFIG
