@@ -38,6 +38,9 @@ zvim
   :disableForApp('Terminal')
   :disableForApp('Sublime Text')
 
+zvim:useFallbackMode("Firefox")
+zvim:useFallbackMode("Google Chrome")
+
 -- If you want the screen to dim (a la Flux) when you enter normal mode
 -- flip this to true.
 zvim:shouldDimScreenInNormalMode(false)
