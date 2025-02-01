@@ -1,7 +1,6 @@
 require "functions/push"
 require "functions/mouseListeners"
 require "functions/applescripts"
-require "functions/psuedovi"
 require "functions/utils"
 
 local hyper = {"ctrl", "cmd", "alt"}
@@ -104,8 +103,6 @@ hs.hotkey.bind(hyper, "c", function()
 end)
 
 hs.hotkey.bind(hyper, "l", clickOut)
-
-hs.hotkey.bind(hyper, "i", vimode)
 
 --[[
 hs.hotkey.bind(hyper, "z", function()
