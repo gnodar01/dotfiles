@@ -60,7 +60,7 @@ VIDEO_QUALITY: $VIDEO_QUALITY
 # its cool so enable it
 ENABLE_PREVIEW: $ENABLE_PREVIEW
 
-# what to use for rendering images in the terminal [chafa/icat]
+# what to use for rendering images in the terminal [chafa/imgcat]
 IMAGE_RENDERER: $IMAGE_RENDERER
 
 # whether to run mpv as a background process and prevent it from closing even if you terminate the program or terminal session
@@ -96,7 +96,7 @@ load_config() {
   [ -z "$PRETTY_PRINT" ] && PRETTY_PRINT="true"
 
   IMAGE_RENDERER="$(awk -F': ' '/^IMAGE_RENDERER:/ && !/#/ {print $2}' "$CLI_CONFIG_DIR/${CLI_NAME}.conf")"
-  [ -z "$IMAGE_RENDERER" ] && IMAGE_RENDERER=$([ -n "$KITTY_WINDOW_ID" ] && echo "icat" || echo "chafa")
+  [ -z "$IMAGE_RENDERER" ] && IMAGE_RENDERER="chafa"
 
   DISOWN_STREAMING_PROCESS="$(awk -F': ' '/^DISOWN_STREAMING_PROCESS:/ && !/#/ {print $2}' "$CLI_CONFIG_DIR/${CLI_NAME}.conf")"
   [ -z "$DISOWN_STREAMING_PROCESS" ] && DISOWN_STREAMING_PROCESS="true"
@@ -129,7 +129,7 @@ load_config() {
   [ -z "$SEARCH_HISTORY" ] && SEARCH_HISTORY="true"
 
   DOWNLOAD_DIRECTORY="$(awk -F': ' '/^DOWNLOAD_DIRECTORY:/ && !/#/ {print $2}' "$CLI_CONFIG_DIR/${CLI_NAME}.conf")"
-  [ -z "$DOWNLOAD_DIRECTORY" ] && DOWNLOAD_DIRECTORY="$HOME/Videos/$CLI_NAME"
+  [ -z "$DOWNLOAD_DIRECTORY" ] && DOWNLOAD_DIRECTORY="$HOME/Movies/yt-x/$CLI_NAME"
   [ -d "$DOWNLOAD_DIRECTORY" ] || mkdir -p "$DOWNLOAD_DIRECTORY"
 
   CUSTOM_PLAYLISTS="$CLI_CONFIG_DIR/custom_playlists.json"
@@ -177,7 +177,7 @@ fzf_preview() {
 		dim=$(stty size </dev/tty | awk "{print \$2 \"x\" \$1}")
 	fi
 
-	if  ! [ "$IMAGE_RENDERER" = "icat" ] && [ -z "$KITTY_WINDOW_ID" ] && [ "$((FZF_PREVIEW_TOP + FZF_PREVIEW_LINES))" -eq "$(stty size </dev/tty | awk "{print \$1}")" ]; then
+	if  ! [ "$IMAGE_RENDERER" = "imgcat" ] && [ "$((FZF_PREVIEW_TOP + FZF_PREVIEW_LINES))" -eq "$(stty size </dev/tty | awk "{print \$1}")" ]; then
 		dim=${FZF_PREVIEW_COLUMNS}x$((FZF_PREVIEW_LINES - 1))
 	fi
 
