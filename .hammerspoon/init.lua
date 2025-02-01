@@ -1,4 +1,5 @@
 -- Smart config reload from getting started
+-- 
 -- https://www.hammerspoon.org/go/
 
 hs.loadSpoon("ReloadConfiguration")
@@ -18,6 +19,11 @@ require "layout"
 --------------------------------
 -- START VIM CONFIG
 --------------------------------
+
+-- https://github.com/dbalatero/VimMode.spoon
+-- specifically downloaded witht his commit:
+-- https://github.com/dbalatero/VimMode.spoon/tree/dda997f79e240a2aebf1929ef7213a1e9db08e97
+
 local VimMode = hs.loadSpoon("VimMode")
 local vim = VimMode:new()
 
@@ -30,6 +36,7 @@ vim
   :disableForApp('iTerm')
   :disableForApp('iTerm2')
   :disableForApp('Terminal')
+  :disableForApp('Sublime Text')
 
 -- If you want the screen to dim (a la Flux) when you enter normal mode
 -- flip this to true.
@@ -43,7 +50,7 @@ vim:shouldShowAlertInNormalMode(true)
 vim:setAlertFont("Courier New")
 
 -- Enter normal mode by typing a key sequence
-vim:enterWithSequence('jk')
+vim:enterWithSequence('qp')
 
 -- if you want to bind a single key to entering vim, remove the
 -- :enterWithSequence('jk') line above and uncomment the bindHotKeys line
