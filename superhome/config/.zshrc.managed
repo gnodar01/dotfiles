@@ -91,13 +91,13 @@ shellfancyinits() {
   # then load fzf directly
   then
       # fzf - enable auto completing and key bindings
-      [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+      source <(fzf --zsh)
   else
       # else oh-my-zsh loaded with zsh-vi-mode
       # which would normally override key bindings from other places
       # we re-enable fzf keybindings using bellow, by wrapping it in a zsh-vi-mode hook
       # https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#execute-extra-commands
-      zvm_after_init_commands+=('[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh')
+      zvm_after_init_commands+=('source <(fzf --zsh)')
   fi
 }
 
