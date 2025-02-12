@@ -9,11 +9,13 @@ local markdowncontent = [[
 **hyper**
 `⌘ ⌃ ⌥ _`
 **super**
-`⌘ ⌃ ⌥ _`
+`⌃ ⌥ _`
+**suuper**
+`⇧ ⌃ ⌥ _`
 **layoutSuper**
 `⌘ ⌃ _`
 **layoutSuuper**
-`⌘ ⌃ ⇧ _`
+`⇧ ⌘ ⌃ _`
 
 | Description | Command |
 | :---    |        ---: |
@@ -49,6 +51,14 @@ local markdowncontent = [[
 | window layout - move to prev screen | `⌘ ⌃ k` |
 | window layout - move to left space | `⌘ ⌃ ⇧ h` |
 | window layout - move to right space | `⌘ ⌃ ⇧ l` |
+| mouse move - big move mouse left | `⌃ ⌥ h` |
+| mouse move - big move mouse right | `⌃ ⌥ l` |
+| mouse move - big move mouse down | `⌃ ⌥ j` |
+| mouse move - big move mouse up | `⌃ ⌥ k` |
+| mouse move - small move mouse left | `⇧ ⌃ ⌥ h` |
+| mouse move - small move mouse right | `⇧ ⌃ ⌥ l` |
+| mouse move - small move mouse down | `⇧ ⌃ ⌥ j` |
+| mouse move - small move mouse up | `⇧ ⌃ ⌥ k` |
 | toggle menu bar on/off | `⌘ ⌃ ⌥ m` |
 | toggle dock on/off | `⌘ ⌃ ⌥ d` |
 | kill notifications | `⌘ ⌃ ⌥ n` |
