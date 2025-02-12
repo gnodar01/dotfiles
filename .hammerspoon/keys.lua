@@ -6,6 +6,7 @@ require "functions/utils"
 
 local hyper = {"ctrl", "cmd", "alt"}
 local super = {"ctrl", "alt"}
+local suuper = {"shift", "ctrl", "alt"}
 local layoutSuper = {"cmd", "ctrl"}
 local layoutSuuper = {"cmd", "ctrl", "shift"}
 
@@ -109,6 +110,11 @@ hs.hotkey.bind(super, "h", thunk_mouse_move{left=1/10, cycle=false})
 hs.hotkey.bind(super, "l", thunk_mouse_move{right=1/10, cycle=false})
 hs.hotkey.bind(super, "j", thunk_mouse_move{down=1/10, cycle=false})
 hs.hotkey.bind(super, "k", thunk_mouse_move{up=1/10, cycle=false})
+
+hs.hotkey.bind(suuper, "h", thunk_mouse_move{left=1/100, cycle=false})
+hs.hotkey.bind(suuper, "l", thunk_mouse_move{right=1/100, cycle=false})
+hs.hotkey.bind(suuper, "j", thunk_mouse_move{down=1/100, cycle=false})
+hs.hotkey.bind(suuper, "k", thunk_mouse_move{up=1/100, cycle=false})
 
 --[[
 hs.hotkey.bind(hyper, "z", function()
