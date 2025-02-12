@@ -232,11 +232,7 @@ function restart_hammerspoon() {
   open -a Hammerspoon
 }
 
-check_for_brew
 warn_about_xcode_tools
-
-dotheader "Checking for Hammerspoon..."
-install_hammerspoon
 
 dotheader "Setting up Hammerspoon config directory..."
 bootstrap_hammerspoon_directory
