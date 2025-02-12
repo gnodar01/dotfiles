@@ -1,10 +1,11 @@
 require "functions/push"
+require "functions/mouseMove"
 require "functions/mouseListeners"
 require "functions/applescripts"
 require "functions/utils"
 
 local hyper = {"ctrl", "cmd", "alt"}
-local super = {"cmd", "ctrl", "alt"}
+local super = {"ctrl", "alt"}
 local layoutSuper = {"cmd", "ctrl"}
 local layoutSuuper = {"cmd", "ctrl", "shift"}
 
@@ -103,6 +104,11 @@ hs.hotkey.bind(hyper, "c", function()
 end)
 
 hs.hotkey.bind(hyper, "l", clickOut)
+
+hs.hotkey.bind(super, "h", thunk_mouse_move{left=1/10, cycle=false})
+hs.hotkey.bind(super, "l", thunk_mouse_move{right=1/10, cycle=false})
+hs.hotkey.bind(super, "j", thunk_mouse_move{down=1/10, cycle=false})
+hs.hotkey.bind(super, "k", thunk_mouse_move{up=1/10, cycle=false})
 
 --[[
 hs.hotkey.bind(hyper, "z", function()
