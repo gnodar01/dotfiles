@@ -1,7 +1,7 @@
 " do `source ~/superhome/config/vim/nvim.init.vim.managed` in ~/.config/nvim/init.vim
 
 if exists('g:vscode')
-  source ~/superhome/config/vim/common.vimrc.managed
+  source ~/superhome/config/vim/common.vimrc
 else
   " ordinary Neovim stuff
 

@@ -1,5 +1,5 @@
 " do `source ~/superhome/config/vim/.vimrc.managed` in ~/.vimrc
-source ~/superhome/config/vim/common.vimrc.managed
+source ~/superhome/config/vim/common.vimrc
 
 " ':set' vs 'set'
 " https://vi.stackexchange.com/questions/6778/what-is-the-difference-between-set-and-set-commands-with-or-without-a-leading
@@ -145,8 +145,8 @@ au BufRead,BufNewFile *.zshrc.managed set filetype=zsh
 au BufRead,BufNewFile *.bashrc.managed set filetype=bash
 au BufRead,BufNewFile *.inputrc.managed set filetype=readline
 au BufRead,BufNewFile *.vimrc.managed set filetype=vim
-au BufRead,BufNewFile *.init.vim.managed set filetype=vim
+au BufRead,BufNewFile *init.vim.managed set filetype=vim
 
 " }}}
 
-source ~/superhome/config/vim/plugins.vimrc.managed
+source ~/superhome/config/vim/plugins.vimrc
