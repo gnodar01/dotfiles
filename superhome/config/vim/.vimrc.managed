@@ -1,4 +1,5 @@
-" do `source ~/superhome/config/.vimrc.managed` in ~/.vimrc
+" do `source ~/superhome/config/vim/.vimrc.managed` in ~/.vimrc
+source ~/superhome/config/vim/common.vimrc.managed
 
 " ':set' vs 'set'
 " https://vi.stackexchange.com/questions/6778/what-is-the-difference-between-set-and-set-commands-with-or-without-a-leading
@@ -34,15 +35,6 @@ set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 " Do not wrap lines. Allow long lines to extend as far as the line goes.
 set nowrap
-
-" While searching though a file incrementally highlight matching characters as you type.
-set incsearch
-
-" Show matching words during a search.
-set showmatch
-
-" Use highlighting when doing a search.
-set hlsearch
 
 " Turn on hybrid line numbering
 " https://jeffkreeftmeijer.com/vim-number/
@@ -95,20 +87,13 @@ set colorcolumn=81
 " set appropriate color for column highlight
 highlight ColorColumn ctermbg=0
 "
-" turn off highlight of search terms by default
-set nohls
-"
 " set highlight color
 hi Search ctermfg=238 ctermbg=117
-
 
 " }}}
 
 
 " PLUGINS ---------------------------------------------------------------- {{{
-
-" Plugin code goes here.
-" For neovim see ~/.config/nvim/init.vim
 
 " quick toggle NERDTree
 map <leader>n :NERDTreeToggle<CR>
@@ -118,25 +103,15 @@ map <leader>n :NERDTreeToggle<CR>
 
 " MAPPINGS --------------------------------------------------------------- {{{
 
-" Mappings code goes here.
+" Source the vimrc file after saving it
+" shortcut to show vimrc file in new tab
+nmap <leader>v :tabedit $MYVIMRC<CR>
 
 " copy paste to clipboard
 " copy from visual mode
 vmap <C-c> "*y
 " paste when in insert mode
 imap <C-v> <ESC>"*p
-
-map <leader>o o<esc>^DA
-map <leader>O O<esc>^DA
-map <leader>u o<esc>^Do.<esc>k0Dj$xA
-map <leader>U O<esc>^DO.<esc>j0Dk$xA
-
-" Source the vimrc file after saving it
-" shortcut to show vimrc file in new tab
-nmap <leader>v :tabedit $MYVIMRC<CR>
-
-" toggle on/off highlight of search terms
-map <leader>\ :set hls!<CR>
 
 " show tabs, spaces and trailing spaces
 " hellowo	r	l			d
@@ -146,15 +121,7 @@ map ]t :set list<CR>:set listchars=space:.,trail:+,tab:>-<CR>
 "
 " unshow tabs and trailing spaces
 map [t :set nolist<CR>
-"
-" change tab settings
-map <leader>t :set expandtab!<CR>:set expandtab?<CR>
-"
-" increase tab size by 2 spaces
-map ]T :set softtabstop+=2 tabstop+=2 shiftwidth+=2<CR>
-"
-" decrease tab size by 2 spaces
-map [T :set softtabstop-=2 tabstop-=2 shiftwidth-=2<CR>
+
 
 " }}}
 
@@ -167,8 +134,6 @@ augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
-
-" More Vimscripts code goes here.
 
 " }}}
 
