@@ -1,5 +1,11 @@
 " plugin installation, management, and configuration
 
+" `zo` to open a single fold under the cursor
+" `zc` to close the fold under the cursor
+" `zR` to open all folds
+" `zM` to close all folds
+" `:help folding` for more info
+
 " vim-plug setup ---------------------------------------------------------- {{{
 
 "  https://github.com/junegunn/vim-plug
@@ -55,6 +61,8 @@ endif
 
 " quick toggle NERDTree
 map <leader>n :NERDTreeToggle<CR>
+" show hidden files by default
+let NERDTreeShowHidden=1
 
 " }}}
 
