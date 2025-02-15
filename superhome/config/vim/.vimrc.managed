@@ -95,8 +95,13 @@ hi Search ctermfg=238 ctermbg=117
 
 " PLUGINS ---------------------------------------------------------------- {{{
 
+" --------- NERDTree stuff ------------
+" https://github.com/preservim/nerdtree
+
 " quick toggle NERDTree
 map <leader>n :NERDTreeToggle<CR>
+
+" -------- /NERDTree stuff -------------
 
 " }}}
 
@@ -141,6 +146,7 @@ augroup END
 " STATUS LINE ------------------------------------------------------------ {{{
 
 " --------- light line stuff ------------
+"  https://github.com/itchyny/lightline.vim
 
 " fixes status line not showing up
 set laststatus=2
