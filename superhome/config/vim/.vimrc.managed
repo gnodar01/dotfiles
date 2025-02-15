@@ -103,6 +103,22 @@ map <leader>n :NERDTreeToggle<CR>
 
 " -------- /NERDTree stuff -------------
 
+" --------- light line stuff ------------
+"  https://github.com/itchyny/lightline.vim
+
+" fixes status line not showing up
+set laststatus=2
+
+" -- insert -- not needed anymore since it's in the satus line
+set noshowmode
+
+" colorscheme
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+
+" -------- /light line stuff -------------
+
 " }}}
 
 
@@ -139,27 +155,6 @@ augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
-
-" }}}
-
-
-" STATUS LINE ------------------------------------------------------------ {{{
-
-" --------- light line stuff ------------
-"  https://github.com/itchyny/lightline.vim
-
-" fixes status line not showing up
-set laststatus=2
-
-" -- insert -- not needed anymore since it's in the satus line
-set noshowmode
-
-" colorscheme
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
-
-" -------- /light line stuff -------------
 
 " }}}
 
