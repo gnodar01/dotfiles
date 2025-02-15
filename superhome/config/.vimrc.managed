@@ -3,7 +3,15 @@
 " ':set' vs 'set'
 " https://vi.stackexchange.com/questions/6778/what-is-the-difference-between-set-and-set-commands-with-or-without-a-leading
 
-" mouse mode
+" `zo` to open a single fold under the cursor
+" `zc` to close the fold under the cursor
+" `zR` to open all folds
+" `zM` to close all folds
+" `:help folding` for more info
+
+" General Settings -------------------------------------------------------- {{{
+
+" mouse mode on
 set mouse=a
 
 " Disable compatibility with vi which can cause unexpected issues.
@@ -17,21 +25,12 @@ filetype plugin on
 
 " Load an indent file for the detected file type.
 filetype indent on
+" automatically indent on new line to match above line indent
+set autoindent
 
-" Turn syntax highlighting on.
-syntax on
-
-" Add numbers to each line on the left-hand side.
-set number
-
-" Set shift width to 4 spaces.
-set shiftwidth=4
-
-" Set tab width to 4 columns.
-set tabstop=4
-
-" Use space characters instead of tabs.
-set expandtab
+" tab settings
+" tab size 2, fine tune to 2, normal mode tab insert at 2, use spaces
+set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 " Do not wrap lines. Allow long lines to extend as far as the line goes.
 set nowrap
@@ -45,23 +44,74 @@ set showmatch
 " Use highlighting when doing a search.
 set hlsearch
 
-" Trun on hybrid line numbering
+" Turn on hybrid line numbering
+" https://jeffkreeftmeijer.com/vim-number/
 set number relativenumber
-set nu rnu
+"
+" hybrid numbers in Normal mode only
+" define an autonumber group named 'numbertoggle'
+augroup numbertoggle
+  " clear existing autocommands in group
+  autocmd!
+  " enable relative numbers in Normal mode
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  " disable relative numbers in insert mode & when losing focus (e.g.
+  " switching windows)
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
 
-" Use clipboard as default buffer
-set clipboard=unnamed
+" fix backspace not working problem
+set backspace=2
 
-" `zo` to open a single fold under the cursor
-" `zc` to close the fold under the cursor
-" `zR` to open all folds
-" `zM` to close all folds
-" `:help folding` for more info
+" yank to clipboard
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+endif
+
+" }}}
+
+
+" Visual Settings -------------------------------------------------------- {{{
+
+" Set a colorscheme $VIMRUNTIME/colors for color schemes shipped with vim
+" ~/vim/colors for any of your own
+colorscheme vim
+"colorscheme elflord
+"colorscheme dark-meadow
+"colorscheme default
+" needed for default vim colorscheme
+set notermguicolors
+"
+" turn syntax highlighting on.
+syntax on
+"
+" visual mode highlight color
+" run "hi" command for all color groups
+hi Visual ctermfg=238 ctermbg=117
+"
+" highlight 81st column
+set colorcolumn=81
+"
+" set appropriate color for column highlight
+highlight ColorColumn ctermbg=0
+"
+" turn off highlight of search terms by default
+set nohls
+"
+" set highlight color
+hi Search ctermfg=238 ctermbg=117
+
+
+" }}}
+
 
 " PLUGINS ---------------------------------------------------------------- {{{
 
 " Plugin code goes here.
 " For neovim see ~/.config/nvim/init.vim
+
+" quick toggle NERDTree
+map <leader>n :NERDTreeToggle<CR>
 
 " }}}
 
@@ -69,7 +119,6 @@ set clipboard=unnamed
 " MAPPINGS --------------------------------------------------------------- {{{
 
 " Mappings code goes here.
-
 
 " copy paste to clipboard
 " copy from visual mode
@@ -82,12 +131,32 @@ map <leader>O O<esc>^DA
 map <leader>u o<esc>^Do.<esc>k0Dj$xA
 map <leader>U O<esc>^DO.<esc>j0Dk$xA
 
-" turn on highlight of search terms
-set nohls
+" Source the vimrc file after saving it
+" shortcut to show vimrc file in new tab
+nmap <leader>v :tabedit $MYVIMRC<CR>
+
+" toggle on/off highlight of search terms
 map <leader>\ :set hls!<CR>
 
-" }}}
+" show tabs, spaces and trailing spaces
+" hellowo	r	l			d
+"
+"map ]t :set list<CR>:set listchars=space:.,tab:▸·,trail:·<CR>
+map ]t :set list<CR>:set listchars=space:.,trail:+,tab:>-<CR>
+"
+" unshow tabs and trailing spaces
+map [t :set nolist<CR>
+"
+" change tab settings
+map <leader>t :set expandtab!<CR>:set expandtab?<CR>
+"
+" increase tab size by 2 spaces
+map ]T :set softtabstop+=2 tabstop+=2 shiftwidth+=2<CR>
+"
+" decrease tab size by 2 spaces
+map [T :set softtabstop-=2 tabstop-=2 shiftwidth-=2<CR>
 
+" }}}
 
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
@@ -106,9 +175,23 @@ augroup END
 
 " STATUS LINE ------------------------------------------------------------ {{{
 
-" Status bar code goes here.
+" --------- light line stuff ------------
+
+" fixes status line not showing up
+set laststatus=2
+
+" -- insert -- not needed anymore since it's in the satus line
+set noshowmode
+
+" colorscheme
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+
+" -------- /light line stuff -------------
 
 " }}}
+
 
 " MISC ------------------------------------------------------------------- {{{
 
@@ -125,3 +208,5 @@ au BufRead,BufNewFile *.inputrc.managed set filetype=readline
 au BufRead,BufNewFile *.vimrc.managed set filetype=vim
 
 " }}}
+
+

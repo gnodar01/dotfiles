@@ -1,5 +1,3 @@
-" for now just a copy of personal ~/.vimrc
-
 " Source the vimrc file after saving it
 " shortcut to show vimrc file in new tab
 :nmap <leader>v :tabedit $MYVIMRC<CR>
@@ -17,7 +15,9 @@ endfunc
 " ~/vim/colors for any of your own
 "colorscheme elflord
 "colorscheme dark-meadow
+"colorscheme default
 colorscheme vim
+" needed for default vim colorscheme
 set notermguicolors
 
 " syntax coloring
@@ -42,9 +42,10 @@ endfunction
 nnoremap <expr> <leader>x ':call Append()<CR>?\/\*<CR>3lR'
 
 " turn on highlight of search terms
-:set hls
+:set nohls
+:map <leader>\ :set hls!<CR>
 " to remove highlight temporarily (until next search) do :noh
-:map <leader>\ :noh<CR>
+" :map <leader>\ :noh<CR>
 " set highlight color
 :hi Search ctermfg=238 ctermbg=117
 
@@ -108,6 +109,13 @@ set backspace=2
 
 " show commands as they are typed in bottom right
 :set showcmd
+
+" two newlines
+
+:map <leader>o o<esc>^DA
+:map <leader>O O<esc>^DA
+:map <leader>u o<esc>^Do.<esc>k0Dj$xA
+:map <leader>U O<esc>^DO.<esc>j0Dk$xA
 
 " PLUGIN CONFIG ----------------------------------------------------------------
 " quick toggle NERDTree
