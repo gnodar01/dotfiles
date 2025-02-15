@@ -1,0 +1,24 @@
+" do `source ~/superhome/config/nvim.init.vim.managed` in ~/.config/nvim/init.vim
+
+if exists('g:vscode')
+  " VSCode Neovim extension stuff
+  set clipboard+=unnamedplus
+  map <leader>\ :noh<CR>
+  map <leader>o o<esc>^DA
+  map <leader>O O<esc>^DA
+  map <leader>u o<esc>^Do.<esc>k0Dj$xA
+  map <leader>U O<esc>^DO.<esc>j0Dk$xA
+
+  " turn on highlight of search terms
+  set nohls
+  map <leader>\ :set hls!<CR>
+  " to remove highlight temporarily (until next search) do :noh
+  "map <leader>\ :noh<CR>
+else
+  " ordinary Neovim stuff
+
+  set runtimepath^=~/.vim runtimepath+=~/.vim/after
+  let &packpath = &runtimepath
+  source ~/.vimrc
+end
+
