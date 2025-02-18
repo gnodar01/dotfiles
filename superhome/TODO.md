@@ -9,18 +9,6 @@
   * plugins/zsh-vi-mode
   * plugins/powerlevel9k
 
-### vim / nvim
-
-* nvim itself
-* add superhome/config/.vimrc.managed for (personal) ~/.vimrc
-* add superhome/config/init.nvim.managed for .config/nvim/init.vim
-* plugins
-  * nerdtree (~/.vim)
-  * lightline (~/.vim)
-* themes
-  * solidity (~/.vim)
-  * dark-meadow (~/.vim)
-
 ### CLI tools
 * bat
 * fzf
