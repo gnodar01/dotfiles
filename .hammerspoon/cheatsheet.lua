@@ -180,6 +180,9 @@ https://github.com/mjrusso/scoot?tab=readme-ov-file#usage
 | show all tabs in finder | `⌘ ⇧ \` |
 
 ## Native Mac
+
+more: https://github.com/nileshk/mac-configuration/blob/99eef47cd434fd3d6f4f1f9e2f50321f32179b88/Library/KeyBindings/DefaultKeyBinding.dict
+
 | Description | Command |
 | :---    |        ---: |
 | --- | --- |
