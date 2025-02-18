@@ -179,6 +179,37 @@ https://github.com/mjrusso/scoot?tab=readme-ov-file#usage
 | remove cookies, local storage, etc in Chrome | `⌘ ⇧ ⌫` |
 | show all tabs in finder | `⌘ ⇧ \` |
 
+## Native Mac
+| Description | Command |
+| :---    |        ---: |
+| --- | --- |
+| beginning of line | `⌃ a` |
+| end of line | `⌃ e` |
+| transpose characters | `⌃ t` |
+| recenter viewport on current line | `⌃ l` |
+| left one char | `⌃ b` |
+| right one char | `⌃ f` |
+| left one word | `⌃ ⇧ b` |
+| right one word | `⌃ ⇧ f` |
+| up one line | `⌃ p` |
+| down one line | `⌃ n` |
+| doc beginning | `⌘ ↑` |
+| doc end | `⌘ ↓` |
+| delete char right | `⌃ d` |
+| delete char left | `⌃ h` |
+| delete word right | `fn ⌥ ⌫` |
+| delete word left | `⌥ ⌫` |
+| delete line left | `⌘ ⌫` |
+| delete line right | `⌃ k` |
+| find | `⌘ f` |
+| find next | `⌘ g` |
+| find prev | `⌘ ⇧ g` |
+| page up | `fn ↑` |
+| page down | `fn ↓` or `⌃ v` |
+| insert newline | `⌃ o` |
+| kill | `⌃ k` |
+| yank | `⌃ y` |
+
 <style>
 
 /* https://github.com/markdowncss/retro */
