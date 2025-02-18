@@ -41,6 +41,8 @@ silent! if plug#begin()
   "Plug 'tpope/vim-repeat'
   "Plug 'tpope/vim-surround'
   "Plug 'tpope/vim-unimpaired'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
 
   " do :echo v:version to see your version
   " vim and nvim will be different
@@ -60,7 +62,7 @@ endif
 " https://github.com/preservim/nerdtree
 
 " quick toggle NERDTree
-map <leader>n :NERDTreeToggle<CR>
+nmap <leader>n :NERDTreeToggle<CR>
 " show hidden files by default
 let NERDTreeShowHidden=1
 
@@ -83,3 +85,33 @@ let g:lightline = {
 
 " }}}
 
+" fzf --------------------------------------------------------------------- {{{
+" https://github.com/junegunn/fzf.vim
+
+" :Files [PATH] - $FZF_DEFAULT_COMMAND
+" :GFiles [OPTS] - git files (git ls-files)
+" :GFiles? = git files (git status)
+" :Buffers - open buffers
+" :Colors - color schemes
+" :Ag [PATTERN] - ag (aka the_silver_search, ack alt); ALT-A to select all, ALT-D to deselect all
+" :Rg [PATTERN] - rg (aka ripgrep, grep alt); ALT-A to select all, ALT-D to deselect all
+" :RG [PATTERN] - rg; but relaunch ripgrep on every keystroke
+" :Lines [QUERY] - lines in loaded buffers
+" :Blines [QUERY] - lines in current buffer
+" :Marks - marks
+" :Jumps - jumps
+" :Windows - windows
+" :History: - command history
+" :History/ - search history
+" :Maps - normal mode mappings
+" :Helptags - help tags
+" :Filetypes - file types
+"
+" CTRL-T / CTRL-X / CTRL-V to open in new tab, (horizontal) split, vertical split
+
+nnoremap <C-o> :Files<CR>
+nnoremap <C-p> :GFiles<CR>
+nnoremap <C-b> :Buffers<CR>
+nnoremap <C-r> :Rg 
+
+" }}}
