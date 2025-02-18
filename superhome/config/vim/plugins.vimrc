@@ -109,6 +109,10 @@ let g:lightline = {
 "
 " CTRL-T / CTRL-X / CTRL-V to open in new tab, (horizontal) split, vertical split
 
+" overwrite the default Files command - using 'opener' as preview
+" https://github.com/junegunn/fzf.vim?tab=readme-ov-file#example-customizing-files-command
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--preview', 'opener {}']}, <bang>0)
 nnoremap <C-o> :Files<CR>
 nnoremap <C-p> :GFiles<CR>
 nnoremap <C-b> :Buffers<CR>
