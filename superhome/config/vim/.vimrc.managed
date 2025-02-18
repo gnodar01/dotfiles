@@ -89,8 +89,8 @@ syntax on
 " run "hi" command for all color groups
 hi Visual ctermfg=238 ctermbg=117
 
-" highlight 81st column
-set colorcolumn=81
+" highlight 161st column
+set colorcolumn=161
 
 " set appropriate color for column highlight
 highlight ColorColumn ctermbg=0
