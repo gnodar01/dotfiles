@@ -151,7 +151,7 @@ case "$1" in
     xmltopl)
         xmltopl "$2"
         ;;
-    fzfpreivew)
+    fzfpreview)
         fzfpreview
         ;;
     fzfp)
