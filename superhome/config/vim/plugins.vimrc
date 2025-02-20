@@ -39,7 +39,7 @@ silent! if plug#begin()
   "Plug 'tpope/vim-eunuch'
   "Plug 'tpope/vim-fugitive'
   "Plug 'tpope/vim-repeat'
-  "Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-surround'
   "Plug 'tpope/vim-unimpaired'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
