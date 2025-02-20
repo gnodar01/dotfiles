@@ -114,8 +114,12 @@ let g:lightline = {
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--preview', 'opener {}']}, <bang>0)
 nnoremap <C-o> :Files<CR>
+nnoremap <leader>o :Files 
+nnoremap <leader>O :Files! 
 nnoremap <C-p> :GFiles<CR>
+nnoremap <leader>p :GFiles 
+nnoremap <leader>P :GFiles! 
 nnoremap <C-b> :Buffers<CR>
-nnoremap <C-r> :Rg 
+nnoremap <leader>r :Rg 
 
 " }}}
