@@ -28,7 +28,9 @@ alias diffc="diff --color=always"
 alias lessc="less -r"
 alias subl="sublime_text"
 
-alias myip="curl http://ipecho.net/plain; echo"
+#alias myip="curl http://ipecho.net/plain; echo"
+alias myip="curl -s https://ipv4.icanhazip.com/"
+alias myip6="curl -s https://ipv6.icanhazip.com/"
 alias myipp="utilhelpers myip"
 # show all env variables - must be alias not function
 alias envv="( setopt posixbuiltin; set; ) | less"
