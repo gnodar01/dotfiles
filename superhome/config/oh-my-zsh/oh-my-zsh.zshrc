@@ -87,12 +87,64 @@ function zvm_config() {
     ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
 }
 
+## Nodar Custom
+
+# Function to install a oh-my-zhs plugin if it doesn't exist
+# Parameters:
+#   $1 - resource type, either 'plugins' or 'themes'
+#   $2 - resource name
+#   $3 - resource installtion url
+_ng_install_omz_resource_if_not_exists() {
+  local resource_type="$1"
+  local resource_name="$2"
+  local resource_url="$3"
+  local omz_resource_dir=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/$resource_type/$resource_name
+
+  # Check if the plugin already exists
+  if [ ! -d "$omz_resource_dir" ]; then
+    echo "Installing $resource_name of type $resource_type in path: $oh_my_zsh_resource_dir"
+    #git clone --quiet --depth 1 "$resource_url" "$omz_resource_dir"
+    git clone --depth 1 "$resource_url" "$omz_resource_dir"
+  fi
+}
+
+_ng_install_omz_plugin_if_not_exists() {
+  local resource_name="$1"
+  local resource_url="$2"
+  _ng_install_omz_resource_if_not_exists "plugins" "$resource_name" "$resource_url"
+}
+_ng_install_omz_theme_if_not_exists() {
+  local resource_name="$1"
+  local resource_url="$2"
+  _ng_install_omz_resource_if_not_exists "themes" "$resource_name" "$resource_url"
+}
+
+_ng_install_omz_plugins() {
+  declare -A plugins
+
+  plugins[zsh-vi-mode]="https://github.com/jeffreytse/zsh-vi-mode"
+  # disabled because *too* simple, rarely helpful
+  #plugins[zsh-autosuggestions]="https://github.com/zsh-users/zsh-autosuggestions"
+  # disabled because too difficult to get tab menu-cycling working
+  #plugins[zsh-autocomplete]="https://github.com/marlonrichert/zsh-autocomplete"
+  plugins[fzf-tab]="https://github.com/Aloxaf/fzf-tab"
+  # disabled in favor of fast-syntax-highlighting
+  #plugins[zsh-syntax-highlighting]="https://github.com/zsh-users/zsh-syntax-highlighting"
+  plugins[fast-syntax-highlighting]="https://github.com/zdharma-continuum/fast-syntax-highlighting"
+
+  # Loop through plugins and install if not exists
+  for plg_name plg_url in "${(@kv)plugins}"; do
+    _ng_install_omz_plugin_if_not_exists "$plg_name" "$plg_url"
+  done
+}
+## /Nodar Custom
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-vi-mode)
+plugins=(git zsh-vi-mode fast-syntax-highlighting fzf-tab)
 
 source $ZSH/oh-my-zsh.sh
 
