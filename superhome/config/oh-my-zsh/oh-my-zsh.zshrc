@@ -102,7 +102,7 @@ _ng_install_omz_resource_if_not_exists() {
 
   # Check if the plugin already exists
   if [ ! -d "$omz_resource_dir" ]; then
-    echo "Installing $resource_name of type $resource_type in path: $oh_my_zsh_resource_dir"
+    echo "Installing $resource_name of type $resource_type in path: $omz_resource_dir"
     #git clone --quiet --depth 1 "$resource_url" "$omz_resource_dir"
     git clone --depth 1 "$resource_url" "$omz_resource_dir"
   fi
