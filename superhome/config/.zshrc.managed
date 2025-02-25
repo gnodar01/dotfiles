@@ -194,7 +194,7 @@ yadmc() {
 #
 # lazy load nvm - p10k instant prompt is not enough
 lazy_load_nvm() {
-  unset -f nvm node yarn pnpm
+  unset -f nvm npm node yarn pnpm
   export NVM_DIR="$HOME/.nvm"
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
   [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -207,7 +207,12 @@ node() {
 #
 nvm() {
   lazy_load_nvm
-  node $@
+  nvm $@
+}
+#
+npm() {
+  lazy_load_nvm
+  npm $@
 }
 #
 yarn() {
