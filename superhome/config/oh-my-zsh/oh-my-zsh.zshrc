@@ -98,7 +98,7 @@ _ng_install_omz_resource_if_not_exists() {
   local resource_type="$1"
   local resource_name="$2"
   local resource_url="$3"
-  local omz_resource_dir=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/$resource_type/$resource_name
+  local omz_resource_dir=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/$resource_type/$resource_name
 
   # Check if the plugin already exists
   if [ ! -d "$omz_resource_dir" ]; then
@@ -173,6 +173,4 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-
 
