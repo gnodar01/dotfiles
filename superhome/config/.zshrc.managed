@@ -184,6 +184,8 @@ yadmc() {
   if [[ "$2" != "nop" ]]; then
     yadm push
   fi
+
+  yadm status
 }
 
 ## NVM and node
