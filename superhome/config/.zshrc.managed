@@ -1,3 +1,8 @@
+# profiling: https://stevenvanbael.com/profiling-zsh-startup
+# put this as the beginning of ~/.zshrc
+#zmodload zsh/zprof
+# put this at the end of ~/.zshrc
+#zprof
 
 export SUPERHOME=$HOME/superhome
 PATH="$SUPERHOME/bin:$PATH"
@@ -180,4 +185,26 @@ yadmc() {
     yadm push
   fi
 }
+
+## NVM and node
+#
+# lazy load nvm - p10k instant prompt is not enough
+lazy_load_nvm() {
+  unset -f node nvm
+  export NVM_DIR="$HOME/.nvm"
+  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+  [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+#
+node() {
+  lazy_load_nvm
+  node $@
+}
+#
+nvm() {
+  lazy_load_nvm
+  node $@
+}
+#
+## / NVM and node
 
