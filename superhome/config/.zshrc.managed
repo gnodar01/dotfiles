@@ -102,6 +102,15 @@ shellfancyinits() {
       zvm_after_init_commands+=('source <(fzf --zsh)')
   fi
 }
+## late key bindings
+# runs right before you start typing at the prompt
+_late_bindings() {
+  # omz "jump" plugin - expand mark to full path
+  bindkey "^G" _mark_expansion
+}
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget zle-line-init _late_bindings
+## / late key bindings
 
 # -m flag for multi-select, TAB/SHIFT-TAB to mark items
 export FZF_DEFAULT_OPS="-m"
@@ -147,7 +156,7 @@ alias pycodepoints="pycodepoints.py"
 #       it's possible to add a custom *.pth file which will also be parsed
 # export PYTHONPATH=""
 
-ydm() {
+yadmc() {
   # Check if yadm is installed
   if ! command -v yadm &>/dev/null; then
     echo "Error: yadm is not installed or not in PATH." >&2
