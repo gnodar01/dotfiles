@@ -168,6 +168,8 @@ yadmc() {
     return 1
   fi
 
+  yadm status
+
   # Ensure a commit message is provided
   if [[ -z "$1" ]]; then
     echo "Usage: ydm <commit-message> [nop]"
