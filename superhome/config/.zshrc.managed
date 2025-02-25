@@ -147,3 +147,28 @@ alias pycodepoints="pycodepoints.py"
 #       it's possible to add a custom *.pth file which will also be parsed
 # export PYTHONPATH=""
 
+ydm() {
+  # Check if yadm is installed
+  if ! command -v yadm &>/dev/null; then
+    echo "Error: yadm is not installed or not in PATH." >&2
+    return 1
+  fi
+
+  # Ensure a commit message is provided
+  if [[ -z "$1" ]]; then
+    echo "Usage: ydm <commit-message> [nop]"
+    echo "  commit-message: The message for the commit."
+    echo "  nop (optional): If provided, prevents 'yadm push'."
+    return 1
+  fi
+
+  # Add and commit changes
+  yadm add -u
+  yadm commit -m "$1"
+
+  # Push unless 'nop' is passed
+  if [[ "$2" != "nop" ]]; then
+    yadm push
+  fi
+}
+
