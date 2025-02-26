@@ -230,5 +230,10 @@ pnpm() {
   pnpm $@
 }
 #
+pnpx() {
+  lazy_load_nvm
+  pnpx $@
+}
+#
 ## / NVM and node
 
