@@ -124,9 +124,13 @@ export FZF_DEFAULT_OPS="-m"
 # https://stackoverflow.com/questions/61865932/how-to-get-fzf-vim-ignore-node-modules-and-git-folders
 export FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -o -print'
 
+# basic preview with bat
 alias fzfpreview="utilhelpers fzfpreview"
+# use opener; takes opt arg; depth 1
 alias fzfp="utilhelpers fzfp"
+# use opener; no arg; inf depth
 alias fzfpp="utilhelpers fzfpp"
+# use opener; no arg; inf depth; pipe res into ll
 alias fzfppls="utilhelpers fzfppls"
 
 alias npmglobals="utilhelpers npmglobals"
