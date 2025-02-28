@@ -212,6 +212,7 @@ more: https://github.com/nileshk/mac-configuration/blob/99eef47cd434fd3d6f4f1f9e
 | insert newline | `⌃ o` |
 | kill | `⌃ k` |
 | yank | `⌃ y` |
+| search current app's menu items | `⌘ ⇧ /` |
 
 <style>
 
@@ -510,7 +511,11 @@ function toggleShortcuts()
 
   if wv then
     if wv:isVisible() then
-      wv:hide()
+      -- only hiding makes it so it renders wrong when disconnecting from secondary monitor
+      --wv:hide()
+      -- delete instead
+      wv:delete(true)
+      wv = nil
     elseif wv:url() ~= "about:blank" then
       wv:delete(true)
       wv = nil
