@@ -1,4 +1,4 @@
-" do `source ~/superhome/config/vim/.vimrc.managed` in ~/.vimrc
+" do `source ~/superhome/config/vim/.vimrc` in ~/.vimrc
 source ~/superhome/config/vim/common.vimrc
 
 " ':set' vs 'set'
@@ -147,12 +147,11 @@ augroup END
 " when opening a file in vim, can do :setlocal syntax? to see what filetype it
 " detected
 
-au BufRead,BufNewFile *.zshrc.managed set filetype=zsh
-au BufRead,BufNewFile *.bashrc.managed set filetype=bash
-au BufRead,BufNewFile *.inputrc.managed set filetype=readline
-au BufRead,BufNewFile *.vimrc.managed set filetype=vim
-au BufRead,BufNewFile *init.vim.managed set filetype=vim
+" no longer needed
+" au BufRead,BufNewFile *.zshrcmanaged set filetype=zsh
 
+"
 " }}}
 
 source ~/superhome/config/vim/plugins.vimrc
+

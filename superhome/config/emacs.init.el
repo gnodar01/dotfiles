@@ -1,4 +1,4 @@
-;; In ~/.emacs: (load (concat (getenv "HOME") "/superhome/config/emacs.init.el.managed"))
+;; In ~/.emacs: (load (concat (getenv "HOME") "/superhome/config/emacs.init.el"))
 
 (setq user-emacs-directory (concat (getenv "HOME") "/superhome/config/.emacs.d"))
 ;; elpa is already the default, just changing it to point at superhome

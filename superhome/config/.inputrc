@@ -1,6 +1,6 @@
 # inputrc is used by GNU readline - man 3 readline
 # ENV variable INPUTRC is first checked, then ~/.inputrc, then /etc/inputrc
-# to use this file, go to ~/.inputrc and put `$include ~/superhome/config/.inputrc.managed`
+# to use this file, go to ~/.inputrc and put `$include ~/superhome/config/.inputrc`
 # or set the shell variable INPUTRC to point to it
 #
 # python repl uses readline, and bash

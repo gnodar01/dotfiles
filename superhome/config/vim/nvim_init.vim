@@ -1,4 +1,4 @@
-" do `source ~/superhome/config/vim/nvim.init.vim.managed` in ~/.config/nvim/init.vim
+" do `source ~/superhome/config/vim/nvim.init.vim` in ~/.config/nvim/init.vim
 
 if exists('g:vscode')
   source ~/superhome/config/vim/common.vimrc
@@ -7,6 +7,6 @@ else
 
   set runtimepath^=~/.vim runtimepath+=~/.vim/after
   let &packpath = &runtimepath
-  source ~/superhome/config/vim/.vimrc.managed
+  source ~/superhome/config/vim/.vimrc
 end
 
