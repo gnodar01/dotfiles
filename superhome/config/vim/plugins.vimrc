@@ -43,6 +43,7 @@ silent! if plug#begin()
   "Plug 'tpope/vim-unimpaired'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
   " do :echo v:version to see your version
   " vim and nvim will be different
@@ -121,5 +122,29 @@ nnoremap <leader>p :GFiles
 nnoremap <leader>P :GFiles! 
 nnoremap <C-b> :Buffers<CR>
 nnoremap <leader>r :Rg 
+
+" }}}
+
+" coc --------------------------------------------------------------------- {{{
+" https://github.com/neoclide/coc.nvim
+
+" :CocInstall coc-json coc-tsserver
+" or
+" :CocConfig coc-settings.json
+" {
+"   "languageserver": {
+"     "go": {
+"       "command": "gopls",
+"       "rootPatterns": ["go.mod"],
+"       "trace.server": "verbose",
+"       "filetypes": ["go"]
+"     }
+"   }
+" }
+
+let g:coc_global_extensions = [
+      \"coc-json",
+      \"coc-pyright",
+      \]
 
 " }}}

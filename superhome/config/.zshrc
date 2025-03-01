@@ -239,5 +239,25 @@ pnpx() {
   pnpx $@
 }
 #
-## / NVM and node
+vim() {
+  lazy_load_nvm
+  vim $@
+}
+#
+vi() {
+  lazy_load_nvm
+  vi $@
+}
+#
+nv() {
+  lazy_load_nvm
+  nv $@
+}
+#
+nvim() {
+  lazy_load_nvm
+  nvim $@
+}
+#
+### / NVM and node
 
