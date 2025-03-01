@@ -55,11 +55,6 @@ augroup END
 " fix backspace not working problem
 set backspace=2
 
-" yank to clipboard
-if has('clipboard')
-  set clipboard=unnamed " copy to the system clipboard
-endif
-
 " }}}
 
 

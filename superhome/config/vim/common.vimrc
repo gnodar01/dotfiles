@@ -10,6 +10,16 @@
 " `zM` to close all folds
 " `:help folding` for more info
 
+" General Settings -------------------------------------------------------- {{{
+
+" yank to clipboard
+if has('clipboard')
+  set clipboard=unnamed " copy to the system clipboard
+endif
+
+" }}}
+
+
 " Visual Settings -------------------------------------------------------- {{{
 
 " turn off highlight of search terms by default
