@@ -1,0 +1,82 @@
+#!/bin/zsh
+
+# purpose: get rid of pesky update messages from littlesnitch without having to delete the actual updaters
+
+
+# https://stackoverflow.com/questions/23157613/how-to-iterate-through-string-one-word-at-a-time-in-zsh
+# updaterlist=("com.logmein.GoToMeeting.G2MUpdate" "com.citrixonline.GoToMeeting.G2MUpdate" "com.dropbox.DropboxMacUpdate.agent")
+
+COMMAND=$1
+MYID=`id -u` # i think it's always 501
+
+#if [ "$COMMAND" = "bootout" -o "$COMMAND" = "blame" -o "$COMMAND" = "print" ]
+#then
+#  for u in $updaterlist; do
+#    echo "$COMMAND $u"
+#    case "$COMMAND" in
+#      "bootout") launchctl bootout gui/"$MYID"/"$u" ;;
+#      "print") launchctl print gui/$MYID/$u ;;
+#      "blame") launchctl blame gui/"$MYID"/"$u" ;;
+#    esac
+#  done
+#else
+#  echo "need argument; syntax: updaters bootout | blame | print"
+#fi
+
+
+if [ "$COMMAND" = "bootout" -o "$COMMAND" = "blame" -o "$COMMAND" = "print" ]
+then
+
+  # commands:
+    # grep -v: invert match (exclude these from search)
+    # grep -o: only matching (highlight only matching portion, not whole line)
+    # sed 's/^/.../': place ... at beggining (for launchctl target - gui/501, system/)
+    # xargs -p: ask to run arg on util
+    # xargs -L 1: one invocation of util per arg
+
+  # dropbox
+  # plist in ~/Library/LaunchAgents
+  # print all user services, find dropbox, remove external endpoint, extract service name, place launchctl target, invoke luanchctl on each instance 
+  echo "dropbox updaters"
+  launchctl print gui/$MYID/ | grep dropbox | grep -v '0x' | grep -o 'com.*$' | sed 's/^/gui\/'$MYID'\//' | xargs -p -L 1 launchctl $COMMAND
+
+  # go to meeting (logmein, G2M)
+  # plist in ~/Library/LaunchAgents
+  # "remove external" step not necessary, but why not
+  echo "g2m updaters"
+  launchctl print gui/$MYID/ | grep logmein | grep -v '0x' | grep -o 'com.*$' | sed 's/^/gui\/'$MYID'\//' | xargs -p -L 1 launchctl $COMMAND
+
+  # nordvpn
+  # helper, not an updater, but sketchy to have it running without me launching it myself (plus it's system wide)
+  # plist in /Library/LaunchDaemons
+  echo "nordvpn helper"
+  launchctl print system | grep nord | grep -v '0x' | grep -o 'com.*$' | sed 's/^/system\//' | xargs -p -L 1 launchctl $COMMAND
+
+  # java
+  # updater plist symlinked in /Library/LaunchAgents
+  # extra "remove" step to exclude apple processes
+  echo "java helper"
+  launchctl print gui/$MYID/ | grep java | grep -v '0x' | grep -v com.apple | grep -o 'com.oracle.java.*$' | sed 's/^/gui\/'$MYID'\//' | xargs -p -L 1 launchctl $COMMAND
+
+  # helper, not an updater
+  # helper tool symlinked plist /Libarry/LaunchDaemons
+  # no "remove external" or "remove apple specific" steps needed, but just in case
+  echo "java updaters"
+  launchctl print system | grep java | grep -v '0x' | grep -v com.apple | grep -o 'com.oracle.java.*$' | sed 's/^/system\//' | xargs -p -L 1 launchctl $COMMAND
+
+else
+  echo "need argument; syntax: updaters bootout | blame | print"
+fi
+
+
+# NOTES:
+
+# gui/ should be used instead of user/
+
+# I removed the below two from ~/Library/LaunchAgents but they may reapper.
+# See Google Software Update notes in System\ Changes/
+# "com.google.keystone.user.agent" "com.google.keystone.user.xpcservice"
+
+# The ones below may or may not be "safe" to disable
+# "com.skype.skype.shareagent" "AL798K98FX.com.skype.skype.shareagent" "com.logitech.logiaudiod" "com.oracle.java.Java-Updater"
+
