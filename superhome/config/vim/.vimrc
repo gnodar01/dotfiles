@@ -15,6 +15,8 @@ source ~/superhome/config/vim/common.vimrc
 " mouse mode on
 set mouse=a
 
+set encoding=utf-8
+
 " Disable compatibility with vi which can cause unexpected issues.
 set nocompatible
 
@@ -80,9 +82,16 @@ set showmatch
 " turn syntax highlighting on.
 syntax on
 
+" vim gutter - always on, and size 1
+" auto is annoying with coc, which uses the gutter often
+set signcolumn=yes:1
+
+"highlight SignColumn ctermbg=0
+highlight clear SignColumn
+
 " visual mode highlight color
 " run "hi" command for all color groups
-hi Visual ctermfg=238 ctermbg=117
+highlight Visual ctermfg=238 ctermbg=117
 
 " highlight 161st column
 set colorcolumn=161
@@ -91,7 +100,7 @@ set colorcolumn=161
 highlight ColorColumn ctermbg=0
 
 " set highlight color
-hi Search ctermfg=238 ctermbg=117
+highlight Search ctermfg=238 ctermbg=117
 
 " }}}
 
