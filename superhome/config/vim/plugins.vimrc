@@ -128,23 +128,20 @@ nnoremap <leader>r :Rg
 " coc --------------------------------------------------------------------- {{{
 " https://github.com/neoclide/coc.nvim
 
-" :CocInstall coc-json coc-tsserver
-" or
-" :CocConfig coc-settings.json
-" {
-"   "languageserver": {
-"     "go": {
-"       "command": "gopls",
-"       "rootPatterns": ["go.mod"],
-"       "trace.server": "verbose",
-"       "filetypes": ["go"]
-"     }
-"   }
-" }
-
 let g:coc_global_extensions = [
       \"coc-json",
       \"coc-pyright",
+      \"coc-docker",
+      \"coc-markdownlint",
+      \"coc-yaml",
+      \"coc-sh",
+      \"coc-pyright",
+      \"@yaegassy/coc-ruff",
+      \"coc-lua",
+      \"coc-html",
+      \"coc-css",
+      \"coc-tsserver",
+      \"coc-eslint",
       \]
 
 " }}}
