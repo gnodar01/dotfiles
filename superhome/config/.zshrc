@@ -122,7 +122,7 @@ export FZF_DEFAULT_OPS="-m"
 #export FZF_COMPLETION_OPTS='--border --info=inline'
 # ignore node_modules and .git
 # https://stackoverflow.com/questions/61865932/how-to-get-fzf-vim-ignore-node-modules-and-git-folders
-export FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -o -print'
+export FZF_DEFAULT_COMMAND='fd -H --no-require-git .'
 
 # basic preview with bat
 alias fzfpreview="utilhelpers fzfpreview"
