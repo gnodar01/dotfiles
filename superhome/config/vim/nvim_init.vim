@@ -7,6 +7,6 @@ else
 
   set runtimepath^=~/.vim runtimepath+=~/.vim/after
   let &packpath = &runtimepath
-  source ~/superhome/config/vim/.vim
+  source ~/superhome/config/vim/.vimrc
 end
 
