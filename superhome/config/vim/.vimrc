@@ -82,9 +82,9 @@ set showmatch
 " turn syntax highlighting on.
 syntax on
 
-" vim gutter - always on, and size 1
+" vim gutter - always on
 " auto is annoying with coc, which uses the gutter often
-set signcolumn=yes:1
+set signcolumn=yes
 
 "highlight SignColumn ctermbg=0
 highlight clear SignColumn
