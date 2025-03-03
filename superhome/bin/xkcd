@@ -3,6 +3,24 @@
 # https://xkcd.com/json.html
 
 TODAY=$(curl -s -L https://xkcd.com/info.0.json)
+TODAY_NUM=$(echo "${TODAY}" | jq -r '.num')
+
+while getopts "n:" opt; do
+  case ${opt} in
+    n)
+      TODAY_NUM=$((TODAY_NUM - OPTARG))
+      ;;
+    *)
+      echo "Usage: $0 [-n <num>]" 1>&2
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
+TODAY=$(curl -s -L https://xkcd.com/${TODAY_NUM}/info.0.json)
+
 ALT=$(echo "${TODAY}" | jq -r '.alt')
 TITLE=$(echo "${TODAY}" | jq -r '.safe_title')
 IMGURL=$(echo "${TODAY}" | jq -r '.img')
