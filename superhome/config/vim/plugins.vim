@@ -144,4 +144,6 @@ let g:coc_global_extensions = [
       \"coc-eslint",
       \]
 
+nnoremap <leader>z :call CocActionAsync('definitionHover')<CR>
+
 " }}}
