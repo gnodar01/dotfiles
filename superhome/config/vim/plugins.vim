@@ -63,7 +63,7 @@ endif
 " https://github.com/preservim/nerdtree
 
 " quick toggle NERDTree
-nmap <leader>n :NERDTreeToggle<CR>
+nmap <Space>n :NERDTreeToggle<CR>
 " show hidden files by default
 let NERDTreeShowHidden=1
 
@@ -115,13 +115,13 @@ let g:lightline = {
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--preview', 'opener {}']}, <bang>0)
 nnoremap <C-o> :Files<CR>
-nnoremap <leader>o :Files 
-nnoremap <leader>O :Files! 
+nnoremap <Space>o :Files 
+nnoremap <Space>O :Files! 
 nnoremap <C-p> :GFiles<CR>
-nnoremap <leader>p :GFiles 
-nnoremap <leader>P :GFiles! 
+nnoremap <Space>p :GFiles 
+nnoremap <Space>P :GFiles! 
 nnoremap <C-b> :Buffers<CR>
-nnoremap <leader>r :Rg 
+nnoremap <Space>r :Rg 
 
 " }}}
 
@@ -144,6 +144,29 @@ let g:coc_global_extensions = [
       \"coc-eslint",
       \]
 
-nnoremap <leader>z :call CocActionAsync('definitionHover')<CR>
+" get definition under cursor
+nnoremap ,z :call CocActionAsync('definitionHover')<CR>
+" accept completion item
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+" GoTo code navigation
+nmap <silent><nowait> gd <Plug>(coc-definition)
+nmap <silent><nowait> gy <Plug>(coc-type-definition)
+nmap <silent><nowait> gi <Plug>(coc-implementation)
+nmap <silent><nowait> gr <Plug>(coc-references)
+nmap <silent><nowait> <C-]> <Plug>(coc-definition)
+nnoremap <C-[> <C-o>
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 
 " }}}
+
