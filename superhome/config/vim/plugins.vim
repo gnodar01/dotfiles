@@ -64,6 +64,7 @@ endif
 
 " quick toggle NERDTree
 nmap <Space>n :NERDTreeToggle<CR>
+nmap <Space>g :NERDTreeFind<CR>
 " show hidden files by default
 let NERDTreeShowHidden=1
 
@@ -136,7 +137,6 @@ let g:coc_global_extensions = [
       \"coc-yaml",
       \"coc-sh",
       \"coc-pyright",
-      \"@yaegassy/coc-ruff",
       \"coc-lua",
       \"coc-html",
       \"coc-css",
