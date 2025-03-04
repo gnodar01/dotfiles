@@ -154,8 +154,7 @@ nmap <silent><nowait> gd <Plug>(coc-definition)
 nmap <silent><nowait> gy <Plug>(coc-type-definition)
 nmap <silent><nowait> gi <Plug>(coc-implementation)
 nmap <silent><nowait> gr <Plug>(coc-references)
-nmap <silent><nowait> <C-]> <Plug>(coc-definition)
-nnoremap <C-[> <C-o>
+noremap <silent><nowait>gb <C-o>
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call ShowDocumentation()<CR>
