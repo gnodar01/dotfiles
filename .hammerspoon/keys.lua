@@ -5,8 +5,8 @@ require "functions/applescripts"
 require "functions/utils"
 
 local hyper = {"ctrl", "cmd", "alt"}
-local super = {"ctrl", "alt"}
-local suuper = {"shift", "ctrl", "alt"}
+local super = {"cmd", "alt"}
+local suuper = {"shift", "cmd", "alt"}
 local layoutSuper = {"cmd", "ctrl"}
 local layoutSuuper = {"cmd", "ctrl", "shift"}
 
@@ -96,7 +96,7 @@ hs.hotkey.bind(hyper, "n", killNotifications)
 
 -- window switcher
 -- default windowfilter: only visible windows, all Spaces
-switcher = hs.window.switcher.new() 
+Switcher = hs.window.switcher.new()
 
 hs.hotkey.bind('alt','tab',hs.window.switcher.nextWindow)
 
