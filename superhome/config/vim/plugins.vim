@@ -44,6 +44,7 @@ silent! if plug#begin()
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'puremourning/vimspector'
 
   " do :echo v:version to see your version
   " vim and nvim will be different
@@ -166,6 +167,29 @@ function! ShowDocumentation()
     call feedkeys('K', 'in')
   endif
 endfunction
+
+" }}}
+
+" vimspector --------------------------------------------------------------------- {{{
+
+let g:vimspector_install_gadgets = [ 'debugpy' ]
+
+" standard mappings
+" (https://github.com/puremourning/vimspector?tab=readme-ov-file#human-mode)
+let g:vimspector_enable_mappings = 'HUMAN'
+
+nmap dp <Plug>VimspectorContinue
+nmap ds <Plug>VimspectorStop
+nmap dr <Plug>VimspectorRestart
+nmap db <Plug>VimspectorToggleBreakpoint
+nmap d\ <Plug>VimspectorStepOver
+nmap d] <Plug>VimspectorStepInto
+nmap d[ <Plug>VimspectorStepOut
+nmap di <Plug>VimspectorBalloonEval
+xmap di <Plug>VimspectorBalloonEval
+nmap d, <Plug>VimspectorUpFrame
+nmap d. <Plug>VimspectorDownFrame
+nmap <Space>db <Plug>VimspectorBreakpoints
 
 " }}}
 
