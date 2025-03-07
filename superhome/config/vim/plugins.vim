@@ -175,7 +175,7 @@ endfunction
 " NOTE: in theory vscode-js-debug should in theory subsume vscode-firefox-debug, debugger-for-chrome
 " but that seems not to be the case, haven't checked but probably version
 " needs updating within vimspector codebase itself
-let g:vimspector_install_gadgets = [ 'debugpy', "vscode-js-debug", "debugger-for_chrome" ]
+let g:vimspector_install_gadgets = [ 'debugpy', "vscode-js-debug", "debugger-for-chrome" ]
 
 " standard mappings
 " (https://github.com/puremourning/vimspector?tab=readme-ov-file#human-mode)
@@ -193,6 +193,7 @@ nmap di <Plug>VimspectorBalloonEval
 nmap d, <Plug>VimspectorUpFrame
 nmap d. <Plug>VimspectorDownFrame
 nmap <Space>db <Plug>VimspectorBreakpoints
-
+nmap dp <Plug>VimspectorContinue
+nmap ,d <Plug>VimspectorLaunch
 " }}}
 
