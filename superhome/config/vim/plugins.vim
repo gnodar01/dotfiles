@@ -172,7 +172,8 @@ endfunction
 
 " vimspector --------------------------------------------------------------------- {{{
 
-let g:vimspector_install_gadgets = [ 'debugpy' ]
+let g:vimspector_install_gadgets = [ 'debugpy', "debugger-for-chrome" ]
+" others to consider: vscode-firefox-debug (Javascript w/ firefox), vscode-js-debug (Node.js)
 
 " standard mappings
 " (https://github.com/puremourning/vimspector?tab=readme-ov-file#human-mode)
@@ -186,7 +187,7 @@ nmap d\ <Plug>VimspectorStepOver
 nmap d] <Plug>VimspectorStepInto
 nmap d[ <Plug>VimspectorStepOut
 nmap di <Plug>VimspectorBalloonEval
-xmap di <Plug>VimspectorBalloonEval
+"xmap di <Plug>VimspectorBalloonEval
 nmap d, <Plug>VimspectorUpFrame
 nmap d. <Plug>VimspectorDownFrame
 nmap <Space>db <Plug>VimspectorBreakpoints
