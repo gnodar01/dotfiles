@@ -132,7 +132,6 @@ nnoremap <Space>r :Rg
 
 let g:coc_global_extensions = [
       \"coc-json",
-      \"coc-pyright",
       \"coc-docker",
       \"coc-markdownlint",
       \"coc-yaml",
@@ -143,6 +142,7 @@ let g:coc_global_extensions = [
       \"coc-css",
       \"coc-tsserver",
       \"coc-eslint",
+      \"coc-prettier",
       \]
 
 " get definition under cursor
@@ -172,8 +172,10 @@ endfunction
 
 " vimspector --------------------------------------------------------------------- {{{
 
-let g:vimspector_install_gadgets = [ 'debugpy', "debugger-for-chrome" ]
-" others to consider: vscode-firefox-debug (Javascript w/ firefox), vscode-js-debug (Node.js)
+" NOTE: in theory vscode-js-debug should in theory subsume vscode-firefox-debug, debugger-for-chrome
+" but that seems not to be the case, haven't checked but probably version
+" needs updating within vimspector codebase itself
+let g:vimspector_install_gadgets = [ 'debugpy', "vscode-js-debug", "debugger-for_chrome" ]
 
 " standard mappings
 " (https://github.com/puremourning/vimspector?tab=readme-ov-file#human-mode)
