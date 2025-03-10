@@ -143,7 +143,7 @@ alias dockersize="utilhelpers dockersize"
 alias nv="nvim"
 
 # set neovim as main editor
-export EDITOR="nvim"
+export EDITOR="vim"
 
 alias ca="conda activate"
 alias cx="conda deactivate"
