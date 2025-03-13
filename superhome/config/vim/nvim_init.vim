@@ -1,4 +1,4 @@
-" do `source ~/superhome/config/vim/nvim.init.vim` in ~/.config/nvim/init.vim
+" do `source ~/superhome/config/vim/nvim_init.vim` in ~/.config/nvim/init.vim
 
 if exists('g:vscode')
   source ~/superhome/config/vim/base.vim
