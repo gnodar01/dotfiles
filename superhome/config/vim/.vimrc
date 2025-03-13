@@ -1,5 +1,5 @@
 " do `source ~/superhome/config/vim/.vimrc` in ~/.vimrc
-source ~/superhome/config/vim/base.vim
+source ~/superhome/config/vim/common.vim
 
 " ':set' vs 'set'
 " https://vi.stackexchange.com/questions/6778/what-is-the-difference-between-set-and-set-commands-with-or-without-a-leading
@@ -13,7 +13,7 @@ source ~/superhome/config/vim/base.vim
 
 " Vim-specific Settings -------------------------------------------------------- {{{
 
-source ~/superhome/config/vim/plugins.vim
+source ~/superhome/config/vim/vim_plugins.vim
 
 " }}}
 
