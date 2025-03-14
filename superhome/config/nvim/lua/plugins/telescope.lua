@@ -1,0 +1,80 @@
+-- https://github.com/nvim-telescope/telescope.nvim?tab=readme-ov-file
+
+return {
+  'nvim-telescope/telescope.nvim',
+  tag = '0.1.8', name = "telescope",
+  event = 'VimEnter',
+  dependencies = {
+    'plenary',
+    'web-devicons',
+    'telescope-fzf-native',
+    'telescope-ui-select',
+  },
+  -- Help:
+  --  :Telescope help_tags
+  --  :help telescope
+  --  :help telescope.setup()
+  -- Two important keymaps:
+  --  - Insert mode: <c-/>
+  --  - Normal mode: ?
+  --  Opens a window showing all keymaps for current telescope picker
+  config = function()
+    require('telescope').setup {
+      -- default mappings / updates / etc. here
+      -- e.g.
+      -- defaults = {
+      --   mappings = {
+      --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+      --   },
+      -- },
+      -- pickers = {},
+      extensions = {
+        -- fzf = {},
+        ['ui-select'] = {
+          require('telescope.themes').get_dropdown(),
+        },
+      },
+    }
+
+    -- enable telescope extensions, if installed
+    pcall(require('telescope').load_extension, 'fzf')
+    pcall(require('telescope').load_extension, 'ui-select')
+
+
+    -- See `:help telescope.builtin`
+    local builtin = require 'telescope.builtin'
+    vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = '[F]uzzy Search [F]iles' })
+    vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = '[F]uzzy Search by [G]rep' })
+    vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = '[F]uzzy Search existing [B]uffers' })
+    vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = '[F]uzzy Search [H]elp' })
+    vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = '[F]uzzy Search [K]eymaps' })
+
+    vim.keymap.set('n', '<Leader>fs', builtin.builtin, { desc = '[F]uzzy Search [S]elect Telescope' })
+    vim.keymap.set('n', '<Leader>fw', builtin.grep_string, { desc = '[F]uzzy Search current [W]ord' })
+    vim.keymap.set('n', '<Leader>fd', builtin.diagnostics, { desc = '[F]uzzy Search [D]iagnostics' })
+    vim.keymap.set('n', '<Leader>fr', builtin.resume, { desc = '[F]uzzy Search [R]esume' })
+    vim.keymap.set('n', '<Leader>f.', builtin.oldfiles, { desc = '[F]uzzy Search Recent Files ("." for repeat)' })
+
+    -- more advanced mappings
+
+    vim.keymap.set('n', '<Leader><Leader>', function()
+      builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+        winblend = 10,
+        previewer = false,
+      })
+    end, { desc = '[ ] Fuzzily search in current buffer' })
+
+    vim.keymap.set('n', '<leader>f/', function()
+      builtin.live_grep {
+        grep_open_files = true,
+        prompt_title = 'Live Grep in Open Files',
+      }
+    end, { desc = '[F]uzzy Search [/] in Open Files' })
+
+
+    vim.keymap.set('n', '<leader>fn', function()
+      builtin.find_files { cwd = vim.fn.stdpath 'config' }
+    end, { desc = '[F]uzzy Search [N]eovim files' })
+
+  end,
+}
