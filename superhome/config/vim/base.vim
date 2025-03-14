@@ -32,8 +32,8 @@ set nohls
 
 " Mappings code goes here.
 
-let mapleader = " "
-let maplocalleader = ","
+let g:mapleader = " "
+let g:maplocalleader = ","
 
 map \o o<esc>^DA
 map \O O<esc>^DA
