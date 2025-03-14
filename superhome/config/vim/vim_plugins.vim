@@ -64,8 +64,8 @@ endif
 " https://github.com/preservim/nerdtree
 
 " quick toggle NERDTree
-nmap <Space>n :NERDTreeToggle<CR>
-nmap <Space>g :NERDTreeFind<CR>
+nmap <Leader>n :NERDTreeToggle<CR>
+nmap <Leader>g :NERDTreeFind<CR>
 " show hidden files by default
 let NERDTreeShowHidden=1
 
@@ -117,13 +117,13 @@ let g:lightline = {
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--preview', 'opener {}']}, <bang>0)
 nnoremap <C-o> :Files<CR>
-nnoremap <Space>o :Files 
-nnoremap <Space>O :Files! 
+nnoremap <Leader>o :Files 
+nnoremap <Leader>O :Files! 
 nnoremap <C-p> :GFiles<CR>
-nnoremap <Space>p :GFiles 
-nnoremap <Space>P :GFiles! 
+nnoremap <Leader>p :GFiles 
+nnoremap <Leader>P :GFiles! 
 nnoremap <C-b> :Buffers<CR>
-nnoremap <Space>r :Rg 
+nnoremap <Leader>r :Rg 
 
 " }}}
 
@@ -192,7 +192,7 @@ nmap di <Plug>VimspectorBalloonEval
 "xmap di <Plug>VimspectorBalloonEval
 nmap d, <Plug>VimspectorUpFrame
 nmap d. <Plug>VimspectorDownFrame
-nmap <Space>db <Plug>VimspectorBreakpoints
+nmap <Leader>db <Plug>VimspectorBreakpoints
 nmap dp <Plug>VimspectorContinue
 nmap ,d <Plug>VimspectorLaunch
 " }}}

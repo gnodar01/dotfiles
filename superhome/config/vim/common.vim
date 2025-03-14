@@ -66,13 +66,17 @@ set backspace=2
 " Set a colorscheme $VIMRUNTIME/colors for color schemes shipped with vim
 " ~/vim/colors for any of your own
 if has('nvim')
-  colorscheme vim
+  "colorscheme vim
+
+  set notermguicolors
+else
+  "colorscheme elflord
+  "colorscheme dark-meadow
+  "colorscheme default
+
+  " needed for default vim colorscheme
+  set notermguicolors
 endif
-"colorscheme elflord
-"colorscheme dark-meadow
-"colorscheme default
-" needed for default vim colorscheme
-set notermguicolors
 
 " when search hight pattern match
 set incsearch
@@ -110,7 +114,7 @@ highlight Search ctermfg=238 ctermbg=117
 
 " Source the vimrc file after saving it
 " shortcut to show vimrc file in new tab
-nmap <leader>v :tabedit $MYVIMRC<CR>
+nmap <Leader>v :tabedit $MYVIMRC<CR>
 
 " copy paste to clipboard
 " copy from visual mode

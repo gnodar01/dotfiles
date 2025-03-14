@@ -32,16 +32,19 @@ set nohls
 
 " Mappings code goes here.
 
-map <leader>o o<esc>^DA
-map <leader>O O<esc>^DA
-map <leader>u o<esc>^Do.<esc>k0Dj$xA
-map <leader>U O<esc>^DO.<esc>j0Dk$xA
+let mapleader = " "
+let maplocalleader = ","
+
+map \o o<esc>^DA
+map \O O<esc>^DA
+map \u o<esc>^Do.<esc>k0Dj$xA
+map \U O<esc>^DO.<esc>j0Dk$xA
 "
 " toggle on/off highlight of search terms
-map <leader>\ :set hls!<CR>
+map \\ :set hls!<CR>
 
 " change tab settings
-map <leader>t :set expandtab!<CR>:set expandtab?<CR>
+map \t :set expandtab!<CR>:set expandtab?<CR>
 "
 " increase tab size by 2 spaces
 map ]T :set softtabstop+=2 tabstop+=2 shiftwidth+=2<CR>
