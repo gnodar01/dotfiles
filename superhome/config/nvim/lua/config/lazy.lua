@@ -17,12 +17,10 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- have Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
-
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
+    -- many inspirations from: https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
     { import = "plugins" },
   },
   install = { colorscheme = { "habamax" } },

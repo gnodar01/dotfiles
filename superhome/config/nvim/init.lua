@@ -5,4 +5,5 @@ vim.cmd([[
   source $HOME/superhome/config/vim/nvim_init.vim
 ]])
 
+require("config.settings")
 require("config.lazy")

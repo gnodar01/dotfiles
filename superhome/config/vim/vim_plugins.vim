@@ -45,6 +45,7 @@ silent! if plug#begin()
   Plug 'junegunn/fzf.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'puremourning/vimspector'
+  "Plug 'tpope/vim-sleuth'
 
   " do :echo v:version to see your version
   " vim and nvim will be different

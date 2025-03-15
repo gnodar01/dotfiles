@@ -2,7 +2,8 @@
 
 return {
   'nvim-telescope/telescope.nvim',
-  tag = '0.1.8', name = "telescope",
+  name = "telescope",
+  tag = '0.1.8',
   event = 'VimEnter',
   dependencies = {
     'plenary',
