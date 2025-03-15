@@ -8,8 +8,26 @@ return {
   dependencies = {
     'plenary',
     'web-devicons',
-    'telescope-fzf-native',
-    'telescope-ui-select',
+    {
+      -- https://github.com/nvim-telescope/telescope-fzf-native.nvim
+      'nvim-telescope/telescope-fzf-native.nvim',
+      -- extension name is "fzf"
+      name = 'telescope-fzf-native',
+      -- never tried this, but its another way to build on mac
+      -- https://github.com/nvim-telescope/telescope-fzf-native.nvim?tab=readme-ov-file#cmake-windows-linux-macos
+      -- build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+      -- https://github.com/nvim-telescope/telescope-fzf-native.nvim?tab=readme-ov-file#make-linux-macos-windows-with-mingw
+      build = 'make',
+      cond = function()
+        return vim.fn.executable 'make' == 1
+      end,
+    },
+    {
+      -- https://github.com/nvim-telescope/telescope-ui-select.nvim
+      'nvim-telescope/telescope-ui-select.nvim',
+      -- extension name is "ui-select"
+      name = 'telescope-ui-select',
+    },
   },
   -- Help:
   --  :Telescope help_tags
