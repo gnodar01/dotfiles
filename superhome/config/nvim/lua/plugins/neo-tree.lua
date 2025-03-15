@@ -33,16 +33,16 @@ return {
 
       window = {
         mappings = {
-          ['o'] = 'toggle_node',
           ['<space>'] = 'none',
           --["<space>"] = {
           --  "toggle_node",
           --  nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
           --},
 
-          --['<2-LeftMouse>'] = 'open',
-          --['<cr>'] = 'open',
+          ['o'] = 'open',
+          ['<cr>'] = 'none',
           ---- ['<cr>'] = { 'open', config = { expand_nested_files = true } }, -- expand nested file takes precedence
+          --['<2-LeftMouse>'] = 'open',
           --['<esc>'] = 'cancel', -- close preview or floating neo-tree window
           --['P'] = { 'toggle_preview', config = {
           --  use_float = true,
