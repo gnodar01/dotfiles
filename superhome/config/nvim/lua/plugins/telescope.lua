@@ -41,7 +41,6 @@ return {
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
 
-
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
     vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = '[F]uzzy Search [F]iles' })
@@ -71,7 +70,6 @@ return {
         prompt_title = 'Live Grep in Open Files',
       }
     end, { desc = '[F]uzzy Search [/] in Open Files' })
-
 
     vim.keymap.set('n', '<leader>fn', function()
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
