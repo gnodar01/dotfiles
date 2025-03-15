@@ -182,8 +182,9 @@ let g:vimspector_install_gadgets = [ 'debugpy', "vscode-js-debug", "debugger-for
 " (https://github.com/puremourning/vimspector?tab=readme-ov-file#human-mode)
 let g:vimspector_enable_mappings = 'HUMAN'
 
+" VimspectorContinue will start if not paused.
 nmap dp <Plug>VimspectorContinue
-nmap ds <Plug>VimspectorStop
+nmap dx <Plug>VimspectorStop
 nmap dr <Plug>VimspectorRestart
 nmap db <Plug>VimspectorToggleBreakpoint
 nmap d\ <Plug>VimspectorStepOver

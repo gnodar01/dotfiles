@@ -1,4 +1,5 @@
 -- https://github.com/nvim-tree/nvim-web-devicons
+-- (optionally) depended on by telescope, neo-tree
 
 return {
   'nvim-tree/nvim-web-devicons',
