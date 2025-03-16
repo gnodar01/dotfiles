@@ -117,14 +117,20 @@ let g:lightline = {
 " https://github.com/junegunn/fzf.vim?tab=readme-ov-file#example-customizing-files-command
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--preview', 'opener {}']}, <bang>0)
-nnoremap <C-o> :Files<CR>
-nnoremap <Leader>o :Files 
-nnoremap <Leader>O :Files! 
-nnoremap <C-p> :GFiles<CR>
-nnoremap <Leader>p :GFiles 
-nnoremap <Leader>P :GFiles! 
-nnoremap <C-b> :Buffers<CR>
-nnoremap <Leader>r :Rg 
+" ! means fullscreen
+" files
+nnoremap <Leader>ff :Files<CR>
+nnoremap <Leader>fF :Files!<CR>
+" files in [PATH]
+nnoremap <Leader>fo :Files 
+" git ls-files
+nnoremap <Leader>fg :GFiles<CR>
+" git status
+nnoremap <Leader>fs :GFiles?
+" open buffers
+nnoremap <Leader>fb :Buffers<CR>
+" regex [PATTERN]
+nnoremap <Leader>fr :Rg 
 
 " }}}
 
