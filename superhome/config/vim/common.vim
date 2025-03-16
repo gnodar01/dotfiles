@@ -64,18 +64,47 @@ set backspace=2
 " Visual Settings -------------------------------------------------------- {{{
 
 " Set a colorscheme $VIMRUNTIME/colors for color schemes shipped with vim
-" ~/vim/colors for any of your own
+" $HOME/.vim/colors for any of your own
+" ln -s $SUPERHOME/config/vim/colors $HOME/.vim/colors
+" run "hi" command for all color groups
 if has('nvim')
   "colorscheme vim
 
-  set notermguicolors
+  set termguicolors
+
+  "highlight Normal guifg=NONE guibg=NONE
+
+  "highlight SignColumn ctermbg=0
+  "highlight clear SignColumn
+
+  " visual mode highlight color
+  " run "hi" command for all color groups
+  "highlight Visual guifg=#444444 guibg=#87d7ff
+
+  " set appropriate color for column highlight
+  "highlight ColorColumn guibg=#000000
+
+  " set highlight color
+  "highlight Search guifg=#444444 guibg=#87d7ff
 else
+  set background=dark
   "colorscheme elflord
   "colorscheme dark-meadow
   "colorscheme default
+  "colorscheme solarized
 
   " needed for default vim colorscheme
   set notermguicolors
+
+  " clears the gutter to prevent it from being gray for whatever reason
+  highlight clear SignColumn
+
+  " column highlight to none
+  highlight ColorColumn ctermbg=0
+
+  " sets visual mode and search to cyan, for some unknown reason
+  highlight Visual ctermfg=238 ctermbg=117
+  highlight Search ctermfg=238 ctermbg=117
 endif
 
 " when search hight pattern match
@@ -91,21 +120,9 @@ syntax on
 " auto is annoying with coc, which uses the gutter often
 set signcolumn=yes
 
-"highlight SignColumn ctermbg=0
-highlight clear SignColumn
-
-" visual mode highlight color
-" run "hi" command for all color groups
-highlight Visual ctermfg=238 ctermbg=117
-
 " highlight 161st column
 set colorcolumn=161
 
-" set appropriate color for column highlight
-highlight ColorColumn ctermbg=0
-
-" set highlight color
-highlight Search ctermfg=238 ctermbg=117
 
 " }}}
 
