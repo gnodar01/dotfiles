@@ -20,7 +20,6 @@ local mason_pkgs = {}
 --    - filetypes (table): Override the default list of associated filetypes for the server
 --    - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
 --    - settings (table): Override the default settings passed when initializing the server.
---        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 local lsp_definitions = {
 	-- clangd = { install = 'clangd', config = {} },
 	-- gopls = { install = 'gopls', config = {} },
@@ -37,10 +36,11 @@ local lsp_definitions = {
 	lua_ls = {
 		install = "lua_ls",
 		config = {
-			-- cmd = { ... },
-			-- filetypes = { ... },
-			-- capabilities = {},
+			--cmd = { ... },
+			--filetypes = { ... },
+			--capabilities = {},
 			settings = {
+				-- https://luals.github.io/wiki/settings/
 				Lua = {
 					completion = {
 						callSnippet = "Replace",
@@ -51,9 +51,29 @@ local lsp_definitions = {
 			},
 		},
 	},
+
+	-- TODO: consider switch to basedpyright
+	--
+	-- https://github.com/microsoft/pyright
+	-- Commands:
+	--   PyrightOrganizeImports
+	--   PyrightSetPythonPath
+	pyright = {
+		install = "pyright",
+		--config = {
+		--  https://microsoft.github.io/pyright/#/settings
+		--	settings = {
+		--		python = {
+		--			autoSearchPaths = true,
+		--			diagnosticMode = "openFilesOnly",
+		--			useLibraryCodeForTypes = true,
+		--		},
+		--	},
+		--},
+	},
 }
 
--- These go to `mason-lspconfig` in `plugins/lsp`
+-- These go to `nvim-lspconfig` via `mason-lspconfig` in `plugins/lsp`
 mason_pkgs.lsp_server_configs = {}
 for name, data in pairs(lsp_definitions) do
 	if data.config then

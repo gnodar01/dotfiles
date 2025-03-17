@@ -70,7 +70,7 @@ return {
 		end,
 	},
 	-- https://github.com/stevearc/conform.nvim
-	-- formatter plugin for neovim
+	-- formatter plugin
 	--
 	-- View configured and available formatters
 	--   `:ConformInfo`
