@@ -40,10 +40,11 @@ return {
     },
     -- https://github.com/hrsh7th/cmp-nvim-lsp
     -- allows extra capabilities provided by nvim-cmp
-    {
-      'hrsh7th/cmp-nvim-lsp',
-      name = 'cmp-nvim-lsp',
-    },
+    -- TODO: enable once cmp proper is setup
+    --{
+    --  'hrsh7th/cmp-nvim-lsp',
+    --  name = 'cmp-nvim-lsp',
+    --},
   },
   config = function()
     -- run whenever an LSP attaches to a particular buffer
@@ -179,7 +180,8 @@ return {
     -- capabilities. So, we create new capabilities with `nvim-cmp`, and then
     -- broadcast that to the servers.
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    -- TODO: enable once cmp proper has been setup
+    --capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
     local servers = require('config/mason-pkgs').lsp_server_configs
 
