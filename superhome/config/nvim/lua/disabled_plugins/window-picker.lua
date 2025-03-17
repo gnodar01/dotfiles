@@ -1,4 +1,5 @@
 -- https://github.com/s1n7ax/nvim-window-picker
+-- pick a window to open to in neo-tree
 
 return {
   's1n7ax/nvim-window-picker',
