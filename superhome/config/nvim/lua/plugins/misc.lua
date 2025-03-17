@@ -1,3 +1,5 @@
+-- misc and small utilities
+
 return {
   -- https://github.com/folke/todo-comments.nvim
   -- Highlight todo, notes, etc in comments
