@@ -68,8 +68,10 @@ return {
 					-- mappings
 
 					-- jump to the definition of the word under cursor
-					-- to jump back, press `<C-t>`
 					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+
+					-- jump back, using native `<C-t>` (`<C-o>` uses jump history, `<C-t>` uses tag history)
+					map("gb", "<C-t>", "[G]o [B]ack (prev tag)")
 
 					-- find references for word under cursor
 					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
@@ -104,13 +106,16 @@ return {
 
 					-- this function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
 					---@param client vim.lsp.Client
+					---@diagnostic disable-next-line
 					---@param method vim.lsp.protocol.Method
 					---@param bufnr? integer some lsp support methods only in specific files
 					---@return boolean
 					local function client_supports_method(client, method, bufnr)
 						if vim.fn.has("nvim-0.11") == 1 then
+							---@diagnostic disable-next-line
 							return client:supports_method(method, bufnr)
 						else
+							---@diagnostic disable-next-line
 							return client.supports_method(method, { bufnr = bufnr })
 						end
 					end
@@ -124,6 +129,7 @@ return {
 						client
 						and client_supports_method(
 							client,
+							---@diagnostic disable-next-line
 							vim.lsp.protocol.Methods.textDocument_documentHighlight,
 							event.buf
 						)
@@ -156,6 +162,7 @@ return {
 					-- WARN: may be unwanted - displaces code
 					if
 						client
+						---@diagnostic disable-next-line
 						and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
 					then
 						map("<leader>th", function()
