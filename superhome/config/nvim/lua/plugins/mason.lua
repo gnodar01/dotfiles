@@ -36,6 +36,7 @@ return {
 					--cancel_installation = "<C-c>",
 					-- apply language filter
 					--apply_language_filter = "<C-f>",
+					apply_language_filter = "<C-r>",
 					-- toggle viewing package installation log
 					--toggle_package_install_log = "<CR>",
 					-- toggle the help view

@@ -23,7 +23,7 @@ return {
 			},
 		},
 		config = function()
-			local ext_formatters = require("config/mason-pkgs").ext_formatters
+			local ft_formatters = require("config/mason-pkgs").ft_formatters
 			require("conform").setup({
 				notify_on_error = false,
 				format_on_save = function(bufnr)
@@ -41,7 +41,7 @@ return {
 						lsp_format = lsp_format_opt,
 					}
 				end,
-				formatters_by_ft = ext_formatters,
+				formatters_by_ft = ft_formatters,
 			})
 		end,
 	},

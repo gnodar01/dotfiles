@@ -113,12 +113,15 @@ end
 
 -- Enable the following formatters.
 --
--- `formatter_definitions` is a table of `ext_name` to a list of definitions.
+-- `formatter_definitions` is a table of `filetype` to a list of definitions.
 --   The definintion is a list of strings of the formatter names.
 --
---   A mapping of `ext_name` to the formatter names goes to `conform`,
+--   A mapping of `filetype` to the formatter names goes to `conform`,
 --     in the `formatters_by_ft` field
 --   A combined list of just the formatter names, goes to `mason-tool-installer`.
+--
+-- Get the `filetype` of a buffer
+--   `:= vim.bo.filetype`
 --
 -- View configured and available formatters
 --   `:ConformInfo`
@@ -134,12 +137,56 @@ local formatter_definitions = {
 	-- javascript = { "prettierd", "prettier", stop_after_first = true },
 }
 
--- These go to `conform` in the `formatters_by_ft` field.
-mason_pkgs.ext_formatters = formatter_definitions
+-- These go to `conform` in the `formatters_by_ft`: field.
+mason_pkgs.ft_formatters = formatter_definitions
 
 local formatters = {}
-for _, frmtrs in pairs(mason_pkgs.ext_formatters) do
+for _, frmtrs in pairs(mason_pkgs.ft_formatters) do
 	vim.list_extend(formatters, frmtrs)
+end
+
+-- Enable the following linters.
+--
+-- `linter_definitions` is a table of `filetype` to a list of definitions.
+--   The definintion is a list of strings of the linter names.
+--
+--   A mapping of `filetype` to the linter names goes to `nvim-lint`,
+--     in the `linters_by_ft` field
+--   A combined list of just the linter names, goes to `mason-tool-installer`.
+--
+-- A list of supported linters is here:
+--   https://github.com/mfussenegger/nvim-lint?tab=readme-ov-file#available-linters
+-- But not all available through Mason, so best to just check Mason itself
+--
+-- Get the `filetype` of a buffer
+--   `:= vim.bo.filetype`
+--
+-- View configured and available lintes
+--   `:lua print(require('lint').get_running())`
+local linter_definitions = {
+	markdown = { "vale" },
+	text = { "vale" },
+	latex = { "vale" },
+	dockerfile = { "hadolint" },
+	json = { "jsonlint" },
+	sh = { "shellcheck" },
+	python = { "ruff" },
+	lua = { "luacheck" },
+}
+
+-- These go to `nvim-lint` to customize defined linters
+mason_pkgs.linter_settings = {
+	luacheck = {
+		args = { "--formatter", "plain", "--codes", "--ranges", "--globals", "vim", "lvim", "-" },
+	},
+}
+
+-- These go to `nvim-lint` in the `linters_by_ft` field.
+mason_pkgs.ft_linters = linter_definitions
+
+local linters = {}
+for _, lntrs in pairs(mason_pkgs.ft_linters) do
+	vim.list_extend(linters, lntrs)
 end
 
 -- These go to `mason-tool-installer` in `plugins/mason`.
@@ -150,5 +197,6 @@ for _, data in pairs(lsp_definitions) do
 	end
 end
 vim.list_extend(mason_pkgs.ensure_installed, formatters)
+vim.list_extend(mason_pkgs.ensure_installed, linters)
 
 return mason_pkgs
