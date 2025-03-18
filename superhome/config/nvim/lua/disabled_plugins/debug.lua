@@ -5,11 +5,15 @@ return {
   'mfussenegger/nvim-dap',
   -- extension name is "dap"
   name = 'debug',
+  --tag = '0.9.0',
   dependencies = {
     -- https://github.com/rcarriga/nvim-dap-ui
     -- creates a beautiful debugger UI
     -- extension name is "dapui"
-    'rcarriga/nvim-dap-ui',
+    {
+      'rcarriga/nvim-dap-ui',
+      name = 'dap-ui',
+    },
 
     -- https://github.com/nvim-neotest/nvim-nio
     -- async i/o in neovim; required for nvim-dap-ui
