@@ -60,16 +60,34 @@ local lsp_definitions = {
 	--   PyrightSetPythonPath
 	pyright = {
 		install = "pyright",
-		--config = {
-		--  https://microsoft.github.io/pyright/#/settings
-		--	settings = {
-		--		python = {
-		--			autoSearchPaths = true,
-		--			diagnosticMode = "openFilesOnly",
-		--			useLibraryCodeForTypes = true,
-		--		},
-		--	},
-		--},
+		config = {
+			--  https://microsoft.github.io/pyright/#/settings
+			root_dir = function(fname)
+				local util = require("lspconfig.util")
+				local root_files = {
+					"pyrightconfig.json",
+					"pyproject.toml",
+					"setup.py",
+					"setup.cfg",
+					"requirements.txt",
+					"Pipfile",
+					".git",
+				}
+				-- some reverser engineering starting at `:help lspconfig-all`
+				--   -> pyright section -> `root_dir` -> [g]o to [F]ile
+				--   where I just changed the order or root_files
+				--   so that pyrightconfig.json is first
+				return util.root_pattern(unpack(root_files))(fname)
+			end,
+			settings = {
+				python = {
+					analysis = {
+						autoSearchPaths = false,
+						diagnosticMode = "openFilesOnly",
+					},
+				},
+			},
+		},
 	},
 }
 

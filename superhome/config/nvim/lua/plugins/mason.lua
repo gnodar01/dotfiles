@@ -84,6 +84,7 @@ return {
 		cmd = { "ConformInfo" },
 		keys = {
 			{
+				-- TODO: where is this triggered?
 				"<leader>f",
 				function()
 					require("conform").format({ async = true, lsp_format = "fallback" })
