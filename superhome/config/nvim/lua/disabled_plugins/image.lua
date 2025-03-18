@@ -2,7 +2,7 @@
 -- images in nvim, works with neo-tree
 
 return {
-  "3rd/image.nvim",
+  '3rd/image.nvim',
   name = 'image',
-  opts = {}
+  opts = {},
 }

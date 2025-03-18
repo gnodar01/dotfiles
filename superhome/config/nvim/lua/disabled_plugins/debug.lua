@@ -5,7 +5,6 @@ return {
   'mfussenegger/nvim-dap',
   -- extension name is "dap"
   name = 'debug',
-  -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- https://github.com/rcarriga/nvim-dap-ui
     -- creates a beautiful debugger UI
@@ -63,7 +62,7 @@ return {
     {
       '<Leader>dB',
       function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+        require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))
       end,
       desc = '[D]ebug: Set [B]reakpoint',
     },
@@ -77,10 +76,10 @@ return {
     },
   },
   config = function()
-    local dap = require 'dap'
-    local dapui = require 'dapui'
+    local dap = require('dap')
+    local dapui = require('dapui')
 
-    require('mason-nvim-dap').setup {
+    require('mason-nvim-dap').setup({
       -- makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
       automatic_installation = true,
@@ -94,11 +93,11 @@ return {
         -- update this to ensure that we have the debuggers for the langs we want
         -- 'delve', <- e.g. for GO
       },
-    }
+    })
 
     -- dap UI setup
     -- for more information, see |:help nvim-dap-ui|
-    dapui.setup {
+    dapui.setup({
       -- Set icons to characters that are more likely to work in every terminal.
       --    Feel free to remove or use ones that you like more! :)
       --    Don't feel like these are good choices.
@@ -116,7 +115,7 @@ return {
           disconnect = '⏏',
         },
       },
-    }
+    })
 
     -- change breakpoint icons
     -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })

@@ -16,7 +16,7 @@ return {
     -- tag = 'v1.4.0',
     event = 'VimEnter',
     dependencies = {
-      'plenary'
+      'plenary',
     },
     opts = {
       signs = true,

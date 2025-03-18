@@ -67,13 +67,13 @@ return {
           ----['Z'] = 'expand_all_nodes',
           --['R'] = 'refresh',
 
-          ['m'] = { 'show_help', nowait=false, config = { title = 'File Ops', prefix_key = 'm' } },
+          ['m'] = { 'show_help', nowait = false, config = { title = 'File Ops', prefix_key = 'm' } },
           ['ma'] = {
             'add',
             -- some commands may take optional config options, see `:h neo-tree-mappings` for details
             config = {
               show_path = 'none', -- 'none', 'relative', 'absolute'
-            }
+            },
           },
           ['a'] = 'none',
           ['mA'] = 'add_directory', -- also accepts the config.show_path and config.insert_as options.
@@ -122,7 +122,7 @@ return {
             --['i'] = 'show_file_details', -- see `:h neo-tree-file-actions` for options to customize the window.
             --['b'] = 'rename_basename',
 
-            ['s'] = { 'show_help', nowait=false, config = { title = 'Order by', prefix_key = 's' }},
+            ['s'] = { 'show_help', nowait = false, config = { title = 'Order by', prefix_key = 's' } },
             ['sc'] = { 'order_by_created', nowait = false },
             ['sd'] = { 'order_by_diagnostics', nowait = false },
             ['sg'] = { 'order_by_git_status', nowait = false },
@@ -138,7 +138,6 @@ return {
             ['on'] = 'none',
             ['os'] = 'none',
             ['ot'] = 'none',
-
           },
           fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
             --['<down>'] = 'move_cursor_down',
@@ -160,7 +159,7 @@ return {
             --['i'] = 'show_file_details', -- see `:h neo-tree-file-actions` for options to customize the window.
             --['b'] = 'rename_basename',
 
-            ['s'] = { 'show_help', nowait=false, config = { title = 'Order by', prefix_key = 's' }},
+            ['s'] = { 'show_help', nowait = false, config = { title = 'Order by', prefix_key = 's' } },
             ['sc'] = { 'order_by_created', nowait = false },
             ['sd'] = { 'order_by_diagnostics', nowait = false },
             ['sm'] = { 'order_by_modified', nowait = false },
@@ -175,7 +174,6 @@ return {
             ['on'] = 'none',
             ['os'] = 'none',
             ['ot'] = 'none',
-
           },
         },
       },
@@ -193,7 +191,7 @@ return {
             --['i'] = 'show_file_details', -- see `:h neo-tree-file-actions` for options to customize the window.
             --['b'] = 'rename_basename',
 
-            ['s'] = { 'show_help', nowait=false, config = { title = 'Order by', prefix_key = 's' }},
+            ['s'] = { 'show_help', nowait = false, config = { title = 'Order by', prefix_key = 's' } },
             ['sc'] = { 'order_by_created', nowait = false },
             ['sd'] = { 'order_by_diagnostics', nowait = false },
             ['sm'] = { 'order_by_modified', nowait = false },
@@ -230,8 +228,6 @@ return {
           },
         },
       },
-
     })
   end,
 }
-

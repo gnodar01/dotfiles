@@ -30,14 +30,14 @@ return {
   priority = 1000, -- make sure to load this before all the other start plugins
   config = function()
     ---@diagnostic disable-next-line: missing-fields
-    require('dracula').setup {
+    require('dracula').setup({
       show_end_of_buffer = true, -- (default false)
       transparent_bg = true, -- (default false)
       --lualine_bg_color = '#rrggbb', -- (default nil)
       italic_comment = false, -- (default false)
-    }
+    })
     -- many themes have a collection of styles
     -- e.g. dracula, dracula-soft
-    vim.cmd.colorscheme 'dracula-soft'
+    vim.cmd.colorscheme('dracula-soft')
   end,
 }
