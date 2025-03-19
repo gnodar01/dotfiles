@@ -4,7 +4,7 @@
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
   "cmp_luasnip": { "branch": "master", "commit": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },
   "colorscheme": { "branch": "main", "commit": "96c9d19ce81b26053055ad6f688277d655b3f7d2" },
-  "conform": { "branch": "master", "commit": "db8a4a9edb217067b1d7a2e0362c74bfe9cc944d" },
+  "conform": { "branch": "master", "commit": "fb1211e936cd28b720d9a95934a242d60568bf7f" },
   "dap": { "branch": "master", "commit": "6a5bba0ddea5d419a783e170c20988046376090d" },
   "dap-ui": { "branch": "master", "commit": "bc81f8d3440aede116f821114547a476b082b319" },
   "fidget": { "branch": "main", "commit": "d9ba6b7bfe29b3119a610892af67602641da778e" },
