@@ -208,6 +208,10 @@ for _, lntrs in pairs(mason_pkgs.ft_linters) do
   vim.list_extend(linters, lntrs)
 end
 
+local debuggers = {
+  'debugpy',
+}
+
 -- These go to `mason-tool-installer` in `plugins/mason`.
 mason_pkgs.ensure_installed = {}
 for _, data in pairs(lsp_definitions) do
@@ -217,5 +221,6 @@ for _, data in pairs(lsp_definitions) do
 end
 vim.list_extend(mason_pkgs.ensure_installed, formatters)
 vim.list_extend(mason_pkgs.ensure_installed, linters)
+vim.list_extend(mason_pkgs.ensure_installed, debuggers)
 
 return mason_pkgs

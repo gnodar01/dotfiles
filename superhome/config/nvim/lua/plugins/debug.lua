@@ -1,10 +1,11 @@
 -- https://github.com/mfussenegger/nvim-dap
 -- DAP plugins
+-- `:h dap-configuration`
 
 return {
   'mfussenegger/nvim-dap',
   -- extension name is "dap"
-  name = 'debug',
+  name = 'dap',
   --tag = '0.9.0',
   dependencies = {
     -- https://github.com/rcarriga/nvim-dap-ui
@@ -13,19 +14,16 @@ return {
     {
       'rcarriga/nvim-dap-ui',
       name = 'dap-ui',
+      --tag = 'v4.0.0',
     },
 
     -- https://github.com/nvim-neotest/nvim-nio
     -- async i/o in neovim; required for nvim-dap-ui
-    'nvim-neotest/nvim-nio',
-
-    -- auto installs the debug adapters
-    'mason',
-    -- extra bridge API between mason & nvim-dap
-    'jay-babu/mason-nvim-dap.nvim',
-
-    -- add other debuggers here
-    -- e.g. 'leoluz/nvim-dap-go',
+    {
+      'nvim-neotest/nvim-nio',
+      name = 'nio',
+      --tag = 'v1.10.1',
+    },
   },
   keys = {
     {
@@ -33,7 +31,7 @@ return {
       function()
         require('dap').continue()
       end,
-      desc = '[D]ebug: [Play] (Start/Continue)',
+      desc = '[D]ebug: [P]lay (Start/Continue)',
     },
     {
       '<Leader>d]',
@@ -83,22 +81,6 @@ return {
     local dap = require('dap')
     local dapui = require('dapui')
 
-    require('mason-nvim-dap').setup({
-      -- makes a best effort to setup the various debuggers with
-      -- reasonable debug configurations
-      automatic_installation = true,
-
-      -- additional configuration to the handlers,
-      -- see mason-nvim-dap README for more information
-      handlers = {},
-
-      -- need to custom check that required things are installed by looking online
-      ensure_installed = {
-        -- update this to ensure that we have the debuggers for the langs we want
-        -- 'delve', <- e.g. for GO
-      },
-    })
-
     -- dap UI setup
     -- for more information, see |:help nvim-dap-ui|
     dapui.setup({
@@ -136,14 +118,5 @@ return {
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
-
-    -- example: install golang specific config
-    -- require('dap-go').setup {
-    --   delve = {
-    --     -- On Windows delve must be run attached or it crashes.
-    --     -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-    --     detached = vim.fn.has 'win32' == 0,
-    --   },
-    -- }
   end,
 }

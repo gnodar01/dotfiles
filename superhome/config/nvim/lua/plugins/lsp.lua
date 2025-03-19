@@ -377,6 +377,8 @@ return {
       library = {
         -- load luvit types when the `vim.uv` word is found
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+        -- https://github.com/rcarriga/nvim-dap-ui?tab=readme-ov-file#installation
+        'nvim-dap-ui',
       },
     },
   },
