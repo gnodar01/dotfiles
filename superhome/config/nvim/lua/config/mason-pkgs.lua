@@ -208,8 +208,57 @@ for _, lntrs in pairs(mason_pkgs.ft_linters) do
   vim.list_extend(linters, lntrs)
 end
 
+-- tell mason to install these
 local debuggers = {
   'debugpy',
+}
+
+-- These go to `nvim-dap` via `dap.adapters`
+-- setup the debug adapters
+-- `:help dap-adapter`
+mason_pkgs.debug_adapters = {
+  -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#python
+  python = function(cb, config)
+    if config.request == 'attach' then
+      ---@diagnostic disable-next-line: undefined-field
+      local port = (config.connect or config).port
+      ---@diagnostic disable-next-line: undefined-field
+      local host = (config.connect or config).host or '127.0.0.1'
+      cb({
+        type = 'server',
+        port = assert(port, '`connect.port` is required for a python `attach` configuration'),
+        host = host,
+        options = {
+          source_filetype = 'python',
+        },
+      })
+    else
+      cb({
+        type = 'executable',
+        -- https://github.com/jay-babu/mason-nvim-dap.nvim/blob/main/lua/mason-nvim-dap/mappings/adapters/python.lua
+        command = vim.fn.exepath('debugpy-adapter'),
+        --command = os.getenv('HOME') .. '/.local/share/nvim/mason/bin/debugpy-adapter',
+        --command = os.getenv('CONDA_PREFIX') .. '/bin/python',
+        --args = { '-m', 'debugpy.adapter' },
+      })
+    end
+  end,
+}
+-- not sure if this is needed:
+-- mason_pkgs.debug_adapters.debugpy = mason_pkgs.debug_adapters.python
+
+-- steal some logic here for python, especially testing:
+-- https://github.com/mfussenegger/nvim-dap-python/tree/master
+
+-- `:help dap-configuration`
+mason_pkgs.debug_configurations = {
+  python = {
+    {
+      type = 'python',
+      request = 'launch',
+      name = 'Some Launch',
+    },
+  },
 }
 
 -- These go to `mason-tool-installer` in `plugins/mason`.

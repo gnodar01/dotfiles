@@ -1,12 +1,16 @@
--- https://github.com/mfussenegger/nvim-dap
 -- DAP plugins
--- `:h dap-configuration`
+-- general help: `:help dap.txt`
+-- two things need to be configured per language:
+-- a debug adapter: `:h dap-adapter`
+-- how to attach to/launch the application: `:h dap-configuration`
 
 return {
   'mfussenegger/nvim-dap',
   -- extension name is "dap"
   name = 'dap',
   --tag = '0.9.0',
+  -- TODO: make lazy, just for debugging its false
+  lazy = false,
   dependencies = {
     -- https://github.com/rcarriga/nvim-dap-ui
     -- creates a beautiful debugger UI
@@ -102,6 +106,19 @@ return {
         },
       },
     })
+
+    --require('dap.ext.vscode').load_launchjs(nil, { python = { 'py' } })
+    dap.adapters = require('config/mason-pkgs').debug_adapters
+    --dap.configurations = require('config/mason-pkgs').debug_configurations
+    --local adapters = require('config/mason-pkgs').debug_adapters
+    --for adptr_type, adptr_settings in pairs(adapters) do
+    --  dap.adapters[adptr_type] = adptr_settings
+    --end
+
+    --local configurations = require('config/mason-pkgs').debug_configurations
+    --for cfg_type, cfg_settings in pairs(configurations) do
+    --  dap.configurations[cfg_type] = cfg_settings
+    --end
 
     -- change breakpoint icons
     -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
