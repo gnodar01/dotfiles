@@ -27,17 +27,20 @@ return {
       local formatter_settings = require('config/mason-pkgs').formatter_settings
       local conform = require('conform')
 
+      -- TODO: per-project settings?
       conform.setup({
         notify_on_error = false,
         format_on_save = function(bufnr)
           -- disable "format_on_save lsp_fallback" for languages that don't
           -- have a well standardized coding style
-          local disable_filetypes = { c = true, cpp = true }
+          local disable_filetypes = { c = true, cpp = true, python = true }
           local lsp_format_opt
           if disable_filetypes[vim.bo[bufnr].filetype] then
             lsp_format_opt = 'never'
           else
+            -- TODO: don't want for cellprofiler (.py) in general
             lsp_format_opt = 'fallback'
+            --lsp_format_opt = 'never'
           end
           return {
             timeout_ms = 500,
