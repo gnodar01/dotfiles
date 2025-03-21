@@ -212,7 +212,11 @@ return {
         automatic_installation = false,
         handlers = {
           function(server_name)
-            local server = servers[server_name] or {}
+            -- otherwise things like ruff (which I want to be a formatter and/or linter) will be setup
+            if servers[server_name] == nil then
+              return
+            end
+            local server = servers[server_name]
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
