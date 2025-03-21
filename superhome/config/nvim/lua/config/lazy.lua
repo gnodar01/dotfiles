@@ -25,7 +25,7 @@ require('lazy').setup({
   },
   install = { colorscheme = { 'habamax' } },
   -- automatically check for plugin updates
-  checker = { enabled = true },
+  checker = { enabled = false },
   -- disable rockspecs, because its otherwise a dependency and I don't understand it
   rocks = { enabled = false },
   ui = {
