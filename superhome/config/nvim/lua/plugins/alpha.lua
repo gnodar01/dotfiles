@@ -13,11 +13,11 @@ return {
   -- `:Alpha` to open the alpha buffer
   config = function()
     local dashboard = require('alpha.themes.dashboard')
-    local splash = require('config/splash')
+    local ani = require('config/ani')
 
-    dashboard.section.header.opts = splash.header.opts
-    dashboard.section.header.type = splash.header.type
-    dashboard.section.header.val = splash.header.val
+    dashboard.section.header.type = ani.type
+    dashboard.section.header.opts = ani.opts
+    dashboard.section.header.val = ani.val
 
     dashboard.section.buttons.val = {
       dashboard.button('e', '  New file', '<cmd>ene <CR>'),
