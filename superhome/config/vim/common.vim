@@ -60,7 +60,6 @@ set backspace=2
 
 " }}}
 
-
 " Visual Settings -------------------------------------------------------- {{{
 
 " Set a colorscheme $VIMRUNTIME/colors for color schemes shipped with vim
@@ -126,12 +125,16 @@ set colorcolumn=161
 
 " }}}
 
-
 " MAPPINGS --------------------------------------------------------------- {{{
 
-" Source the vimrc file after saving it
-" shortcut to show vimrc file in new tab
-nmap <Leader>v :tabedit $MYVIMRC<CR>
+" Move focus to the left window
+nmap <C-h> <C-w><C-h>
+" Move focus to the right window
+nmap <C-l> <C-w><C-l>
+" Move focus to the lower window
+nmap <C-j> <C-w><C-j>
+" Move focus to the upper window
+nmap <C-k> <C-w><C-k>
 
 " copy paste to clipboard
 " copy from visual mode
@@ -151,7 +154,6 @@ map [t :set nolist<CR>
 
 " }}}
 
-
 " VIMSCRIPT -------------------------------------------------------------- {{{
 
 " This will enable code folding.
@@ -162,7 +164,6 @@ augroup filetype_vim
 augroup END
 
 " }}}
-
 
 " MISC ------------------------------------------------------------------- {{{
 
