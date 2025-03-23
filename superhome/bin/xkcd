@@ -26,6 +26,6 @@ TITLE=$(echo "${TODAY}" | jq -r '.safe_title')
 IMGURL=$(echo "${TODAY}" | jq -r '.img')
 
 echo ${TITLE}
-curl -s -L "${IMGURL}" | imgcat ${@}
+curl -s -L "${IMGURL}" | chafa "${@}"
 echo ${ALT}
 
