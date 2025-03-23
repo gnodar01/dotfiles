@@ -55,5 +55,3 @@ end, { desc = 'Open [T]erminal without focus' })
 -- diagnostic keymaps --
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
--- misc --
