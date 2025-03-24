@@ -1,0 +1,24 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "explorer.autoReveal": true,
+  "files.associations": {
+    "memory": "cpp"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": false
+  },
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "editor.guides.bracketPairs": true,
+  "editor.bracketPairColorization.enabled": true,
+  "js/ts.implicitProjectConfig.target": "ES2022",
+  "GitHooks.hooksDirectory": ".husky",
+  "reactSnippets.settings.prettierEnabled": false
+}

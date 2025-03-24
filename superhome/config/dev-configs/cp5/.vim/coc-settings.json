@@ -1,0 +1,12 @@
+{
+  "pyright.enable": true,
+  "python.pythonPath": "./CellProfiler/.pixi/envs/hack/bin/python",
+  "python.formatting.provider": "ruff",
+  "python.linting.enabled": true,
+  "python.linting.ruffEnabled": true,
+  "pyright.organizeimports.provider": "ruff",
+  "pyright.inlayHints.functionReturnTypes": false,
+  "pyright.inlayHints.parameterTypes": false,
+  "pyright.inlayHints.variableTypes": false
+}
+

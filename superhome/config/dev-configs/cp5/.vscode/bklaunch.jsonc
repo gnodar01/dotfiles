@@ -1,0 +1,196 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    // https://code.visualstudio.com/docs/editor/variables-reference
+    // https://code.visualstudio.com/docs/python/debugging#_set-configuration-options
+    "configurations": [
+        // For the VS Code Testing GUI on the sidebar
+        // only one of these with the "purpose": ["debug-test"] are allowed
+        // https://code.visualstudio.com/docs/python/testing
+        {
+            "name": "Python: Debug Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "purpose": ["debug-test"],
+            //"console": "integratedTerminal",
+            "console": "internalConsole",
+            "justMyCode": false,
+            "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/lib/jvm"},
+        },
+        // {
+        //     "name": "Cellprofiler",
+        //     "request": "launch",
+        //     "type": "debugpy",
+        //     "python": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/pythonapp/Contents/MacOS/python",
+        //     "env": {
+        //         "JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/lib/jvm"
+        //     },
+        //     "justMyCode": false,
+        //     "subProcess": true,
+        //     "module": "cellprofiler",
+        //     "args": [
+        //         "-L",
+        //         "10",
+        //     ],
+        // },
+        {
+            "name": "Cellprofiler",
+            "request": "launch",
+            "type": "debugpy",
+            "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/pythonapp/Contents/MacOS/python",
+            "justMyCode": false,
+            "subProcess": true,
+            "module": "cellprofiler",
+            "args": [
+                "-L",
+                "10",
+            ],
+            "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/lib/jvm"},
+            "console": "internalConsole",
+        },
+        {
+            "name": "no-log",
+            "request": "launch",
+            "type": "debugpy",
+            "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/pythonapp/Contents/MacOS/python",
+            "justMyCode": false,
+            "subProcess": true,
+            "module": "cellprofiler",
+            "args": [
+                "-L",
+                "50"
+            ],
+        },
+        {
+            "name": "headless",
+            "request": "launch",
+            "type": "debugpy",
+            "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/pythonapp/Contents/MacOS/python",
+            "justMyCode": false,
+            "subProcess": true,
+            "module": "cellprofiler",
+            "args": [
+                "-L",
+                "10",
+                "-c",
+                "-r",
+                //"--plugins-directory",
+                //"${workspaceFolder}/CellProfiler/CellProfiler-plugins/CP5/active_plugins",
+                "--enable-readers",
+                "imageio_reader_v3",
+                "--image-directory",
+                "${workspaceFolder}/CellProfiler/profiles/example_fly/src/images",
+                "--output-directory",
+                "${workspaceFolder}/CellProfiler/profiles/example_fly/src/output",
+                "--pipeline",
+                "${workspaceFolder}/CellProfiler/profiles/example_fly/src/example_fly.cpproj",
+            ],
+        },
+        {
+            "name": "PyTest frontend",
+            "type": "debugpy",
+            "request": "launch",
+            "stopOnEntry": false,
+            "module": "pytest",
+            "args": [
+                "${workspaceFolder}/CellProfiler/tests/frontend",
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "redirectOutput": true,
+            "justMyCode": false
+        },
+        {
+            "name": "PyTest core",
+            "type": "debugpy",
+            "request": "launch",
+            "stopOnEntry": false,
+            "module": "pytest",
+            "args": [
+                "-k",
+                "test_manualscale[float16_neg_one_pos_one-",
+                "${workspaceFolder}/CellProfiler/tests/core/core/reader",
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "redirectOutput": true,
+            "justMyCode": false
+        },
+        {
+            "name": "PyTest specific",
+            "type": "debugpy",
+            "request": "launch",
+            "stopOnEntry": false,
+            "module": "pytest",
+            "args": [
+                "-sv",
+                "-x",
+                "-k",
+                "test_03_01",
+                "--log-cli-level=DEBUG",
+                "--log-cli-format=%(levelname)s %(message)s",
+                "--disable-warnings",
+                "${workspaceFolder}/CellProfiler/tests/core/analysis",
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "redirectOutput": true,
+            "justMyCode": false
+        },
+        {
+            "name": "PyTest library",
+            "type": "debugpy",
+            "request": "launch",
+            "stopOnEntry": false,
+            "module": "pytest",
+            "args": [
+                "-sv",
+                "-x",
+                "${workspaceFolder}/CellProfiler/tests/library",
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "redirectOutput": true,
+            "justMyCode": false
+        },
+        {
+            "name": "Pip Dry Run",
+            "type": "debugpy",
+            "request": "launch",
+            "stopOnEntry": true,
+            "program": "setup.py",
+            "args": [
+                "--dry-run",
+                "develop",
+            ],
+            "cwd": "${workspaceRoot}/CellProfiler",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "redirectOutput": true,
+            "justMyCode": false
+        },
+        {
+            "name": "pyinstaller",
+            "type": "debugpy",
+            "request": "launch",
+            "stopOnEntry": true,
+            "program": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/bin/pyinstaller",
+            "args": [
+                "--noconfirm",
+                "CellProfiler.spec"
+            ],
+            "cwd": "${workspaceRoot}/CellProfiler/distribution/macos",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "redirectOutput": true,
+            "justMyCode": false
+        },
+    ]
+}

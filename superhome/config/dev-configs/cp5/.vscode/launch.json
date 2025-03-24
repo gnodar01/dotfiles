@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "CellProfiler",
+      "type": "python",
+      "request": "launch",
+      "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/pythonapp/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "cellprofiler",
+      "args": [
+        "-L",
+        "10"
+      ],
+      "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/lib/jvm"},
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "CellProfiler 2",
+      "type": "python",
+      "request": "launch",
+      "python": "${workspaceFolder}/.pixi/envs/dev/pythonapp/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "cellprofiler",
+      "args": [
+        "-L",
+        "10"
+      ],
+      "env": {"JAVA_HOME": "${workspaceFolder}/.pixi/envs/dev/lib/jvm"},
+      "console": "integratedTerminal"
+    }
+  ]
+}

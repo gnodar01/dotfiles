@@ -1,0 +1,30 @@
+{
+  "$schema": "https://puremourning.github.io/vimspector/schema/gadgets.schema.json#",
+  "configurations": {
+    "piximi": {
+      "adapter": "chrome",
+      "variables": {},
+      "configuration": {
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceRoot}",
+        "skipFiles": [
+          "<node_internals>/**",
+          "<eval>/**",
+          "*VM*",
+          "${workspaceFolder}/node_modules/**/*.js",
+          "**/node_modules/**/*.js",
+          "**/node_modules/**/*",
+          "${workspaceFolder}/lib/**/*.js"
+        ]
+      },
+      "breakpoints": {
+        "exception": {
+          "all": "N",
+          "uncaught": "N"
+        }
+      }
+    }
+  }
+}

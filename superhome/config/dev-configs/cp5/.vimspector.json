@@ -1,0 +1,33 @@
+{
+  "$schema": "https://puremourning.github.io/vimspector/schema/gadgets.schema.json#",
+  "configurations": {
+    "cp": {
+      "adapter": "debugpy",
+      "variables": {
+        "PixiEnv": "${CONDA_PREFIX}",
+        "GUIPy": "${CONDA_PREFIX}/pythonapp/Contents/MacOS/python"
+      },
+      "configuration": {
+        "request": "launch",
+        "python": "${GUIPy}",
+        "module": "cellprofiler",
+        "args": [
+          "-L",
+          "10"
+        ],
+        "console": "integratedTerminal",
+        "justMyCode": false,
+        "stopOnEntry": false,
+        "subProcess": true
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y",
+          "userUnhandled": "N"
+        }
+      }
+    }
+  }
+}
+

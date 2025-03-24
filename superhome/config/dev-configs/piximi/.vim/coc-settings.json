@@ -1,0 +1,16 @@
+{
+  "eslint.enable": true, // default
+  "eslint.packageManager": "pnpm",
+  "eslint.alwaysShowStatus": false, // default
+  "eslint.autoFixOnSave": false,
+  "eslint.format.enable": true,
+  "eslint.options": {}, // default empty object
+  "prettier.enable": true, // default
+  "prettier.formatterPriority": -1, // highest priority
+  "tsserver.enable": true, // default
+  "tsserver.tsconfigPath": "tsconfig.json", // default
+  "tsserver.implicitProjectConfig.target": "ESNext",
+  "javascript.validate.enable": true, // default
+  "javascript.format.enable": true, // dfault
+  "coc.preferences.formatOnSave": true
+}

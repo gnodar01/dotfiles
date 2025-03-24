@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"explorer.autoReveal": false,
+		"files.associations": {
+			"mac_javabridge_utils.h": "c",
+			"jni.h": "c"
+		},
+		"jupyter.disableJupyterAutoStart": true,
+		"terminal.integrated.enableImages": false
+	}
+}

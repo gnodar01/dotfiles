@@ -1,0 +1,15 @@
+{
+  "include": [
+    "."
+  ],
+  "extraPaths": [
+    "./CellProfiler/src/frontend/",
+    "./CellProfiler/src/subpackages/core/",
+    "./CellProfiler/src/subpackages/library//"
+  ],
+  "exclude": [
+    "**/__pycache__"
+  ],
+  "venvPath": "./CellProfiler/.pixi/envs/",
+  "venv": "hack"
+}
