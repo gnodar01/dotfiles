@@ -56,7 +56,7 @@ return {
       { '<Leader>t', group = '[T]oggle' },
       { '<Leader>s', group = '[S]pecial' },
       { '<Leader>h', group = '[H]arpoon' },
-      --{ '<Leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+      { '<Leader>h', group = '[J]Git Hunk', mode = { 'n', 'v' } },
     },
   },
 }
