@@ -13,7 +13,7 @@ return {
   -- `:Alpha` to open the alpha buffer
   config = function()
     local dashboard = require('alpha.themes.dashboard')
-    local ani = require('config/ani')
+    local ani = require('config/ani_hq')
 
     dashboard.section.header.type = ani.type
     dashboard.section.header.opts = ani.opts
