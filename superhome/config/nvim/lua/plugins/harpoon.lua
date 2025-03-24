@@ -5,7 +5,7 @@
 
 return {
   'ThePrimeagen/harpoon',
-  name = 'haproon',
+  name = 'harpoon',
   branch = 'harpoon2',
   dependencies = {
     'plenary',
