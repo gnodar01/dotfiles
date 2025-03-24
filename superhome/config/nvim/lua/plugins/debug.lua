@@ -63,7 +63,7 @@ return {
       function()
         require('dap').toggle_breakpoint()
       end,
-      desc = '[D]ebug: Toggle [shft-B]reakpoint',
+      desc = '[D]ebug: Toggle [B]reakpoint',
     },
     {
       '<Leader>dB',
@@ -71,6 +71,39 @@ return {
         require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))
       end,
       desc = '[D]ebug: Set [B]reakpoint',
+    },
+    {
+      '<Leader>d,',
+      function()
+        require('dap').up()
+      end,
+      desc = '[D]ebug: Up [<]',
+    },
+    {
+      '<Leader>d.',
+      function()
+        require('dap').down()
+      end,
+      desc = '[D]ebug: Down [>]',
+    },
+    {
+      '<Leader>dt',
+      function()
+        require('dap').terminate({
+          terminate_args = { retart = false },
+          disconnect_args = { restart = false, terminateDebuggee = true, suspendDebuggee = false },
+          all = true,
+          hierarchy = true,
+        })
+      end,
+      desc = '[D]ebug: [T]erminate',
+    },
+    {
+      '<Leader>dr',
+      function()
+        require('dap').restart()
+      end,
+      desc = '[D]ebug: [R]estart',
     },
     -- toggle to see last session result. without this, can't see session output in case of unhandled exception.
     {

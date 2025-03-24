@@ -61,9 +61,24 @@ return {
 
     -- See `:help telescope.builtin`
     local builtin = require('telescope.builtin')
-    vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = '[F]uzzy Search [F]iles' })
-    vim.keymap.set('n', '<Leader>fF', builtin.git_files, { desc = '[F]uzzy Search Git [F]iles' })
-    vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = '[F]uzzy Search by [G]rep' })
+    vim.keymap.set('n', '<Leader>ff', function()
+      local cwd = vim.fn.getcwd()
+      if cwd == vim.fn.getenv('HOME') .. '/Developer/CellProfiler' then
+        builtin.find_files({ cwd = cwd .. '/CellProfiler/src' })
+      else
+        builtin.find_files()
+      end
+    end, { desc = '[F]uzzy Search [F]iles' })
+    vim.keymap.set('n', '<Leader>fj', builtin.git_files, { desc = '[F]uzzy Search [J]Git Files' })
+    vim.keymap.set('n', '<Leader>fg', function()
+      local cwd = vim.fn.getcwd()
+      -- I know, not very "portable", but whatever
+      if cwd == vim.fn.getenv('HOME') .. '/Developer/CellProfiler' then
+        builtin.live_grep({ cwd = cwd .. '/CellProfiler/src' })
+      else
+        builtin.live_grep()
+      end
+    end, { desc = '[F]uzzy Search by [G]rep' })
     vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = '[F]uzzy Search existing [B]uffers' })
     -- :Telescope help_tags
     vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = '[F]uzzy Search [H]elp' })
