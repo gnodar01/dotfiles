@@ -21,18 +21,6 @@ local mason_pkgs = {}
 --    - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
 --    - settings (table): Override the default settings passed when initializing the server.
 local lsp_definitions = {
-  -- clangd = { install = 'clangd', config = {} },
-  -- gopls = { install = 'gopls', config = {} },
-  -- pyright = { install = 'pyright', config = {} },
-  -- rust_analyzer = { install = 'rust_analyzer', config = {} },
-  -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-  --
-  -- Some languages (like typescript) have entire language plugins that can be useful:
-  --    https://github.com/pmizio/typescript-tools.nvim
-  --
-  -- But for many setups, the LSP (`ts_ls`) will work just fine
-  -- ts_ls = { install = 'ts_ls', config = {} },
-
   lua_ls = {
     install = 'lua_ls',
     config = {
@@ -90,6 +78,15 @@ local lsp_definitions = {
       },
     },
   },
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#ts_ls
+  -- https://github.com/typescript-language-server/typescript-language-server
+  ts_ls = {
+    install = 'ts_ls',
+    config = {
+      settings = {},
+    },
+  },
 }
 
 -- These go to `nvim-lspconfig` via `mason-lspconfig` in `plugins/lsp`
@@ -136,6 +133,9 @@ local formatter_definitions = {
   --
   -- can use 'stop_after_first' to run the first available formatter from the list
   -- javascript = { "prettierd", "prettier", stop_after_first = true },
+  javascript = { 'eslint_d' },
+  typescript = { 'eslint_d' },
+  typescriptreact = { 'eslint_d' },
 }
 
 -- These go to `conform` to customize defined formatters
@@ -154,6 +154,8 @@ mason_pkgs.formatter_settings = {
     -- quote-style = [AutoPreferSingle | ForceSingle]
     prepend_args = { '--indent-type', 'Spaces', '--indent-width', '2', '--quote-style', 'AutoPreferSingle' },
   },
+
+  eslint_d = {},
 }
 
 -- These go to `conform` in the `formatters_by_ft`: field.
@@ -191,6 +193,9 @@ local linter_definitions = {
   sh = { 'shellcheck' },
   python = { 'ruff' },
   lua = { 'luacheck' },
+  javascript = { 'eslint_d' },
+  typescript = { 'eslint_d' },
+  typescriptreact = { 'eslint_d' },
 }
 
 -- These go to `nvim-lint` to customize defined linters
@@ -211,6 +216,7 @@ end
 -- tell mason to install these
 local debuggers = {
   'debugpy',
+  'js-debug-adapter',
 }
 
 -- These go to `nvim-dap` via `dap.adapters`
@@ -243,6 +249,23 @@ mason_pkgs.debug_adapters = {
       })
     end
   end,
+
+  -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript-chrome
+  ['pwa-chrome'] = {
+    type = 'server',
+    host = 'localhost',
+    port = '${port}',
+    executable = {
+      command = 'js-debug-adapter',
+      args = { '${port}' },
+      --command = 'node',
+      --args = {
+      --  require('mason-registry').get_package('js-debug-adapter'):get_install_path()
+      --    .. '/js-debug/src/dapDebugServer.js',
+      --  '${port}',
+      --},
+    },
+  },
 }
 -- not sure if this is needed:
 -- mason_pkgs.debug_adapters.debugpy = mason_pkgs.debug_adapters.python
@@ -259,7 +282,22 @@ mason_pkgs.debug_configurations = {
       name = 'Some Launch',
     },
   },
+
+  javascript = {
+    {
+      type = 'pwa-chrome',
+      request = 'launch',
+      name = 'Launch Chrome',
+      webRoot = '${workspaceFolder}',
+      url = 'http://localhost:3000',
+      sourceMaps = true,
+    },
+  },
 }
+
+mason_pkgs.debug_configurations.typescript = mason_pkgs.debug_configurations.javascript
+mason_pkgs.debug_configurations.javascriptreact = mason_pkgs.debug_configurations.javascript
+mason_pkgs.debug_configurations.typescriptreact = mason_pkgs.debug_configurations.javascript
 
 -- These go to `mason-tool-installer` in `plugins/mason`.
 mason_pkgs.ensure_installed = {}

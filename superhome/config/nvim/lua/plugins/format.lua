@@ -39,14 +39,16 @@ return {
             lsp_format_opt = 'never'
           else
             -- TODO: don't want for cellprofiler (.py) in general
-            lsp_format_opt = 'fallback'
-            --lsp_format_opt = 'never'
+            --lsp_format_opt = 'fallback'
+            lsp_format_opt = 'never'
           end
           return {
             timeout_ms = 500,
             lsp_format = lsp_format_opt,
           }
         end,
+        -- TODO: same as above
+        default_format_opts = { lsp_format = 'never' },
         formatters_by_ft = ft_formatters,
       })
 
