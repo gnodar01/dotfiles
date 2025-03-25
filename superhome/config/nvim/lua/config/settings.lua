@@ -25,6 +25,7 @@ vim.api.nvim_create_autocmd('TermOpen', {
     if saved_path then
       vim.api.nvim_chan_send(vim.b.terminal_job_id, 'PATH=' .. saved_path .. '\n')
     end
+    saved_path = nil
   end,
 })
 
