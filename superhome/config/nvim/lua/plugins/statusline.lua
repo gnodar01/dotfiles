@@ -8,7 +8,7 @@ return {
     'web-devicons',
     'dap-ui',
     'nvim-lint',
-    --'gitsigns',
+    'gitsigns',
     --'possession',
     --'nvim-possession',
   },
