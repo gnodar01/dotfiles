@@ -13,6 +13,8 @@ vim.g.have_nerd_font = true
 -- but I like this the best
 vim.keymap.set('t', '<C-\\><C-\\>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+local saved_path = nil
+
 -- settings for terminal buffer
 vim.api.nvim_create_autocmd('TermOpen', {
   group = vim.api.nvim_create_augroup('nodar-term-open', { clear = true }),
@@ -20,12 +22,16 @@ vim.api.nvim_create_autocmd('TermOpen', {
     -- don't show numbers in terminal
     vim.opt.number = false
     vim.opt.relativenumber = false
+    if saved_path then
+      vim.api.nvim_chan_send(vim.b.terminal_job_id, 'PATH=' .. saved_path .. '\n')
+    end
   end,
 })
 
 -- terminal keymaps
 
 vim.keymap.set('n', '<Leader>st', function()
+  saved_path = vim.env['PATH']
   -- vertical horizontal window
   vim.cmd.new()
   -- put it at bottom (<c-w>J)
