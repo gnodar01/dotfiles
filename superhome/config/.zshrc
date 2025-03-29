@@ -125,7 +125,7 @@ export FZF_DEFAULT_OPS="-m"
 export FZF_DEFAULT_COMMAND='fd -H --no-require-git .'
 
 # basic preview with bat
-alias fzfpreview="utilhelpers fzfpreview"
+alias fzfpview="utilhelpers fzfpreview"
 # use opener; takes opt arg; depth 1
 alias fzfp="utilhelpers fzfp"
 # use opener; no arg; inf depth
@@ -143,7 +143,7 @@ alias dockersize="utilhelpers dockersize"
 alias nv="nvim"
 
 # set neovim as main editor
-export EDITOR="vim"
+export EDITOR="nvim"
 
 alias ca="conda activate"
 alias cx="conda deactivate"
@@ -192,5 +192,19 @@ yadmc() {
   fi
 
   yadm status
+}
+
+# yazi - set config home to superhome
+#export YAZI_CONFIG_HOME="$(pwd)/yazi"
+export YAZI_CONFIG_HOME="$HOME/superhome/config/yazi"
+
+# yazi - cd on exit (q), or don't cd (Q)
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	command rm -f -- "$tmp"
 }
 

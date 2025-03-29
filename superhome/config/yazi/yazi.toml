@@ -1,0 +1,10 @@
+# configuration docs:
+#   https://yazi-rs.github.io/docs/configuration/overview
+# default configurations:
+#   https://github.com/sxyazi/yazi/tree/shipped/yazi-config/preset
+
+# NOTE: set YAZI_CONFIG_HOME in .zshrc
+
+[manager]
+show_hidden = true
+

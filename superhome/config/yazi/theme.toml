@@ -1,0 +1,12 @@
+# theme configuration:
+#   https://yazi-rs.github.io/docs/configuration/theme
+# flavor (premade themes) configuration:
+#   https://yazi-rs.github.io/docs/flavors/overview/
+# flavors:
+#   https://github.com/yazi-rs/flavors/tree/main
+# dracula flavor:
+#   https://github.com/yazi-rs/flavors/tree/main/dracula.yazi
+
+# ya pack --add yazi-rs/flavors:dracula
+[flavor]
+dark = "dracula"
