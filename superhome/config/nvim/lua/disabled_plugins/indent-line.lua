@@ -5,6 +5,7 @@ return {
   {
     'lukas-reineke/indent-blankline.nvim',
     name = 'indent-blankline',
+    enabled = false,
     -- see `:help ibl`
     main = 'ibl',
     opts = {},

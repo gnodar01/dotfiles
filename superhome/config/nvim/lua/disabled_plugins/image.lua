@@ -12,5 +12,6 @@
 return {
   '3rd/image.nvim',
   name = 'image',
+  enabled = false,
   opts = {},
 }

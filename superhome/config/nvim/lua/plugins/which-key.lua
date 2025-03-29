@@ -57,6 +57,7 @@ return {
       { '<Leader>s', group = '[S]pecial' },
       { '<Leader>h', group = '[H]arpoon' },
       { '<Leader>j', group = '[J]Git Hunk', mode = { 'n', 'v' } },
+      { '<Leader>y', group = '[Y]azi', mode = { 'n', 'v' } },
     },
   },
 }

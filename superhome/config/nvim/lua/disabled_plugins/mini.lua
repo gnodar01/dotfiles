@@ -3,6 +3,7 @@
 
 return {
   'echasnovski/mini.nvim',
+  enabled = false,
   config = function()
     -- Better Around/Inside textobjects
     --

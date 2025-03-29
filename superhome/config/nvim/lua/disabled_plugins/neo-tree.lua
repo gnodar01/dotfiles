@@ -6,6 +6,7 @@ return {
   name = 'neo-tree',
   -- tag = '3.31.1',
   branch = 'v3.x',
+  enabled = false,
   dependencies = {
     'plenary',
     'web-devicons', -- optional

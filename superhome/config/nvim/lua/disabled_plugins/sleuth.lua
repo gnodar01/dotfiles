@@ -3,5 +3,6 @@
 
 return {
   'tpope/vim-sleuth',
+  enabled = false,
   name = 'vim-sleuth',
 }
