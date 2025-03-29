@@ -194,6 +194,11 @@ yadmc() {
   yadm status
 }
 
+# yazi optional deps used:
+#   exiftools, nerd-fonts, ffmpeg, sevenzip, jq, poppler, fd, rg, fzf, imagemagick
+# not used:
+#   zoxide
+
 # yazi - set config home to superhome
 #export YAZI_CONFIG_HOME="$(pwd)/yazi"
 export YAZI_CONFIG_HOME="$HOME/superhome/config/yazi"
