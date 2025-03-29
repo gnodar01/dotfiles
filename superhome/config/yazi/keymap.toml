@@ -1,0 +1,11 @@
+# keymap docs
+#   https://yazi-rs.github.io/docs/configuration/keymap
+# default keymap https://github.com/sxyazi/yazi/blob/shipped/yazi-config/preset/keymap-default.toml:
+#   https://github.com/sxyazi/yazi/tree/shipped/yazi-config/preset
+# current keymap: `~` in yazi
+
+[manager]
+
+prepend_keymap = [
+  { on = "<C-x>", run = "escape --search", desc = "Cancel the ongoing search" },
+]
