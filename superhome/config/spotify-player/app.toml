@@ -7,3 +7,4 @@ client_id_command = "cat $HOME/.spotify_client_id"
 # vite, jupyer etc like 8080 as well
 client_port = 8090
 theme = "dracula"
+enable_notify = false
