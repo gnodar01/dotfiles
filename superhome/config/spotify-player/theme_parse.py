@@ -1,0 +1,56 @@
+#!/bin/python
+
+# https://github.com/aome510/spotify-player/blob/master/scripts/theme_parse
+# https://github.com/mbadolato/iTerm2-Color-Schemes/tree/master/alacritty
+
+import sys
+import requests
+import tomli
+
+if len(sys.argv) > 1:
+    name = sys.argv[1]
+
+    if len(sys.argv) > 2:
+        saved_name = sys.argv[2]
+    else:
+        saved_name = name
+else:
+    print("Usage: theme_parse `theme_name` `theme_saved_name`", file=sys.stderr)
+    exit(1)
+
+url = f"https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/alacritty/{name}.toml"
+
+req = requests.get(url)
+
+if req.status_code != 200:
+    print(
+        f"GET {url} request failed with status code: {req.status_code}", file=sys.stderr
+    )
+    exit(1)
+
+data = tomli.loads(req.text)
+
+print(
+    f"""[[themes]]
+name = "{saved_name}"
+[themes.palette]
+background = "{data["colors"]["primary"]["background"]}"
+foreground = "{data["colors"]["primary"]["foreground"]}"
+black = "{data["colors"]["normal"]["black"]}"
+red = "{data["colors"]["normal"]["red"]}"
+green = "{data["colors"]["normal"]["green"]}"
+yellow = "{data["colors"]["normal"]["yellow"]}"
+blue = "{data["colors"]["normal"]["blue"]}"
+magenta = "{data["colors"]["normal"]["magenta"]}"
+cyan = "{data["colors"]["normal"]["cyan"]}"
+white = "{data["colors"]["normal"]["white"]}"
+bright_black = "{data["colors"]["bright"]["black"]}"
+bright_red = "{data["colors"]["bright"]["red"]}"
+bright_green = "{data["colors"]["bright"]["green"]}"
+bright_yellow = "{data["colors"]["bright"]["yellow"]}"
+bright_blue = "{data["colors"]["bright"]["blue"]}"
+bright_magenta = "{data["colors"]["bright"]["magenta"]}"
+bright_cyan = "{data["colors"]["bright"]["cyan"]}"
+bright_white = "{data["colors"]["bright"]["white"]}"
+    """
+)

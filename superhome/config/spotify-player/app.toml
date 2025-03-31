@@ -1,0 +1,9 @@
+# default:
+#   https://github.com/aome510/spotify-player/blob/master/examples/app.toml
+client_id = ""
+# https://developer.spotify.com/
+# spotify-cli
+client_id_command = "cat $HOME/.spotify_client_id"
+# vite, jupyer etc like 8080 as well
+client_port = 8090
+theme = "dracula"
