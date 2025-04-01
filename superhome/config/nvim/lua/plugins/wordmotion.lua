@@ -9,7 +9,7 @@ return {
     vim.g.wordmotion_nomap = true
   end,
   config = function()
-    vim.keymap.set('n', '<leader>tw', function()
+    vim.keymap.set('n', '<Leader>tw', function()
       vim.g.wordmotion_nomap = not vim.g.wordmotion_nomap
       vim.fn['wordmotion#reload']()
     end, { desc = '[T]oggle [W]ordmotion' })
