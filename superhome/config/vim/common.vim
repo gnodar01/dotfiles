@@ -58,6 +58,9 @@ augroup END
 " fix backspace not working problem
 set backspace=2
 
+" vertical window splits open on right
+set splitright
+
 " }}}
 
 " Visual Settings -------------------------------------------------------- {{{
