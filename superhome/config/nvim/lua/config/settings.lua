@@ -61,4 +61,10 @@ end, { desc = 'Open [T]erminal without focus' })
 
 -- diagnostic keymaps --
 
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+vim.g.diagnostic_enable = true
+vim.keymap.set('n', '<Leader>td', function()
+  vim.g.diagnostic_enable = not vim.g.diagnostic_enable
+  vim.diagnostic.enable(vim.g.diagnostic_enable)
+end, { desc = "[T]oggle [D]iagnostic" })
