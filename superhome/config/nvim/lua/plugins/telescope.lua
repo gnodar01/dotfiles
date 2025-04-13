@@ -61,10 +61,11 @@ return {
 
     -- See `:help telescope.builtin`
     local builtin = require('telescope.builtin')
+    local action_state = require('telescope.actions.state')
 
     -- toggle hidden with <C-h>
-    -- TODO: ignore .git, .pixi
     -- https://github.com/nvim-telescope/telescope.nvim/issues/2874#issuecomment-1900967890
+    -- TODO: ignore .git, .pixi
     local my_find_files
     my_find_files = function(opts, no_ignore)
       opts = opts or {}
@@ -108,6 +109,28 @@ return {
         builtin.live_grep()
       end
     end, { desc = '[F]uzzy Search by [G]rep' })
+    -- delete buffers in picker
+    -- https://github.com/nvim-telescope/telescope.nvim/issues/621#issuecomment-2094652982
+    vim.keymap.set('n', '<Leader>fB', function()
+      builtin.buffers({
+        initial_mode = 'normal',
+        attach_mappings = function(prompt_bufnr, map)
+          local delete_buf = function()
+            local current_picker = action_state.get_current_picker(prompt_bufnr)
+            current_picker:delete_selection(function(selection)
+              vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+            end)
+          end
+
+          map('n', '<c-d>', delete_buf)
+          return true
+        end,
+      }, {
+        sort_lastused = true,
+        sort_mru = true,
+        theme = 'dropdown',
+      })
+    end, { desc = '[F]uzzy Search Delete [B]uffers' })
     vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = '[F]uzzy Search existing [B]uffers' })
     -- :Telescope help_tags
     vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = '[F]uzzy Search [H]elp' })
