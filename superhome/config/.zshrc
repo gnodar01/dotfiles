@@ -43,6 +43,9 @@ alias dostat="utilhelpers dostat"
 
 alias pltoxml="utilhelpers pltoxml"
 alias xmltopl="utilhelpers xmltopl"
+
+alias surround="utilhelpers surround"
+
 # https://fgimian.github.io/blog/2015/06/27/a-simple-plistbuddy-tutorial/
 alias plistbuddy="/usr/libexec/PlistBuddy"
 
