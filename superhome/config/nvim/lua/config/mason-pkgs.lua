@@ -276,11 +276,11 @@ mason_pkgs.debug_adapters = {
 -- `:help dap-configuration`
 mason_pkgs.debug_configurations = {
   python = {
-    {
-      type = 'python',
-      request = 'launch',
-      name = 'Some Launch',
-    },
+    --{
+    --  type = 'python',
+    --  request = 'launch',
+    --  name = 'Some Launch',
+    --},
   },
 
   javascript = {
