@@ -28,6 +28,22 @@
       ],
       "env": {"JAVA_HOME": "${workspaceFolder}/.pixi/envs/dev/lib/jvm"},
       "console": "integratedTerminal"
+    },
+    {
+      "name": "CP tiled proj",
+      "type": "python",
+      "request": "launch",
+      "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/pythonapp/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "cellprofiler",
+      "args": [
+        "-L",
+        "10",
+        "-p",
+        "/Users/ngogober/Downloads/one_tiled.cpproj"
+      ],
+      "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/lib/jvm"},
+      "console": "integratedTerminal"
     }
   ]
 }
