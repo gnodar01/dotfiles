@@ -1,15 +1,35 @@
 {
+  "executionEnvironments": [
+    {
+      "root": "./CellProfiler/src/frontend"
+    },
+    {
+      "root": "./CellProfiler/src/subpackages/core/"
+    },
+    {
+      "root": "./CellProfiler/src/subpackages/library/"
+    }
+  ],
   "include": [
-    "."
+    "./CellProfiler/src/frontend/",
+    "./CellProfiler/src/subpackages/core/",
+    "./CellProfiler/src/subpackages/library//"
+  ],
+  "exclude": [
+    ".git",
+    ".pixi",
+    "**/__pycache__"
   ],
   "extraPaths": [
     "./CellProfiler/src/frontend/",
     "./CellProfiler/src/subpackages/core/",
     "./CellProfiler/src/subpackages/library//"
   ],
-  "exclude": [
-    "**/__pycache__"
-  ],
+  "pythonPlatform": "All",
   "venvPath": "./CellProfiler/.pixi/envs/",
-  "venv": "hack"
+  "venv": "hack",
+  "typeCheckingMode": "off",
+  "strict": [
+    "./CellProfiler/src/subpackages/library/"
+  ]
 }
