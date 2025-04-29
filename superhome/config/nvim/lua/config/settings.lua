@@ -67,4 +67,39 @@ vim.g.diagnostic_enable = true
 vim.keymap.set('n', '<Leader>td', function()
   vim.g.diagnostic_enable = not vim.g.diagnostic_enable
   vim.diagnostic.enable(vim.g.diagnostic_enable)
-end, { desc = "[T]oggle [D]iagnostic" })
+end, { desc = '[T]oggle [D]iagnostic' })
+
+-- misc --
+
+vim.keymap.set('n', '<Leader>sw', function()
+  local buf = vim.api.nvim_get_current_buf()
+  local filepath = vim.api.nvim_buf_get_name(buf)
+
+  -- Save the file
+  vim.cmd('w')
+
+  -- Poll for changes every 500ms up to N times
+  local attempts = 0
+  local max_attempts = 20
+  local last_mtime = vim.uv.fs_stat(filepath).mtime.sec
+
+  local function poll()
+    local stat = vim.uv.fs_stat(filepath)
+    if not stat then
+      return
+    end
+
+    if stat.mtime.sec ~= last_mtime then
+      -- File was changed externally, trigger checktime manually
+      vim.cmd('checktime')
+      return
+    end
+
+    attempts = attempts + 1
+    if attempts < max_attempts then
+      vim.defer_fn(poll, 500)
+    end
+  end
+
+  poll()
+end, { desc = '[W]rite and checktime after 1s' })
