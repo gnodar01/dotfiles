@@ -71,26 +71,23 @@ end, { desc = '[T]oggle [D]iagnostic' })
 
 -- misc --
 
+-- for jupytext sync + nbdotrun
 vim.keymap.set('n', '<Leader>sw', function()
   local buf = vim.api.nvim_get_current_buf()
   local filepath = vim.api.nvim_buf_get_name(buf)
 
-  -- Save the file
-  vim.cmd('w')
+  local keys = vim.api.nvim_replace_termcodes('o.<Esc>k', true, false, true)
+  vim.api.nvim_feedkeys(keys, 'n', false)
 
-  -- Poll for changes every 500ms up to N times
+  -- poll for changes every 500ms up to N times
   local attempts = 0
   local max_attempts = 20
-  local last_mtime = vim.uv.fs_stat(filepath).mtime.sec
+  local last_mtime = nil
 
   local function poll()
-    local stat = vim.uv.fs_stat(filepath)
-    if not stat then
-      return
-    end
-
-    if stat.mtime.sec ~= last_mtime then
-      -- File was changed externally, trigger checktime manually
+    if vim.uv.fs_stat(filepath).mtime.sec ~= last_mtime then
+      print('here we go')
+      -- file was changed externally, trigger checktime manually
       vim.cmd('checktime')
       return
     end
@@ -101,5 +98,13 @@ vim.keymap.set('n', '<Leader>sw', function()
     end
   end
 
-  poll()
+  -- schedule to give time for feedkeys to actully input the keys in buffer
+  -- help says its blocking, but it doesn't seem to be
+  vim.schedule(function()
+    -- save the file
+    vim.cmd('w')
+    -- set the post-save modified time
+    last_mtime = vim.uv.fs_stat(filepath).mtime.sec
+    vim.defer_fn(poll, 500)
+  end)
 end, { desc = '[W]rite and checktime after 1s' })
