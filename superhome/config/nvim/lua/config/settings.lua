@@ -86,7 +86,6 @@ vim.keymap.set('n', '<Leader>sw', function()
 
   local function poll()
     if vim.uv.fs_stat(filepath).mtime.sec ~= last_mtime then
-      print('here we go')
       -- file was changed externally, trigger checktime manually
       vim.cmd('checktime')
       return
