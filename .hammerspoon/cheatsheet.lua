@@ -117,6 +117,8 @@ local markdowncontent = [[
 | toggle terminal | `⌘ ⌃ t` |
 | toggle maximize terminal | `⌘ ⌃ ⌥ t` |
 | rename symbol under cursor | `⌘k, ⌘r` |
+| show editor pane | `⌘ ^ e` |
+| show secondary pane | `⌘ ^ s` |
 
 ## Vimac
 
@@ -420,7 +422,7 @@ blockquote {
 }
 </style>
 ]]
-local htmlcontent = hs.doc.markdown.convert(markdowncontent, "gfm")
+local htmlcontent = hs.doc.markdown.convert(markdowncontent, 'gfm')
 
 local scrollScript = [[
 //// Create the keydown event for the "j" key
@@ -516,7 +518,7 @@ function toggleShortcuts()
       -- delete instead
       wv:delete(true)
       wv = nil
-    elseif wv:url() ~= "about:blank" then
+    elseif wv:url() ~= 'about:blank' then
       wv:delete(true)
       wv = nil
       toggleShortcuts()
@@ -531,34 +533,31 @@ function toggleShortcuts()
   local rectWidthScale = 0.50
   local rectHeightScale = 0.05
   local rect = hs.geometry.rect({
-    x=frame.x+frame.w*rectWidthScale/2,
-    y=frame.y+frame.h*rectHeightScale/2,
-    w=frame.w*(1-rectWidthScale),
-    h=frame.h*(1-rectHeightScale),
+    x = frame.x + frame.w * rectWidthScale / 2,
+    y = frame.y + frame.h * rectHeightScale / 2,
+    w = frame.w * (1 - rectWidthScale),
+    h = frame.h * (1 - rectHeightScale),
   })
 
   wv = hs.webview.new(rect, {
-    javaScriptEnabled=true,
-    javaScriptCanOpenWindowsAutomatically=false,
-    developerExtrasEnabled=true,
-    suppressesIncrementalRendering=false
+    javaScriptEnabled = true,
+    javaScriptCanOpenWindowsAutomatically = false,
+    developerExtrasEnabled = true,
+    suppressesIncrementalRendering = false,
   })
 
   masks = hs.webview.windowMasks
   -- descriptions here:
   -- https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview.m#L2528
-  wv:windowStyle(
-    masks.borderless |
-    --masks.titled |
-    --masks.closable |
-    --masks.resizable |
-    --masks.minaturizable |
-    --masks.fullSizeContentView |
-    --masks.texturedBackground |
-    --masks.utility |
-    --masks.HUD |
-    masks.nonactivating 
-  )
+  wv:windowStyle(masks.borderless |   --masks.titled |
+  --masks.closable |
+  --masks.resizable |
+  --masks.minaturizable |
+  --masks.fullSizeContentView |
+  --masks.texturedBackground |
+  --masks.utility |
+  --masks.HUD |
+masks.nonactivating)
   -- hs.drawing.windowBehaviors
   -- https://developer.apple.com/documentation/appkit/nswindow/collectionbehavior
   wv:behaviorAsLabels({
@@ -594,7 +593,7 @@ function toggleShortcuts()
 
   local function donecb(action, webView, navID, error)
     --print(wv:estimatedProgress())
-    if action == "didFinishNavigation" then
+    if action == 'didFinishNavigation' then
       wv:evaluateJavaScript(scrollScript, JScb)
     end
   end
@@ -605,4 +604,3 @@ function toggleShortcuts()
 
   wv:show()
 end
-
