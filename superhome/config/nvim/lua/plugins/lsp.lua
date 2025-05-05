@@ -51,6 +51,13 @@ return {
         'hrsh7th/cmp-nvim-lsp',
         name = 'cmp-nvim-lsp',
       },
+      {
+        'SmiteshP/nvim-navic',
+        name = 'nvim-navic',
+        config = function()
+          vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+        end,
+      },
     },
     config = function()
       -- run whenever an LSP attaches to a particular buffer
@@ -210,6 +217,14 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+      local navic = require('nvim-navic')
+
+      local on_attach = function(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, bufnr)
+        end
+      end
+
       local servers = require('config/mason-pkgs').lsp_server_configs
 
       require('mason-lspconfig').setup({
@@ -226,7 +241,7 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            require('lspconfig')[server_name].setup(vim.tbl_extend('force', server, { on_attach = on_attach }))
           end,
         },
       })

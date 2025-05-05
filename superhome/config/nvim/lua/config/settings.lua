@@ -71,6 +71,15 @@ end, { desc = '[T]oggle [D]iagnostic' })
 
 -- misc --
 
+-- style winbar
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    local normal = vim.api.nvim_get_hl(0, { name = 'Normal' })
+    vim.api.nvim_set_hl(0, 'WinBar', { bg = normal.bg })
+    vim.api.nvim_set_hl(0, 'WinBarNC', { bg = normal.bg })
+  end,
+})
+
 -- for jupytext sync + nbdotrun
 vim.keymap.set('n', '<Leader>sw', function()
   local buf = vim.api.nvim_get_current_buf()
