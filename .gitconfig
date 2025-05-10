@@ -36,6 +36,7 @@
 	autocrlf = input
 	eol= lf
 	editor = nvim
+	excludesfile = ~/.gitignore
 [pull]
 	rebase = true
 [push]

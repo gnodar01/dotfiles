@@ -37,3 +37,16 @@ ehthumbs.db
 Thumbs.db
 
 .dots.git
+
+# Venvs #
+#########
+.pixi
+
+# Build artifcats #
+###################
+.egg-info
+
+# Temp files #
+##############
+.ipynb_checkpoints
+__pycache__
