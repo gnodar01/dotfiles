@@ -109,6 +109,9 @@ else
   highlight Search ctermfg=238 ctermbg=117
 endif
 
+" highlight line cursor is on
+set cursorline
+
 " when search hight pattern match
 set incsearch
 

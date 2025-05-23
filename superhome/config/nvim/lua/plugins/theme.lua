@@ -35,6 +35,9 @@ return {
       transparent_bg = true, -- (default false)
       --lualine_bg_color = '#rrggbb', -- (default nil)
       italic_comment = false, -- (default false)
+      colors = {
+        selection = '#33343f',
+      },
     })
     -- many themes have a collection of styles
     -- e.g. dracula, dracula-soft
