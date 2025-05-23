@@ -30,7 +30,7 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "CP tiled proj",
+      "name": "CP project",
       "type": "python",
       "request": "launch",
       "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/python.app/Contents/MacOS/python",
@@ -40,7 +40,7 @@
         "-L",
         "10",
         "-p",
-        "/Users/ngogober/Downloads/one_tiled.cpproj"
+        "/Users/ngogober/Downloads/Colo_CP_500_save_mask.cpproj"
       ],
       "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/lib/jvm"},
       "console": "integratedTerminal"
