@@ -62,7 +62,6 @@ local markdowncontent = [[
 | toggle menu bar on/off | `⌘ ⌃ ⌥ m` |
 | toggle dock on/off | `⌘ ⌃ ⌥ d` |
 | kill notifications | `⌘ ⌃ ⌥ n` |
-| window switcher next window |  `⌥ ↹` |
 | open debug console | `⌘ ⌃ ⌥ c` |
 
 ## VS Code
@@ -549,8 +548,7 @@ function toggleShortcuts()
   masks = hs.webview.windowMasks
   -- descriptions here:
   -- https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/webview/libwebview.m#L2528
-  wv:windowStyle(masks.borderless |   --masks.titled |
-  --masks.closable |
+  wv:windowStyle(masks.borderless |  --masks.titled |  --masks.closable |
   --masks.resizable |
   --masks.minaturizable |
   --masks.fullSizeContentView |
