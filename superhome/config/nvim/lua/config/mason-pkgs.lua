@@ -87,6 +87,21 @@ local lsp_definitions = {
       settings = {},
     },
   },
+
+  -- https://clangd.llvm.org
+  -- https://github.com/clangd/clangd
+  -- https://www.lazyvim.org/extras/lang/clangd
+  -- https://github.com/p00f/clangd_extensions.nvim
+  -- commands:
+  --   ClangdSwitchSourceHeader
+  --   ClangdShowSymbolInfo
+  --   Clangd
+  clangd = {
+    install = 'clangd',
+    config = {
+      settings = {},
+    },
+  },
 }
 
 -- These go to `nvim-lspconfig` via `mason-lspconfig` in `plugins/lsp`
