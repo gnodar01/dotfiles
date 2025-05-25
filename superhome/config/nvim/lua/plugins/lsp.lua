@@ -258,9 +258,15 @@ return {
     dependencies = {
       -- https://github.com/L3MON4D3/LuaSnip
       -- Snippet Engine & its associated nvim-cmp source
+      -- keymaps:
+      --   <C-K> - expand
+      --   <C-L> - jump forward
+      --   <C-J> - jump backward
+      --   <C-E> - change active choice
       {
         'L3MON4D3/LuaSnip',
         name = 'luasnip',
+        --tag = 'v2.4.*',
         build = (function()
           -- Build Step is needed for regex support in snippets.
           -- This step is not supported in many windows environments.
@@ -274,12 +280,13 @@ return {
           --  https://github.com/rafamadriz/friendly-snippets
           -- `friendly-snippets` contains a variety of premade snippets.
           --  See the README about individual language/framework/plugin snippets:
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            --'rafamadriz/friendly-snippets',
+            'gnodar01/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
 
