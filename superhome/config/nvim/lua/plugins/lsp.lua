@@ -18,7 +18,7 @@ return {
     dependencies = {
       -- package manager
       'mason',
-      -- https://github.com/williamboman/mason-lspconfig.nvim
+      -- https://github.com/mason-org/mason-lspconfig.nvim
       -- mason extension to use lspconfig
       -- setup hook
       -- `:LspInstall` command
@@ -28,7 +28,7 @@ return {
       -- Help
       --   `:h mason-lspconfig-introduction`
       {
-        'williamboman/mason-lspconfig',
+        'mason-org/mason-lspconfig',
         --tag = 'v1.32.0',
         -- v2 is rc at time of writing
         --tag = 'v2.0.0',
@@ -227,29 +227,26 @@ return {
 
       local servers = require('config/mason-pkgs').lsp_server_configs
 
+      for server_name, server_cfg in pairs(servers) do
+        -- This handles overriding only values explicitly passed
+        -- by the server configuration above. Useful when disabling
+        -- certain features of an LSP (for example, turning off formatting for ts_ls)
+        server_cfg.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server_cfg.capabilities or {})
+        vim.lsp.config(server_name, server_cfg)
+      end
+
+      -- TODO: consider removing this since nvim 0.11 transition
+      -- not sure if there's any value left
       require('mason-lspconfig').setup({
         ensure_installed = {}, -- explicitly set to an empty table (installs populated via mason-tool-installer)
-        automatic_installation = false,
-        handlers = {
-          function(server_name)
-            -- otherwise things like ruff (which I want to be a formatter and/or linter) will be setup
-            if servers[server_name] == nil then
-              return
-            end
-            local server = servers[server_name]
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(vim.tbl_extend('force', server, { on_attach = on_attach }))
-          end,
-        },
+        automatic_enable = true,
       })
     end,
   },
   -- https://github.com/hrsh7th/nvim-cmp
   -- a completion engine plugin for neovim
   -- completion sources are installed from external repos and "sourced"
+  -- TODO: update with blink: https://github.com/nvim-lua/kickstart.nvim/commit/d350db2449da40df003c40d440f909d74e2d4e70
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     name = 'nvim-cmp',

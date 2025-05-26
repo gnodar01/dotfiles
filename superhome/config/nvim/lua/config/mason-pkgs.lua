@@ -99,7 +99,9 @@ local lsp_definitions = {
   clangd = {
     install = 'clangd',
     config = {
-      settings = {},
+      init_options = {
+        fallbackFlags = { '-std=c++20' },
+      },
     },
   },
 }
