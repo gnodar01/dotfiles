@@ -62,7 +62,7 @@ local lsp_definitions = {
           'Pipfile',
           '.git',
         }
-        -- some reverser engineering starting at `:help lspconfig-all`
+        -- some reverse engineering starting at `:help lspconfig-all`
         --   -> pyright section -> `root_dir` -> [g]o to [F]ile
         --   where I just changed the order or root_files
         --   so that pyrightconfig.json is first

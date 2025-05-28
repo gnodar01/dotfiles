@@ -112,10 +112,7 @@ return {
           --   See `:help CursorHold` for info on when this is executed
           -- on cursor move, highlight removed
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if
-            client
-            and client:supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
-          then
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('nodar-lsp-highlight', { clear = false })
 
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -142,7 +139,7 @@ return {
           -- the following code creates a keymap to toggle inlay hints in code,
           -- if LSP supports them
           -- WARN: may be unwanted - displaces code
-          if client and client:supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
             end, '[T]oggle Inlay [H]ints')
@@ -208,6 +205,9 @@ return {
         -- certain features of an LSP (for example, turning off formatting for ts_ls)
         server_cfg.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server_cfg.capabilities or {})
         vim.lsp.config(server_name, server_cfg)
+        -- TODO: figure out why this is necessary to use for pyright, since it should be deprecated in 0.11
+        -- https://github.com/neovim/nvim-lspconfig?tab=readme-ov-file#configuration
+        require('lspconfig')[server_name].setup(vim.tbl_extend('force', server_cfg, { on_attach = on_attach }))
       end
 
       -- TODO: consider removing this since nvim 0.11 transition
