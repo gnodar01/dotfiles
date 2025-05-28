@@ -28,7 +28,7 @@ return {
       -- Help
       --   `:h mason-lspconfig-introduction`
       {
-        'mason-org/mason-lspconfig',
+        'mason-org/mason-lspconfig.nvim',
         --tag = 'v1.32.0',
         -- v2 is rc at time of writing
         --tag = 'v2.0.0',
