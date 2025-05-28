@@ -5,57 +5,57 @@
       "name": "CellProfiler",
       "type": "python",
       "request": "launch",
-      "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/python.app/Contents/MacOS/python",
+      "python": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/python.app/Contents/MacOS/python",
       "justMyCode": false,
       "module": "cellprofiler",
       "args": [
         "-L",
         "10"
       ],
-      "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/lib/jvm"},
+      "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/lib/jvm"},
       "console": "integratedTerminal"
     },
     {
       "name": "CellProfiler (In CP folder)",
       "type": "python",
       "request": "launch",
-      "python": "${workspaceFolder}/.pixi/envs/dev/python.app/Contents/MacOS/python",
+      "python": "${workspaceFolder}/.pixi/envs/hack/python.app/Contents/MacOS/python",
       "justMyCode": false,
       "module": "cellprofiler",
       "args": [
         "-L",
         "10"
       ],
-      "env": {"JAVA_HOME": "${workspaceFolder}/.pixi/envs/dev/lib/jvm"},
+      "env": {"JAVA_HOME": "${workspaceFolder}/.pixi/envs/hack/lib/jvm"},
       "console": "integratedTerminal"
     },
     {
       "name": "CP project",
       "type": "python",
       "request": "launch",
-      "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/python.app/Contents/MacOS/python",
+      "python": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/python.app/Contents/MacOS/python",
       "justMyCode": false,
       "module": "cellprofiler",
       "args": [
         "-L",
         "10",
         "-p",
-        "/Users/ngogober/Downloads/Colo_CP_500_save_mask.cpproj"
+        "/Users/ngogober/Downloads/one_tiled.cpproj"
       ],
-      "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/lib/jvm"},
+      "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/lib/jvm"},
       "console": "integratedTerminal"
     },
     {
       "name": "pytest",
       "type": "python",
       "request": "launch",
-      "python": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/python.app/Contents/MacOS/python",
+      "python": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/python.app/Contents/MacOS/python",
       "justMyCode": false,
       "module": "pytest",
       "args": [
-        "${workspaceFolder}/ndv/tests/views/_wx"
+        "${workspaceFolder}/CellProfiler/tests/frontend/modules/test_measurecolocalization.py"
       ],
-      "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/dev/lib/jvm"},
+      "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/lib/jvm"},
       "console": "integratedTerminal"
     }
   ]
