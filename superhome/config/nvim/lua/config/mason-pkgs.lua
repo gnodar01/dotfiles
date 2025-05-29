@@ -49,11 +49,28 @@ local lsp_definitions = {
   --   PyrightSetPythonPath
   pyright = {
     install = 'pyright',
+    --  https://microsoft.github.io/pyright/#/settings
     config = {
-      --  https://microsoft.github.io/pyright/#/settings
-      root_dir = function(fname)
-        local util = require('lspconfig.util')
-        local root_files = {
+      -- some reverse engineering starting at `:help lspconfig-all`
+      --   -> pyright section -> `root_dir` -> [g]o to [F]ile
+      --   where I just changed the order or root_files
+      --   so that pyrightconfig.json is first
+      root_markers = {
+        'pyrightconfig.json',
+        'pyproject.toml',
+        'setup.py',
+        'setup.cfg',
+        'requirements.txt',
+        'Pipfile',
+        '.git',
+      },
+      -- root_dir takes precedance over root_markers
+      -- root_markers will return first directory where any of files match
+      -- custom fn in root_dir will return directory of highest precedance file
+      root_dir = function(bufnr, cb)
+        local dirfile = require('utils/dirfile')
+
+        local found_root = dirfile.find_root({
           'pyrightconfig.json',
           'pyproject.toml',
           'setup.py',
@@ -61,12 +78,9 @@ local lsp_definitions = {
           'requirements.txt',
           'Pipfile',
           '.git',
-        }
-        -- some reverse engineering starting at `:help lspconfig-all`
-        --   -> pyright section -> `root_dir` -> [g]o to [F]ile
-        --   where I just changed the order or root_files
-        --   so that pyrightconfig.json is first
-        return util.root_pattern(unpack(root_files))(fname)
+        }, bufnr)
+
+        cb(found_root)
       end,
       settings = {
         python = {

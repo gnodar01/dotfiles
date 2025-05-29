@@ -205,9 +205,6 @@ return {
         -- certain features of an LSP (for example, turning off formatting for ts_ls)
         server_cfg.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server_cfg.capabilities or {})
         vim.lsp.config(server_name, server_cfg)
-        -- TODO: figure out why this is necessary to use for pyright, since it should be deprecated in 0.11
-        -- https://github.com/neovim/nvim-lspconfig?tab=readme-ov-file#configuration
-        require('lspconfig')[server_name].setup(vim.tbl_extend('force', server_cfg, { on_attach = on_attach }))
       end
 
       -- TODO: consider removing this since nvim 0.11 transition
