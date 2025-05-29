@@ -202,9 +202,10 @@ end
 -- View configured and available lintes
 --   `:lua print(require('lint').get_running())`
 local linter_definitions = {
-  markdown = { 'vale' },
-  text = { 'vale' },
-  latex = { 'vale' },
+  -- TODO: fix vale exited with code 2 error, probably vale.ini needed
+  --markdown = { 'vale' },
+  --text = { 'vale' },
+  --latex = { 'vale' },
   dockerfile = { 'hadolint' },
   json = { 'jsonlint' },
   sh = { 'shellcheck' },
