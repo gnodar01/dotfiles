@@ -204,6 +204,7 @@ return {
         -- by the server configuration above. Useful when disabling
         -- certain features of an LSP (for example, turning off formatting for ts_ls)
         server_cfg.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server_cfg.capabilities or {})
+        server_cfg = vim.tbl_deep_extend('force', server_cfg, { on_attach = on_attach })
         vim.lsp.config(server_name, server_cfg)
       end
 
