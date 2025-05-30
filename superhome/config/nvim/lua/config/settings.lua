@@ -31,6 +31,15 @@ vim.api.nvim_create_autocmd('TermOpen', {
 
 -- terminal keymaps
 
+vim.api.nvim_create_autocmd('TermOpen', {
+  pattern = '*',
+  callback = function()
+    vim.wo.number = true -- show absolute line number
+    vim.wo.relativenumber = true -- optional: relative line numbers
+    vim.wo.signcolumn = 'yes' -- reserve space for sign column
+  end,
+})
+
 vim.keymap.set('n', '<Leader>st', function()
   saved_path = vim.env['PATH']
   -- vertical horizontal window
