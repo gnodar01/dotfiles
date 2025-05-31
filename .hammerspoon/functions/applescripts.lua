@@ -1,6 +1,6 @@
 -- stopped working on macOS 15.0, Sequoia
-function killNotificationsSonomaMinus()
-    local source = [[
+function killNotificationsSonoma()
+  local source = [[
       tell application "System Events"
         tell process "NotificationCenter"
           if not (window "Notification Center" exists) then return
@@ -16,27 +16,27 @@ function killNotificationsSonomaMinus()
         end tell
       end tell
     ]]
-    hs.osascript.applescript(source)
+  hs.osascript.applescript(source)
 end
 
 -- found fix to replace above here: https://gist.github.com/lancethomps/a5ac103f334b171f70ce2ff983220b4f
 -- stopped working on macOS 15.1
-function killNotificationsSequoiaPlus()
-    local source = [[
+function deprecated_killNotificationsSequoia()
+  local source = [[
       tell application "System Events" to tell application process "NotificationCenter"
         try
           perform (actions of UI elements of UI element 1 of scroll area 1 of group 1 of group 1 of window "Notification Center" of application process "NotificationCenter" of application "System Events" whose name starts with "Name:Close" or name starts with "Name:Clear All")
         end try
       end tell
     ]]
-    hs.osascript.applescript(source)
+  hs.osascript.applescript(source)
 end
 
 -- found fix to replace above here: https://github.com/Ptujec/LaunchBar/blob/master/Notifications/Dismiss%20all%20notifications.lbaction/Contents/Scripts/default.applescript
 -- commenter in the gist from killNotificationsSequouiaPlus (Ptujec)
 -- https://gist.github.com/lancethomps/a5ac103f334b171f70ce2ff983220b4f?permalink_comment_id=5235632#gistcomment-5235632
-function killNotificationsSequoiaPlusPlus()
-    local source = [[
+function killNotificationsSequoiaPlus()
+  local source = [[
       (* 
       Close notifications Applescript Action for LaunchBar
       by Christian Bender (@ptujec)
@@ -132,23 +132,21 @@ function killNotificationsSequoiaPlusPlus()
         end if
       end getIndexOfItem:inList:
     ]]
-    hs.osascript.applescript(source)
+  hs.osascript.applescript(source)
 end
 
-
 function killNotifications()
-  local majorVersion = tonumber(
-    hs.host.operatingSystemVersion()["major"])
+  local majorVersion = tonumber(hs.host.operatingSystemVersion()['major'])
 
   if majorVersion <= 14 then
-    killNotificationsSonomaMinus()
+    killNotificationsSonoma()
   else
-    killNotificationsSequoiaPlusPlus()
+    killNotificationsSequoiaPlus()
   end
 end
 
 function runiTermCmd()
-   script = [[
+  script = [[
         -- Save the current clipboard content
         set originalClipboard to the clipboard
 
@@ -205,6 +203,5 @@ function runiTermCmd()
             keystroke "v" using {command down} -- Simulate ⌘V to paste
         end tell
     ]]
-    hs.osascript.applescript(script)
+  hs.osascript.applescript(script)
 end
-
