@@ -107,9 +107,8 @@ local lsp_definitions = {
   -- https://www.lazyvim.org/extras/lang/clangd
   -- https://github.com/p00f/clangd_extensions.nvim
   -- commands:
-  --   ClangdSwitchSourceHeader
-  --   ClangdShowSymbolInfo
-  --   Clangd
+  --   LspClangdSwitchSourceHeader
+  --   LspClangdShowSymbolInfo
   clangd = {
     install = 'clangd',
     config = {
