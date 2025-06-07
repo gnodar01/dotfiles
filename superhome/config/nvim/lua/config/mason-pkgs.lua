@@ -166,6 +166,7 @@ local formatter_definitions = {
   javascript = { 'eslint_d' },
   typescript = { 'eslint_d' },
   typescriptreact = { 'eslint_d' },
+  cpp = { 'clang-format' },
 }
 
 -- These go to `conform` to customize defined formatters
