@@ -9,10 +9,22 @@ vim.g.have_nerd_font = true
 --
 -- <C-Esc> somehow works despite the fact <C-[> is already <ESC>
 --vim.keymap.set('t', '<C-Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+--
 -- this turns out to be awkward
 --vim.keymap.set('t', '<C-\\><C-\\>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+--
 -- I like this because I'm usually going up to the window above anyway, so just double-tap
 vim.keymap.set('t', '<C-k>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+-- inverses above to insert
+vim.keymap.set('n', '<C-j>', function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local buftype = vim.bo[bufnr].buftype
+  if buftype == 'terminal' then
+    vim.cmd('startinsert')
+  else
+    vim.cmd.wincmd('j')
+  end
+end, { desc = 'Exit terminal mode', silent = true })
 
 local saved_path = nil
 
