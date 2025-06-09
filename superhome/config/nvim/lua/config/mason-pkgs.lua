@@ -8,11 +8,13 @@ local mason_pkgs = {}
 --
 -- First item in pair is key `install`, the value of which goes to `mason-tool-installer`.
 --   It is the LSP to install.
+--   `mason-lspconfig` handles translating between `nvim-lspconfig` and `mason.nvim` names
+--   (e.g. `lus_ls` <-> `lua-language-server`).
 --
 --   It can be a string, which is the name, or table where `[1]` is the name, followed by any of
 --   `version` (git tag), `auto_update` (boolean), `condition` (function returning boolean on whether to install)
 --
--- Second item in pair is key `config`, the value of which goes to `mason-lspconfig`.
+-- Second item in pair is key `config`, the value of which goes to native `vim.lsp`.
 --   It is the override configuration for the LSP.
 --
 --    Add any additional override configuration in the `config` tables. Available keys are:
@@ -119,7 +121,7 @@ local lsp_definitions = {
   },
 }
 
--- These go to `nvim-lspconfig` via `mason-lspconfig` in `plugins/lsp`
+-- These go to `nvim-lspconfig` in `plugins/lsp`
 mason_pkgs.lsp_server_configs = {}
 for name, data in pairs(lsp_definitions) do
   if data.config then

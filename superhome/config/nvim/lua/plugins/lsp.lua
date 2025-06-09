@@ -24,6 +24,7 @@ return {
       -- `:LspInstall` command
       -- auto install and setup servers
       -- translate between `lspconfig` server names and `mason.nvim` package names (e.g. `lua_ls` <-> `lua-language-server`)
+      -- NOTE: teh translation is the only thing this is used for, installation and enabling done outside of it
       --
       -- Help
       --   `:h mason-lspconfig-introduction`
@@ -206,13 +207,12 @@ return {
         server_cfg.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server_cfg.capabilities or {})
         server_cfg = vim.tbl_deep_extend('force', server_cfg, { on_attach = on_attach })
         vim.lsp.config(server_name, server_cfg)
+        vim.lsp.enable(server_name)
       end
 
-      -- TODO: consider removing this since nvim 0.11 transition
-      -- not sure if there's any value left
       require('mason-lspconfig').setup({
         ensure_installed = {}, -- explicitly set to an empty table (installs populated via mason-tool-installer)
-        automatic_enable = true,
+        automatic_enable = false, -- done above via vim.lsp.enable
       })
     end,
   },
