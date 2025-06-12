@@ -9,19 +9,19 @@ function sbranch() {
 }
 
 function sftd() {
-    git ls-files -m | fzf | xargs -n1 -I {} sh -c "bat --diff {}"
+    git ls-files -m | fzf --multi --prompt='Diff> ' | xargs -r bat --diff
 }
 
 function sfta() {
-    git ls-files -m | fzf | xargs -n1 -I {} sh -c "git add {}"
+    git ls-files -m | fzf --multi --prompt='Add> ' | xargs -r git add
 }
 
 function sftr() {
-    git ls-files -m | fzf | xargs -n1 -I {} sh -c "git restore {}"
+    git ls-files -m | fzf --multi --prompt='Restore> ' | xargs -r git restore
 }
 
 function ssftr() {
-    git --no-pager diff --name-only --staged | fzf | xargs -n1 -I {} sh -c "git restore --staged {}"
+    git --no-pager diff --name-only --staged | fzf --multi --prompt='Restore staged> ' | xargs -r git restore --staged
 }
 
 function grepmod() {
@@ -56,10 +56,10 @@ function usage() {
     echo "Usage: githelpers <cmd> [<args>]"
     echo "Available commands:"
     echo "\tsbranch - select branch with fuzzy find"
-    echo "\tsftd - select file to diff: fuzzy find and select modified files and show git diff"
-    echo "\tsfta - select file to add: fuzzy find and select modified files and add to stage"
-    echo "\tsftr - select unstaged file to restore: fuzzy find and select among unstaged files to restore it"
-    echo "\tssftr - select staged file to restore: fuzzy find and select among staged files to restore it"
+    echo "\tsftd - select files to diff: fuzzy find and select modified files and show git diff"
+    echo "\tsfta - select files to add: fuzzy find and select modified files and add to stage"
+    echo "\tsftr - select unstaged files to restore: fuzzy find and select among unstaged files to restore them"
+    echo "\tssftr - select staged files to restore: fuzzy find and select among staged files to restore them"
     echo "\tgrepmod <expr> - grep through entire contents of modified files tracked by git"
     echo "\tgrepdiff <expr> - grep through just the diffs of modified files tracked by git"
     echo "\tgdown - go down in git history (back to parent)"
