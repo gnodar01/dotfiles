@@ -40,7 +40,7 @@
         "-L",
         "10",
         "-p",
-        "/Users/ngogober/Downloads/one_tiled.cpproj"
+        "${workspaceFolder}/../../Downloads/one_tiled.cpproj"
       ],
       "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/lib/jvm"},
       "console": "integratedTerminal"
@@ -53,9 +53,7 @@
       "justMyCode": false,
       "module": "pytest",
       "args": [
-        "${workspaceFolder}/CellProfiler/tests/core/",
-        "-k",
-        "test_05_01_align"
+        "${workspaceFolder}/CellProfiler/tests/core/core/writer"
       ],
       "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/lib/jvm"},
       "console": "integratedTerminal"
