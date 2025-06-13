@@ -148,11 +148,12 @@ alias nv="nvim"
 # set neovim as main editor
 export EDITOR="nvim"
 
-alias ca="conda activate"
-alias cx="conda deactivate"
-function ce(){
-    conda activate $(conda env list | tail -n+3 | awk '{print $1}' | fzf)
-}
+# node with vim mode (no autocomplete)
+# https://github.com/nodejs/node/issues/5608
+# https://github.com/nodejs/node/issues/5608#issuecomment-441785908
+if [ $(command -v rlwrap) ] ; then
+  alias vnode='NODE_NO_READLINE=1 rlwrap node'
+fi
 
 # NOTE: just use pgrep instead
 # leaving here until you remember

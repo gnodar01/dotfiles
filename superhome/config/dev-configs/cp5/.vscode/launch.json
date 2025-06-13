@@ -53,7 +53,9 @@
       "justMyCode": false,
       "module": "pytest",
       "args": [
-        "${workspaceFolder}/CellProfiler/tests/frontend/modules/test_measurecolocalization.py"
+        "${workspaceFolder}/CellProfiler/tests/core/",
+        "-k",
+        "test_05_01_align"
       ],
       "env": {"JAVA_HOME": "${workspaceFolder}/CellProfiler/.pixi/envs/hack/lib/jvm"},
       "console": "integratedTerminal"
