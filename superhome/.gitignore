@@ -7,4 +7,4 @@ bin/ipfs
 bin/elfedit
 bin/readelf
 sources/fansi
-
+config/zmk-config/
