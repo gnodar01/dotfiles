@@ -187,5 +187,10 @@ return {
     end
     dap.listeners.before.event_terminated['dapui_config'] = cleanup
     dap.listeners.before.event_exited['dapui_config'] = cleanup
+
+    dap.listeners.on_config['nodar-PythonPicker'] = function(config)
+      -- TODO: picker, with async support?
+      return config
+    end
   end,
 }
