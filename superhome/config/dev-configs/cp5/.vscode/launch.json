@@ -38,9 +38,7 @@
       "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
       "justMyCode": false,
       "module": "pytest",
-      "args": [
-        "${env:PIXI_PROJECT_ROOT}/tests/core/core/writer"
-      ],
+      "args": "${ngcommand:pickPyTest}",
       "env": {"JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"},
       "console": "integratedTerminal"
     }

@@ -90,7 +90,7 @@ return {
       '<Leader>dt',
       function()
         require('dap').terminate({
-          terminate_args = { retart = false },
+          terminate_args = { restart = false },
           disconnect_args = { restart = false, terminateDebuggee = true, suspendDebuggee = false },
           all = true,
           hierarchy = true,
@@ -189,7 +189,30 @@ return {
     dap.listeners.before.event_exited['dapui_config'] = cleanup
 
     dap.listeners.on_config['nodar-PythonPicker'] = function(config)
-      -- TODO: picker, with async support?
+      if config['args'] ~= nil and type(config.args) == 'string' and config.args == '${ngcommand:pickPyTest}' then
+        local contains_tests = function(s)
+          return not s:find('%.pyc$') and not s:find('pytest_cache') and (s:find('tests') or s:find('test'))
+        end
+        local scan = require('plenary.scandir')
+        local copy = vim.deepcopy(config)
+        local cwd = vim.fn.getcwd()
+        local entries = scan.scan_dir(cwd, { depth = 1, only_dirs = true })
+        local testPath = nil
+        for _, dir in ipairs(entries) do
+          if dir:match('test$') then
+            testPath = 'test'
+          elseif dir:match('tests$') then
+            testPath = 'tests'
+          else
+            testPath = cwd
+          end
+        end
+        local pickedFile =
+          require('dap.utils').pick_file({ executables = false, filter = contains_tests, path = testPath })
+        copy.args = { pickedFile }
+        return copy
+      end
+      config.args = { './tests/core/core/writer' }
       return config
     end
   end,
