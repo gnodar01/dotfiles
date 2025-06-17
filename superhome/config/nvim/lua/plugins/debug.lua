@@ -212,7 +212,6 @@ return {
         copy.args = { pickedFile }
         return copy
       end
-      config.args = { './tests/core/core/writer' }
       return config
     end
   end,
