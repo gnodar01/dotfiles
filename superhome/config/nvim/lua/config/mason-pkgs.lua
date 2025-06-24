@@ -167,6 +167,7 @@ local formatter_definitions = {
   -- javascript = { "prettierd", "prettier", stop_after_first = true },
   javascript = { 'eslint_d' },
   typescript = { 'eslint_d' },
+  json = { 'fixjson' },
   typescriptreact = { 'eslint_d' },
   cpp = { 'clang-format' },
 }
