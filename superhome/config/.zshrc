@@ -217,3 +217,6 @@ function y() {
 	command rm -f -- "$tmp"
 }
 
+function filengrok() {
+  ngrok http --url=optimal-titmouse-hopefully.ngrok-free.app --response-header-add="Access-Control-Allow-Origin:*" "file://$1"
+}
