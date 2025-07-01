@@ -161,5 +161,19 @@ return {
     vim.keymap.set('n', '<leader>fn', function()
       builtin.find_files({ cwd = vim.fn.stdpath('config') })
     end, { desc = '[F]uzzy Search [N]eovim files' })
+
+    local function live_grep_with_dirs()
+      vim.ui.input({ prompt = 'Search directories (comma-separated): ' }, function(input)
+        if input then
+          local dirs = {}
+          for dir in string.gmatch(input, '([^,]+)') do
+            table.insert(dirs, vim.trim(dir))
+          end
+          builtin.live_grep({ search_dirs = dirs })
+        end
+      end)
+    end
+
+    vim.keymap.set('n', '<Leader>fG', live_grep_with_dirs, { desc = '[F]uzzy Search in dir with [G]rep' })
   end,
 }
