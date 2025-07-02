@@ -99,6 +99,21 @@ return {
         my_find_files()
       end
     end, { desc = '[F]uzzy Search [F]iles' })
+
+    local function ff_subdir()
+      vim.ui.input({ prompt = 'Search directories (comma-separated): ' }, function(input)
+        if input then
+          local dirs = {}
+          for dir in string.gmatch(input, '([^,]+)') do
+            table.insert(dirs, vim.trim(dir))
+          end
+          my_find_files({ search_dirs = dirs })
+        end
+      end)
+    end
+
+    vim.keymap.set('n', '<Leader>fF', ff_subdir, { desc = '[F]uzzy Search [F]iles in subdir' })
+
     vim.keymap.set('n', '<Leader>fj', builtin.git_files, { desc = '[F]uzzy Search [J]Git Files' })
     vim.keymap.set('n', '<Leader>fg', function()
       local cwd = vim.fn.getcwd()
