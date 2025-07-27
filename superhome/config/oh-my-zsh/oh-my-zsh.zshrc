@@ -79,12 +79,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # this is for the zsh-vi-mode plugin below
-# this function s automatically called after the plugin loads
+# this function is automatically called after the plugin loads
 # and must be set before it is loaded below
 function zvm_config() {
-    # the default insert mode cursor style is "beam" (a thin vertical line)
-    # I prefer it to be block (a thick vertical line)
-    ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+    ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BEAM
 }
 
 ## Nodar Custom
