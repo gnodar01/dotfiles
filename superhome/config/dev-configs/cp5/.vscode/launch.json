@@ -12,7 +12,9 @@
         "-L",
         "10"
       ],
-      "env": {"JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"},
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
       "console": "integratedTerminal"
     },
     {
@@ -28,7 +30,9 @@
         "-p",
         "${env:HOME}/Downloads/one_tiled.cpproj"
       ],
-      "env": {"JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"},
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
       "console": "integratedTerminal"
     },
     {
@@ -39,7 +43,26 @@
       "justMyCode": false,
       "module": "pytest",
       "args": "${ngcommand:pickPyTest}",
-      "env": {"JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"},
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "pytest large image",
+      "type": "python",
+      "request": "launch",
+      "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "pytest",
+      "args": [
+        "${env:PIXI_PROJECT_ROOT}/tests/core/core/writer",
+        "-k",
+        "test_04_ome_zarr_module_to_module"
+      ],
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
       "console": "integratedTerminal"
     }
   ]
