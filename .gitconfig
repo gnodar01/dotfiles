@@ -3,14 +3,10 @@
 	email = gnodar01@gmail.com
 [url "https://"]
 	insteadOf = git://
-[pager]
-	diff = less -FX
-	log = less -FX
-    difftool = true
 [alias]
-	graph = log --pretty=format:\"%h %s\" --graph
+	graph = log --pretty=format:'%h %s' --graph
 	logp = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-	lg =  log --graph --date-order --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
+	lg = log --graph --date-order --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	lgb = log --graph --date-order --branches --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	lga = log --graph --date-order --all --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	staash = stash --all
@@ -27,29 +23,22 @@
 	helpers = !githelpers help
 	aliases = !githelpers aliases
 	sbranch = !githelpers sbranch
-    dft = difftool
-    dlog = "!f() { : git log ; GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
 [init]
 	defaultBranch = main
 [core]
-	pager = cat
+	pager = delta
 	autocrlf = input
-	eol= lf
+	eol = lf
 	editor = nvim
 	excludesfile = ~/.gitignore
+[interactive]
+	diffFilter = delta --color-only
 [pull]
 	rebase = true
 [push]
 	default = upstream
-[diff]
-    tool = difftastic
-	colormoved = zebra
-	colormovedws = allow-indentation-change
-	algorithm = histogram
-[difftool]
-    prompt = false
-[difftool "difftastic"]
-    cmd = difft "$LOCAL" "$REMOTE" --display inline
+[delta]
+	navigate = true # use n and N to move between diff sections
 [status]
 	showStash = true
 [rerere]
@@ -59,6 +48,6 @@
 [color]
 	ui = true
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 [credential]
 	helper = osxkeychain
