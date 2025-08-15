@@ -48,6 +48,43 @@ function gup() {
 function bdiff() {
     git diff --name-only --diff-filter=d | xargs bat --diff
 }
+
+function sbs() {
+    local config="$HOME/.gitconfig"
+
+    # Check for [delta] section
+    if ! grep -q '^\[delta\]' "$config"; then
+        echo "Error: [delta] section not found in $config" >&2
+        return 1
+    fi
+
+    # Find start and end of [delta] section
+    local start_line end_line
+    start_line=$(grep -n '^\[delta\]' "$config" | cut -d: -f1)
+    end_line=$(grep -n '^\[' "$config" | awk -F: -v s="$start_line" '$1 > s {print $1; exit}')
+    [[ -z "$end_line" ]] && end_line=$(wc -l < "$config")
+
+    # Look for side-by-side line in the section
+    local side_line rel_line abs_line
+    side_line=$(sed -n "${start_line},${end_line}p" "$config" | grep -n '^\s*side-by-side\s*=')
+    if [[ -z "$side_line" ]]; then
+        echo "Error: side-by-side line not found in [delta] section of $config" >&2
+        return 1
+    fi
+
+    rel_line=$(echo "$side_line" | cut -d: -f1)
+    abs_line=$(( start_line + rel_line - 1 ))
+
+    # Flip true <-> false
+    if echo "$side_line" | grep -q '= *true'; then
+        sed -i '' "${abs_line}s/true/false/" "$config"
+        echo "Set side-by-side = false"
+    else
+        sed -i '' "${abs_line}s/false/true/" "$config"
+        echo "Set side-by-side = true"
+    fi
+}
+
 function aliases() {
     git config --get-regexp '^alias\.' | sed -e "s/^alias\.//" -e "s/\ /\ =\ /"
 }
@@ -65,6 +102,7 @@ function usage() {
     echo "\tgdown - go down in git history (back to parent)"
     echo "\tgup - go up in git history (up to child, assumes one child)"
     echo "\tbdiff - syntax highlight git diffs with bat"
+    echo "\tsbs - toggle Delta's side-by-side feature in gitconfig"
     echo "\taliases - list all git aliases"
 }
 
@@ -98,6 +136,9 @@ case "$1" in
         ;;
     bdiff)
         bdiff
+        ;;
+    sbs)
+        sbs
         ;;
     aliases)
         aliases

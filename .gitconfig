@@ -23,6 +23,7 @@
 	helpers = !githelpers help
 	aliases = !githelpers aliases
 	sbranch = !githelpers sbranch
+	sbs = !githelpers sbs
 [init]
 	defaultBranch = main
 [core]
@@ -39,6 +40,8 @@
 	default = upstream
 [delta]
 	navigate = true # use n and N to move between diff sections
+	line-numbers = true
+	side-by-side = true
 [status]
 	showStash = true
 [rerere]
