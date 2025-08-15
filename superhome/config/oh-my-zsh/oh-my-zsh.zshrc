@@ -148,6 +148,13 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Nodar
+# TEMPORARY until the following issue is resolved:
+# https://github.com/zdharma-continuum/fast-syntax-highlighting/issues/78
+
+FAST_HIGHLIGHT[chroma-git]="→chroma/-subcommand.ch"
+
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
