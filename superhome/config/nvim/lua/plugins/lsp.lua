@@ -289,6 +289,10 @@ return {
         'hrsh7th/cmp-nvim-lsp-signature-help',
         name = 'cmp-nvim-lsp-signature-help',
       },
+      {
+        'MeanderingProgrammer/render-markdown.nvim',
+        name = 'render-markdown',
+      },
     },
     config = function()
       -- See `:help cmp`
@@ -362,6 +366,7 @@ return {
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'nvim_lsp_signature_help' },
+          { name = 'render-markdown' },
         },
       })
     end,
