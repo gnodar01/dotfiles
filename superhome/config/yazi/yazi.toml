@@ -5,6 +5,6 @@
 
 # NOTE: set YAZI_CONFIG_HOME in .zshrc
 
-[manager]
+[mgr]
 show_hidden = true
 

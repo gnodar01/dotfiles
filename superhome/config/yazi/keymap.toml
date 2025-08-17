@@ -4,7 +4,7 @@
 #   https://github.com/sxyazi/yazi/tree/shipped/yazi-config/preset
 # current keymap: `~` in yazi
 
-[manager]
+[mgr]
 
 prepend_keymap = [
   { on = "<C-x>", run = "escape --search", desc = "Cancel the ongoing search" },
