@@ -89,6 +89,12 @@ cdb() {
 
 alias hex="hexyl"
 
+# needed for autocomplete
+# don't use this with omz, it's redundant
+shellautocomplete() {
+  autoload -Uz compinit && compinit
+}
+
 shellfancyinits() {
   # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
   [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
