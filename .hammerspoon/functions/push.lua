@@ -204,8 +204,16 @@ function push_space(dir, switch)
   -- Fallback: click+switch with a hard 1s timeout guard
   local zoomPoint = hs.geometry(win:zoomButtonRect())
   local safePoint = zoomPoint:move({ -1, -1 }).topleft
+
+  -- press and nudge to ensure the OS/app enters drag mode
   hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDown, safePoint):post()
+  hs.eventtap.event
+    .newMouseEvent(hs.eventtap.event.types.leftMouseDragged, hs.geometry(safePoint.x + 1, safePoint.y))
+    :post()
+  hs.timer.usleep(20000) -- 20 ms to let the drag register
+
   switchSpace(1, dir)
+
   local start = hs.timer.absoluteTime()
   local numSecTimeout = 1
   hs.timer.waitUntil(function()
