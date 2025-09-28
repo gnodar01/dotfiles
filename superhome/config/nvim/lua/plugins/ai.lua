@@ -16,13 +16,52 @@ return {
         preferred_picker = 'telescope',
         preferred_completion = 'nvim-cmp',
         default_mode = 'build',
+        ui = {
+          input = { text = { wrap = false } },
+          completion = {
+            file_sources = {
+              enabled = true,
+              preferred_cli_tool = 'fd', -- fd, rg, git,
+              ignore_patterns = {
+                '^%.pixi/',
+                '^%.git/',
+                '^%.svn/',
+                '^%.hg/',
+                'node_modules/',
+                '%.pyc$',
+                '%.o$',
+                '%.obj$',
+                '%.exe$',
+                '%.dll$',
+                '%.so$',
+                '%.dylib$',
+                '%.class$',
+                '%.jar$',
+                '%.war$',
+                '%.ear$',
+                'target/',
+                'build/',
+                'dist/',
+                'out/',
+                'deps/',
+                '%.tmp$',
+                '%.temp$',
+                '%.log$',
+                '%.cache$',
+                '__pycache__/',
+              },
+              max_files = 10,
+              max_display_length = 50,
+            },
+          },
+        },
       })
       local oc = require('opencode.api')
       local map = function(key, func, desc)
         vim.keymap.set('n', key, func, { desc = desc })
       end
 
-      map('<Leader>og', oc.toggle, '[o]pen opencode else close')
+      map('<Leader>og', oc.toggle, '[o]pencode to[g]gle open/close')
       map('<Leader>oi', oc.open_input, 'open [i]nput window (curr sesh)')
       map('<Leader>oI', oc.open_input_new_session, 'open [I]nput window (new sesh)')
       map('<Leader>oo', oc.open_output, 'open [o]utput window')
