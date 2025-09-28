@@ -48,15 +48,16 @@ return {
 
     -- document existing key chains
     spec = {
-      { '<Leader>f', group = '[F]uzzy Search' },
       { '<Leader>c', group = '[C]ode', mode = { 'n', 'x' } },
       { '<Leader>d', group = '[D]ocument/[D]ebug' },
-      { '<Leader>r', group = '[R]ename' },
-      { '<Leader>w', group = '[W]orkspace' },
-      { '<Leader>t', group = '[T]oggle' },
-      { '<Leader>s', group = '[S]pecial' },
-      { '<Leader>h', group = '[H]arpoon' },
+      { '<Leader>f', group = '[F]uzzy Search' },
       { '<Leader>j', group = '[J]Git Hunk', mode = { 'n', 'v' } },
+      { '<Leader>h', group = '[H]arpoon' },
+      { '<Leader>o', group = '[O]pencode' },
+      { '<Leader>r', group = '[R]ename' },
+      { '<Leader>s', group = '[S]pecial' },
+      { '<Leader>t', group = '[T]oggle' },
+      { '<Leader>w', group = '[W]orkspace' },
       { '<Leader>y', group = '[Y]azi', mode = { 'n', 'v' } },
     },
   },
