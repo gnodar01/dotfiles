@@ -121,6 +121,8 @@ shellfancyinits() {
 _late_bindings() {
   # omz "jump" plugin - expand mark to full path
   bindkey "^G" _mark_expansion
+  # omz "jump" plugin custom extension - see below
+  bindkey "^h" _fuzzy_mark_expansion
 }
 autoload -Uz add-zle-hook-widget
 add-zle-hook-widget zle-line-init _late_bindings
@@ -226,3 +228,44 @@ function y() {
 function filengrok() {
   ngrok http --url=optimal-titmouse-hopefully.ngrok-free.app --response-header-add="Access-Control-Allow-Origin:*" "file://$1"
 }
+
+## omz jump plugin extension ##
+
+# jump back
+jumpb () {
+  builtin cd "$OLDPWD" 2> /dev/null || {
+    echo "Desintation does not exist: \"$OLDPWD\""
+    return 2
+  }
+}
+
+# fuzzy jump
+fjump () {
+  local query="$1"
+  local candidate
+  candidate=$(ls -A "$MARKPATH" | fzf --filter "$query")
+
+  if [ -z "$candidate" ]; then
+    echo "Cannot resolve mark: $query"
+    return 1
+  fi
+
+  local markpath
+  if ! markpath=$(readlink "$MARKPATH/$candidate"); then
+    echo "No such link: $query -> $candidate"
+    return 1
+  fi
+
+  if ! builtin cd "$markpath" 2>/dev/null; then
+    echo "Destination does not exist for mark [$query -> $candidate]: $markpath"
+    return 2
+  fi
+}
+_fuzzy_mark_expansion() {
+	setopt localoptions extendedglob
+	autoload -U modify-current-argument
+  modify-current-argument '$(readlink "$MARKPATH/$(ls -A $MARKPATH | fzf --query=$ARG -1)" || echo "$ARG")'
+}
+zle -N _fuzzy_mark_expansion
+
+## /omz jump plugin extension ##
