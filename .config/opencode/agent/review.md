@@ -2,11 +2,17 @@
 description: "Reviews code for best practices and potential issues"
 mode: primary
 tools:
-  write: false
+  bash: true
   edit: false
-  webfetch: false
-  task: false
+  write: false
+  read: true
+  grep: true
+  glob: true
+  list: true
+  patch: false
   todowrite: false
+  todoread: true
+  webfetch: true
 permission:
   bash:
     "*": ask
