@@ -1,0 +1,52 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "CellProfiler",
+      "type": "python",
+      "request": "launch",
+      "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "cellprofiler",
+      "args": [
+        "-L",
+        "10"
+      ],
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "CP project",
+      "type": "python",
+      "request": "launch",
+      "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "cellprofiler",
+      "args": [
+        "-L",
+        "10",
+        "-p",
+        "${env:HOME}/Downloads/one_tiled.cpproj"
+      ],
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "pytest",
+      "type": "python",
+      "request": "launch",
+      "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "pytest",
+      "args": "${ngcommand:pickPyTest}",
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
+      "console": "integratedTerminal"
+    }
+  ]
+}

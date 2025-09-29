@@ -1,0 +1,27 @@
+{
+  "executionEnvironments": [
+    {
+      "root": "./cp"
+    },
+    {
+      "root": "./core"
+    }
+  ],
+  "include": [
+    "./cp",
+    "./core"
+  ],
+  "exclude": [
+    ".git",
+    ".pixi",
+    "**/__pycache__"
+  ],
+  "extraPaths": [
+    "./cp",
+    "./core"
+  ],
+  "pythonPlatform": "All",
+  "venvPath": "./.pixi/envs/",
+  "venv": "dev",
+  "typeCheckingMode": "off"
+}
