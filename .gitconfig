@@ -11,6 +11,7 @@
 	lga = log --graph --date-order --all --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	staash = stash --all
 	safeforce = git push --force-with-lease
+  b = branch -vva
 	sftd = !githelpers sftd
 	sftr = !githelpers sftr
 	sfta = !githelpers sfta
