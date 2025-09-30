@@ -53,7 +53,7 @@ return {
       { '<Leader>f', group = '[F]uzzy Search' },
       { '<Leader>j', group = '[J]Git Hunk', mode = { 'n', 'v' } },
       { '<Leader>h', group = '[H]arpoon' },
-      { '<Leader>o', group = '[O]pencode' },
+      { '<Leader>o', group = '[O]pencode', mode = { 'n', 'v' } },
       { '<Leader>r', group = '[R]ename' },
       { '<Leader>s', group = '[S]pecial' },
       { '<Leader>t', group = '[T]oggle' },

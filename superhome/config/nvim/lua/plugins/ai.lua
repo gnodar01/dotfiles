@@ -58,7 +58,7 @@ return {
       })
       local oc = require('opencode.api')
       local map = function(key, func, desc)
-        vim.keymap.set('n', key, func, { desc = desc })
+        vim.keymap.set({ 'n', 'v' }, key, func, { desc = desc })
       end
 
       map('<Leader>og', oc.toggle, '[o]pencode to[g]gle open/close')
