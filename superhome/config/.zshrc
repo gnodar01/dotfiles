@@ -240,10 +240,10 @@ jumpb () {
 }
 
 # fuzzy jump
-fjump () {
+fj () {
   local query="$1"
   local candidate
-  candidate=$(ls -A "$MARKPATH" | fzf --filter "$query")
+  candidate=$(ls -A "$MARKPATH" | fzf --query "$query" -1)
 
   if [ -z "$candidate" ]; then
     echo "Cannot resolve mark: $query"
