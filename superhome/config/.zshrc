@@ -60,8 +60,6 @@ alias tt="eza --tree --all --classify=auto --icons=auto --level=2"
 alias ttt="eza --tree --all --classify=auto --icons=auto --level=3"
 alias tttt="eza --tree --all --classify=auto --icons=auto --level=4"
 
-alias cdd="cd ~/Desktop"
-
 # https://github.com/rptb1/aliasPath
 # found from here:
 # https://stackoverflow.com/questions/1175094/os-x-terminal-command-to-resolve-path-of-an-alias### cd into alias folder ###
