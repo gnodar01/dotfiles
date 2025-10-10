@@ -95,7 +95,8 @@ shellautocomplete() {
 
 shellfancyinits() {
   # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+  #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+  eval "$(starship init zsh)"
 
   # this is for the zsh-vi-mode plugin I use with oh-my-zsh
   # this test idiom from: https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash

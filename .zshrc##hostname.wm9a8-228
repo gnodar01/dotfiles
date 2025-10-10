@@ -3,12 +3,12 @@ zstyle ':omz:update' mode disabled
 
 export SUPERHOME=$HOME/superhome
 
-source $SUPERHOME/config/oh-my-zsh/oh-my-zsh.zshrc
+#source $SUPERHOME/config/oh-my-zsh/oh-my-zsh.zshrc
 
 # Nodar stuff
 source $SUPERHOME/config/.zshrc
 shellfancyinits
-#shellautocomplete
+shellautocomplete
 
 # /Nodar stuff
 alias hn="clx"
