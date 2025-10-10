@@ -2,6 +2,18 @@
 
 add_newline = false
 
+format = """
+$username\
+$hostname
+$character
+"""
+
 [package]
   disabled = true
+
+[username]
+  show_always = true
+
+[hostname]
+  ssh_only = false
 
