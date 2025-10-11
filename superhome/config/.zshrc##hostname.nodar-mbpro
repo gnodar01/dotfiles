@@ -1,4 +1,4 @@
-source $SUPERHOME/config/oh-my-zsh/.zshrc.oh-my-zsh
+#source $SUPERHOME/config/oh-my-zsh/.zshrc.oh-my-zsh
 source $SUPERHOME/config/.zshrc.common
 
 # 1Password ssh agent
