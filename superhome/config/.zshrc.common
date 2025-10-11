@@ -183,7 +183,7 @@ compdef _completemarks jump
 compdef _completemarks unmark
 compdef _completemarks fj
 
-## zsh_unplugged
+# zsh_unplugged
 repos=(
   # must be loaded after compinit, but before plugins which wrap widgets (e.g. fast-syntax-highlighting)
   'Aloxaf/fzf-tab'
@@ -195,8 +195,8 @@ repos=(
 # load the plugins
 plugin-load $repos
 
-## must come after plugins loaded ##
-
+# WARN: below fzf sourcing must come after plugins loaded
+#
 # this is for the zsh-vi-mode plugin I use
 # `${var+x}` is a paramater expansion, nothing if var unset, string "x" otherwise
 # len("x") is not zero, and len("") is zero, so if `ZVM_CONFIG_FUNC` not set, then, else
