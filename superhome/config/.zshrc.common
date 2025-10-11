@@ -16,6 +16,12 @@ autoload run-help
 HELPDIR=/usr/share/zsh/"${ZSH_VERSION}"/help
 alias help=run-help
 
+# NOTE: Can do the following
+# `0` - path to this file
+# `A` - abs path, resolving symlinks, etc
+# `h` - head of path, strip out this filename from path, leaving just dir
+# ${0:A:h}/path/to/some_file_relative_to_here.ext
+
 # zsh_unplugged
 source $SUPERHOME/config/zsh/unplugged.zsh
 # omz jump plugin extension
