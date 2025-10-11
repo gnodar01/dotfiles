@@ -1,0 +1,153 @@
+export SUPERHOME="$HOME/superhome"
+source $SUPERHOME/config/oh-my-zsh/oh-my-zsh.zshrc
+# Nodar stuff:
+
+source $SUPERHOME/config/.zshrc
+shellfancyinits
+
+# 1Password ssh agent
+# https://developer.1password.com/docs/ssh/get-started/#step-4-configure-your-ssh-or-git-client
+# not normally needed, e.g. for git or ssh, since it's set in ~/.ssh/config 
+# but if doing something like ssh-add -l, it is needed
+# this actually overrides the SSH_AUTH_SOCK that would be set if otherwise left
+# alone, by launchctl, i.e. launchctl print gui/501/com.openssh.ssh-agent
+# for a more advanced setup, like SSH_AUTH_SOCK being set to 1Password, even for
+# apps launched outside of the terminal, see here for setting up a launch agent:
+# https://developer.1password.com/docs/ssh/agent/compatibility#ssh-auth-sock
+export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
+notes() {
+  vi ~/Documents/notes/${1}.txt
+}
+
+alias youtubel-dl="yt-dlp"
+
+# rsync System Changes to external
+sync-changes() {
+    RSYNC_LOG_FN_SFX="rsync_`date | tr " " - | tr ":" "_"`.log"
+    RSYNC_LOG_FN_PTH="/Users/Nodar/Documents/System Changes/rsync_logs/"
+    RSYNC_LOG_FN_FULL="${RSYNC_LOG_FN_PTH}${RSYNC_LOG_FN_SFX}"
+    rsync -raPv /Users/Nodar/Documents/System\ Changes/ /Volumes/1TB\ HD/System\ Changes/ > $RSYNC_LOG_FN_FULL
+}
+
+# /Nodar stuff
+
+# Java Stuff
+#
+#export PATH="$HOME/.jenv/bin:$PATH"
+#eval "$(jenv init -)"
+
+# disabled below - it breaks things, I guess because of homebrew magic
+# when enabled running `javac Thing.java` gives error that /usr/bin/java/bin/javac cannot be found
+# export JAVA_HOME=/usr/bin/java
+
+# update, 9/6/2018 - I uncommented the line below, no news on if it breaks things yet
+# update, 8/24/2024 - I commented below line out, because I don't need (brew) java for CellProfiler, use pixi via conda-forge instead
+#                     also did brew uninstall of all javas
+#                     do brew install openjdk or brew install openjdk@x to reinstall
+#export JAVA_HOME="/usr/local/Cellar/openjdk"
+
+# JUnit (java testing framework)
+#export JUNIT_HOME="$HOME/java"
+#PATH="$PATH:$JUNIT_HOME"
+# CLASSPATH doesn't exist at time of writing, but may be used for other java things later
+# export CLASSPATH="$CLASSPATH:$JUNIT_HOME/junit-4.12.jar:$JUNIT_HOME/hamcrest-core-1.3.jar"
+#export CLASSPATH="$JUNIT_HOME/junit-4.12.jar:$JUNIT_HOME/hamcrest-core-1.3.jar:."
+
+# /Java Stuff
+
+# CSCI E-15: Dynamic Web Applications stuff;
+#
+# MAMP (disabled since I don't use this regularly)
+#alias htdocs='cd /Applications/MAMP/htdocs'
+#export HTDOCS="/Applications/MAMP/htdocs"
+# Add php version 7.1.6 as the default php so that MAMP and Composer
+# are using the same versions
+# did this for week 5 of CSCI E-15: Dynamic Web Applications
+# 10-2-2017
+#export PATH=/Applications/MAMP/bin/php/php7.1.6/bin:$PATH
+#
+# /CSCI E-15 stuff
+
+# see "System Changes/CLI/zlogin and zshrc" for info on below function" 2/4/2019
+loadrvm() {
+  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+  # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+  export PATH="$PATH:$HOME/.rvm/bin"
+}
+
+# For brew installation of gcc used as part of PySurvival
+# See: System\ Changes/CLI/PySurvival
+# and: System\ Changes/CLI/Homebrew/Homebrew\ Packages/gcc
+# CHANGE - 1/1/2020 - ran brew upgrade gcc to new version
+# export CXX=/usr/local/Cellar/gcc/9.3.0_1/bin/g++-9
+# export CC=/usr/local/Cellar/gcc/9.3.0_1/bin/gcc-9
+# this is the new version, but disable it because i wanted pip install <package> to use native gcc
+# export CXX=/usr/local/Cellar/gcc/10.2.0/bin/g++-10
+# export CC=/usr/local/Cellar/gcc/10.2.0/bin/gcc-10
+# / CHANGE
+# export CXX=/usr/bin/gcc
+# export CC=/usr/bin/g++
+
+# Haskell
+#[ -f "/Users/Nodar/.ghcup/env" ] && source "/Users/Nodar/.ghcup/env" # ghcup-env
+
+
+# CellProfiler Stuff
+cpteststart() {
+  export CP_MYSQL_TEST_HOST="127.0.0.1"
+  export CP_MYSQL_TEST_DB="cellprofiler_test"
+  export CP_MYSQL_TEST_USER="root"
+  export CP_MYSQL_TEST_PASSWORD="None"
+  mysql.server start
+}
+
+alias cellprofiler="pythonw -m cellprofiler -L 10"
+# /CellProfiler stuff
+
+## >>> conda initialize >>>
+## !! Contents within this block are managed by 'conda init' !!
+#__conda_setup="$('/Users/Nodar/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/Users/Nodar/mambaforge/etc/profile.d/conda.sh" ]; then
+#        . "/Users/Nodar/mambaforge/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/Users/Nodar/mambaforge/bin:$PATH"
+#    fi
+#fi
+#unset __conda_setup
+#
+#if [ -f "/Users/Nodar/mambaforge/etc/profile.d/mamba.sh" ]; then
+#    . "/Users/Nodar/mambaforge/etc/profile.d/mamba.sh"
+#fi
+## <<< conda initialize <<<
+#
+## main on top of base for safety
+#mamba activate main
+
+# docker
+# set in settings -> advanced -> User
+PATH="$PATH:$HOME/.docker/bin"
+
+# rust
+PATH="$HOME/.cargo/bin:$PATH"
+
+# pixi
+export PATH=/Users/Nodar/.pixi/bin:$PATH
+eval "$(pixi completion --shell zsh)"
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+# https://docs.volta.sh/advanced/pnpm
+export VOLTA_FEATURE_PNPM=1
+
+# ngrok completions
+#if command -v ngrok &>/dev/null; then
+#  eval "$(ngrok completion)"
+#fi
+
+# current directory in path (should be last)
+PATH="$PATH:."
+
