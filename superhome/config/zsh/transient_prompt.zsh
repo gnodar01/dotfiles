@@ -9,7 +9,7 @@ zmodload zsh/system ||  return
 # single quote preserves the $(...) so it evaluates each time prompt is displayed
 TRANSIENT_PROMPT='$(STARSHIP_CONFIG=$SUPERHOME/config/starship/transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
 
-function set_prompt {
+function _set_prompt_normal {
   # dynamic prompt for normal display
   # single quote preserves the $(...) so it evaluates each time prompt is displayed
   # $COLUMNS: terminal width
@@ -23,39 +23,51 @@ function set_prompt {
 }
 
 # rebind (extend) Zsh line editor widget, `send-break`
-zle -N send-break _transient_prompt_widget-send-break
-function _transient_prompt_widget-send-break {
+zle -N send-break _transient_prompt-send-break
+function _transient_prompt-send-break {
   # finalize transient prompt
-  _transient_prompt_widget-zle-line-finish
+  _transient_prompt-zle-line-finish
   # do native `send-break`
   zle .send-break
 }
 
 # rebind (overwrite) Zsh line editor widget, `zle-line-finish`, which runs when command line finishes
-zle -N zle-line-finish _transient_prompt_widget-zle-line-finish
+zle -N zle-line-finish _transient_prompt-zle-line-finish
 # sets the transient prompt
-function _transient_prompt_widget-zle-line-finish {
-  # if `_transient_prompt_fd` is not set
+function _transient_prompt-zle-line-finish {
+  # if `_transient_prompt_fd` is not set, or is `0`
   (( ! _transient_prompt_fd )) && {
-    # open `/dev/null` as read-only file descriptor, assigning to `_transient_prompt_fd`
+    # open `/dev/null` as file descriptor (FD), assigning to `_transient_prompt_fd`
+    # `-r` is read-only
+    # `-o cloexec` ensures the FD is auto-closed if an `exec`-type program is run
+    # `-u <var>` assignes the opened FD number to `<var>`
     sysopen -r -o cloexec -u _transient_prompt_fd /dev/null
-    # register file event with ZLE to call `_transient_prompt_restore_prompt` when fd is ready
-    zle -F $_transient_prompt_fd _transient_prompt_restore_prompt
+    # register file descriptor watch event with ZLE
+    # to call `_transient_prompt-restore-prompt` when fd is ready (readable)
+    # async, so this func (`_transient_prompt-zle-line-finish`)
+    # will finish first, then `_transient_prompt-restore-prompt` runs
+    zle -F $_transient_prompt_fd _transient_prompt-restore-prompt
   }
-  # if inside ZLE, set PROMPT to transient, RPROMPT to nothing, reset prompt, refresh display
+  # if inside ZLE (interactive editing mode), then
+  # set PROMPT to transient, RPROMPT to nothing
+  # reset prompt, refresh display
   zle && PROMPT=$TRANSIENT_PROMPT RPROMPT= zle reset-prompt && zle -R
 }
 
-# restores the normal prompt after transient prompt is displayed
-function _transient_prompt_restore_prompt {
-  # closes file descriptor 1
+# callback - restores the normal prompt after transient prompt is displayed
+function _transient_prompt-restore-prompt {
+  # close file descriptor 1 (stdout) in current shell
+  # `{1}` is zsh dynamic FD syntax, but here equiv to just `1`
+  # `>` is redirect, `&-` means close fd
+  # `exec` to do in current shell
+  # this triggers auto close of the FD ($1) asscoiated with /dev/null
   exec {1}>&-
-  # if argument, unregister file descriptor from ZLE
+  # if argument, unregister previous handler for FD from ZLE
   (( ${+1} )) && zle -F $1
   # resets `_transient_prompt_fd`
   _transient_prompt_fd=0
   # set the normal prompt
-  set_prompt
+  _set_prompt_normal
   # reset prompt
   zle reset-prompt
   # refresh display
@@ -72,10 +84,10 @@ function _transient_prompt_restore_prompt {
 }
 
 # add SIGINT trap to precmds
-precmd_functions+=_transient_prompt_precmd
+precmd_functions+=_transient_prompt-precmd
 # define custom TRAPINT function (runs on Ctrl+C/interrupt)
 # updates the transient prompt before exiting command
 # returns proper exit code for SIGINT (128 + <signal number>)
-function _transient_prompt_precmd {
-  TRAPINT() { zle && _transient_prompt_widget-zle-line-finish; return $(( 128 + $1 )) }
+function _transient_prompt-precmd {
+  TRAPINT() { zle && _transient_prompt-zle-line-finish; return $(( 128 + $1 )) }
 }
