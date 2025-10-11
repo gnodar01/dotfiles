@@ -100,7 +100,7 @@ shellfancyinits() {
   # this is for the zsh-vi-mode plugin I use with oh-my-zsh
   # this test idiom from: https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
   if [ -z ${ZVM_CONFIG_FUNC+x} ]
-  # if $SUPERHOME/config/oh-my-zsh/.oh-my-zsh was NOT sourced before sourcing this file
+  # if $SUPERHOME/config/oh-my-zsh/.zshrc.oh-my-zsh was NOT sourced before sourcing this file
   # or if zsh-vi-mode there was NOT enabled
   # then load fzf directly
   then
@@ -267,3 +267,8 @@ _fuzzy_mark_expansion() {
 zle -N _fuzzy_mark_expansion
 
 ## /omz jump plugin extension ##
+
+### keep at bottom ###
+
+shellfancyinits
+#shellautocomplete

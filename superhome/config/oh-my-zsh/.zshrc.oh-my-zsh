@@ -2,6 +2,9 @@
 # `source $SUPERHOME/config/oh-my-zsh/oh-my-zsh.config`
 # At very top of $SUPERHOME/config/.zshrc
 
+# https://stackoverflow.com/questions/11378607/oh-my-zsh-disable-would-you-like-to-check-for-updates-prompt
+zstyle ':omz:update' mode disabled
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of $SUPERHOME/config/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.

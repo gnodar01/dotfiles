@@ -1,11 +1,5 @@
-# https://stackoverflow.com/questions/11378607/oh-my-zsh-disable-would-you-like-to-check-for-updates-prompt
-zstyle ':omz:update' mode disabled
-
-source $SUPERHOME/config/oh-my-zsh/oh-my-zsh.zshrc
+source $SUPERHOME/config/oh-my-zsh/.zshrc.oh-my-zsh
 source $SUPERHOME/config/.zshrc.common
-
-shellfancyinits
-#shellautocomplete
 
 # 1Password ssh agent
 # https://developer.1password.com/docs/ssh/get-started/#step-4-configure-your-ssh-or-git-client
