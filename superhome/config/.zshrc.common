@@ -173,7 +173,8 @@ alias pyfansi="pyfansi.py"
 alias pycodepoints="pycodepoints.py"
 
 
-### keep at bottom ###
+# WARN: below should probably stay at bottom, in the order that it is
+# if moving things around, make sure to test breakage
 
 # ensure completions configured before compinit
 # https://github.com/zsh-users/zsh-completions#manual-installation
