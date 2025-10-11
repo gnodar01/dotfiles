@@ -1,6 +1,6 @@
 #!/bin/zsh
-
 # https://github.com/mattmc3/zsh_unplugged
+
 export ZPLUGINDIR="$HOME/.config/zsh/plugins"
 # Clone a plugin, identify its init file, source it, and add it to your fpath.
 function plugin-load {

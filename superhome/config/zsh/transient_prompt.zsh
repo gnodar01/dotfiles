@@ -1,4 +1,7 @@
 #!/bin/zsh
+# https://gist.github.com/subnut/3af65306fbecd35fe2dda81f59acf2b2
+# https://github.com/olets/zsh-transient-prompt
+# (with edits)
 
 # minimal sanity check, /dev/null exists and is character device
 [[ -c /dev/null ]]  ||  return
