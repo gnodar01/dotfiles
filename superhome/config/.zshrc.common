@@ -173,7 +173,9 @@ function marks() {
 }
 
 function _completemarks() {
-	reply=("${MARKPATH}"/{,.}*(@N:t))
+  local -a marks
+	marks=("${MARKPATH}"/{,.}*(@N:t))
+  compadd "$@" -- "${marks[@]}"
 }
 
 zle -N _mark_expansion
@@ -221,9 +223,6 @@ function _fuzzy_mark_expansion() {
   modify-current-argument '$(readlink "$MARKPATH/$(ls -A $MARKPATH | fzf --query=$ARG -1)" || echo "$ARG")'
 }
 
-compctl -K _completemarks jump
-compctl -K _completemarks unmark
-compctl -K _completemarks fj
 ## /omz jump plugin extension ##
 
 ## Prompt ##
@@ -448,5 +447,10 @@ alias pycodepoints="pycodepoints.py"
 # ensure completions configured before compinit
 # https://github.com/zsh-users/zsh-completions#manual-installation
 autoload -Uz compinit && compinit
+compdef _completemarks jump
+compdef _completemarks unmark
+compdef _completemarks fj
+
 plugin-load $repos
+
 shellfancyinits
