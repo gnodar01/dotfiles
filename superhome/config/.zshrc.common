@@ -16,12 +16,20 @@ autoload run-help
 HELPDIR=/usr/share/zsh/"${ZSH_VERSION}"/help
 alias help=run-help
 
+# zsh_unplugged
+source $SUPERHOME/config/zsh/unplugged.zsh
+# omz jump plugin extension
+source $SUPERHOME/config/zsh/jump.zsh
+# prompt
+export STARSHIP_CONFIG="$SUPERHOME/config/starship/starship.toml"
+export STARSHIP_TRANSIENT_CONFIG="$SUPERHOME/config/starship/starship.toml"
+source $SUPERHOME/config/zsh/transient_prompt.zsh
+
+
 function shellfancyinits() {
   # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
   #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
   eval "$(starship init zsh)"
-
-  #zle -N zle-line-init _zle-line-init
 
   # this is for the zsh-vi-mode plugin I use with oh-my-zsh
   # this test idiom from: https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
@@ -52,231 +60,6 @@ autoload -Uz add-zle-hook-widget
 add-zle-hook-widget zle-line-init _late_bindings
 ## / late key bindings
 
-## zsh_unplugged
-# https://github.com/mattmc3/zsh_unplugged
-export ZPLUGINDIR="$HOME/.config/zsh/plugins"
-# Clone a plugin, identify its init file, source it, and add it to your fpath.
-function plugin-load {
-  local plugin repo commitsha plugdir initfile initfiles=()
-  # set default plugin directory if not already set
-  # `:` is a no-op used to trigger parameter expansion
-  # `:=` paramater expansion with assignment - assigns if not already assigned
-  # `:-` default value substitution - evaluate (not assign) lhs if set else rhs
-  : ${ZPLUGINDIR:=${ZDOTDIR:-$HOME/.config/zsh}/plugins}
-
-  # for each plugin-repo
-  for plugin in $@; do
-    repo="$plugin"
-    clone_args=(-q --depth 1 --recursive --shallow-submodules)
-
-    # check if plugin pinned to specific commit (format: user/repo@commitsha)
-    if [[ "$plugin" == *'@'* ]]; then
-      repo="${plugin%@*}"         # extract repo before commit
-      commitsha="${plugin#*@}"    # extract commit SHA
-      clone_args+=(--no-checkout) # delay checkout to later after fetching specific commit
-    fi
-
-    # determine plugin installation dir and expected init file
-    # `:` acts as zsh filename transformation
-    # `t` stands for tail, extracting last component of a path
-    # `repo:t` extracts "myplugin" from "user/myplugin"
-    plugdir=$ZPLUGINDIR/${repo:t}          # dir named after plugin
-    initfile=$plugdir/${repo:t}.plugin.zsh # standard init path
-
-    # clone plugin repo only if not already installed
-    if [[ ! -d $plugdir ]]; then
-      echo "Cloning ZSH plugin: $repo..."
-      git clone "${clone_args[@]}" https://github.com/$repo $plugdir
-
-      # if commit sha specified (user/repo@commitsha), fetch and checkout that commit
-      if [[ -n "$commitsha" ]]; then
-        git -C $plugdir fetch -q origin "$commitsha"
-        git -C $plugdir checkout -q "$commitsha"
-      fi
-    fi
-
-    # if init file does not exist, find one in the plugin directory
-    if [[ ! -e $initfile ]]; then
-      # `initfiles` is an array
-      # `(N)` is Nullglob - if glob matches nothing, expand to nothing instead of literal pattern
-      # preventing error if/when no files match
-      initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
-      # if no candidate for init file, say so and go to next plugin
-      (( $#initfiles )) || { echo >&2 "No init file found '$repo'." && continue }
-      # if one or more candidates found, symlink the first matching one
-      ln -sf $initfiles[1] $initfile
-    fi
-
-    # add plugin directory to fpath for function autoloading
-    fpath+=$plugdir
-
-    # source init file, using zsh-defer if available for deferred loading
-    # `$+functions[name]` 1 if function exists else 0
-    # `(( ... ))` is arithmetic evaluation
-    (( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
-  done
-}
-
-repos=(
-  # must be loaded after compinit, but before plugins which wrap widgets (e.g. fast-syntax-highlighting)
-  'Aloxaf/fzf-tab'
-)
-## /zsh_unplugged
-
-## omz jump plugin extension ##
-# Easily jump around the file system by manually adding marks
-# marks are stored as symbolic links in the directory $MARKPATH (default $HOME/.marks)
-# https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/jump/jump.plugin.zsh
-#
-# jump FOO: jump to a mark named FOO
-# mark FOO: create a mark named FOO
-# unmark FOO: delete a mark
-# marks: lists all marks
-#
-export MARKPATH=$HOME/.marks
-
-function jump() {
-	local markpath="$(readlink $MARKPATH/$1)" || {echo "No such mark: $1"; return 1}
-	builtin cd "$markpath" 2>/dev/null || {echo "Destination does not exist for mark [$1]: $markpath"; return 2}
-}
-
-function mark() {
-	if [[ $# -eq 0 || "$1" = "." ]]; then
-		MARK=${PWD:t}
-	else
-		MARK="$1"
-	fi
-	if read -q "?Mark $PWD as ${MARK}? (y/n) "; then
-		command mkdir -p "$MARKPATH"
-		command ln -sfn "$PWD" "$MARKPATH/$MARK"
-	fi
-}
-
-function unmark() {
-	LANG= command rm -i "$MARKPATH/$1"
-}
-
-function marks() {
-	#local link max=0
-	#for link in $MARKPATH/{,.}*(@N); do
-	#	if [[ ${#link:t} -gt $max ]]; then
-	#		max=${#link:t}
-	#	fi
-	#done
-	#local printf_markname_template="$(printf -- "%%%us" "$max")"
-	#for link in $MARKPATH/{,.}*(@N); do
-	#	local markname="$fg[cyan]$(printf -- "$printf_markname_template" "${link:t}")$reset_color"
-	#	local markpath="$fg[blue]$(readlink $link)$reset_color"
-	#	printf -- "%s -> %s\n" "$markname" "$markpath"
-	#done
-  eza --oneline --all --classify=auto $MARKPATH
-}
-
-function _completemarks() {
-  local -a marks
-	marks=("${MARKPATH}"/{,.}*(@N:t))
-  compadd "$@" -- "${marks[@]}"
-}
-
-zle -N _mark_expansion
-function _mark_expansion() {
-	setopt localoptions extendedglob
-	autoload -U modify-current-argument
-	modify-current-argument '$(readlink "$MARKPATH/$ARG" || echo "$ARG")'
-}
-
-# jump back
-function jumpb () {
-  builtin cd "$OLDPWD" 2> /dev/null || {
-    echo "Desintation does not exist: \"$OLDPWD\""
-    return 2
-  }
-}
-
-# fuzzy jump
-function fj () {
-  local query="$1"
-  local candidate
-  candidate=$(ls -A "$MARKPATH" | fzf --query "$query" -1)
-
-  if [ -z "$candidate" ]; then
-    echo "Cannot resolve mark: $query"
-    return 1
-  fi
-
-  local markpath
-  if ! markpath=$(readlink "$MARKPATH/$candidate"); then
-    echo "No such link: $query -> $candidate"
-    return 1
-  fi
-
-  if ! builtin cd "$markpath" 2>/dev/null; then
-    echo "Destination does not exist for mark [$query -> $candidate]: $markpath"
-    return 2
-  fi
-}
-
-zle -N _fuzzy_mark_expansion
-function _fuzzy_mark_expansion() {
-	setopt localoptions extendedglob
-  autoload -U modify-current-argument
-  modify-current-argument '$(readlink "$MARKPATH/$(ls -A $MARKPATH | fzf --query=$ARG -1)" || echo "$ARG")'
-}
-
-## /omz jump plugin extension ##
-
-## Prompt ##
-
-export STARSHIP_CONFIG="$SUPERHOME/config/starship/starship.toml"
-## transient prompt ##
-
-[[ -c /dev/null ]]  ||  return
-zmodload zsh/system ||  return
-
-TRANSIENT_PROMPT='$(STARSHIP_CONFIG=$SUPERHOME/config/starship/transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
-
-function set_prompt {
-    ## Set the values of PROMPT and RPROMPT here
-    # Sample values given below
-    PROMPT='$(starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
-    RPROMPT=''
-}
-
-zle -N send-break _transient_prompt_widget-send-break
-function _transient_prompt_widget-send-break {
-    _transient_prompt_widget-zle-line-finish
-    zle .send-break
-}
-
-zle -N zle-line-finish _transient_prompt_widget-zle-line-finish
-function _transient_prompt_widget-zle-line-finish {
-    (( ! _transient_prompt_fd )) && {
-        sysopen -r -o cloexec -u _transient_prompt_fd /dev/null
-        zle -F $_transient_prompt_fd _transient_prompt_restore_prompt
-    }
-    zle && PROMPT=$TRANSIENT_PROMPT RPROMPT= zle reset-prompt && zle -R
-}
-
-function _transient_prompt_restore_prompt {
-    exec {1}>&-
-    (( ${+1} )) && zle -F $1
-    _transient_prompt_fd=0
-    set_prompt
-    zle reset-prompt
-    zle -R
-}
-
-(( ${+precmd_functions} )) || typeset -ga precmd_functions
-(( ${#precmd_functions} )) || {
-    do_nothing() {true}
-    precmd_functions=(do_nothing)
-}
-
-precmd_functions+=_transient_prompt_precmd
-function _transient_prompt_precmd {
-    TRAPINT() { zle && _transient_prompt_widget-zle-line-finish; return $(( 128 + $1 )) }
-}
-## /transient prompt ##
 
 # -m flag for multi-select, TAB/SHIFT-TAB to mark items
 export FZF_DEFAULT_OPS="-m"
@@ -313,11 +96,13 @@ function cdb() {
 }
 ### /cd into alias folder ###
 
+
 # python
 # set this in case you want sys.path to include some custom path to a package
 # note: also check path/to/site-packages/easy-install.pth for things that `pip install -e` puts into sys.path
 #       it's possible to add a custom *.pth file which will also be parsed
 # export PYTHONPATH=""
+
 
 function yadmc() {
   # Check if yadm is installed
@@ -370,6 +155,7 @@ function y() {
 function filengrok() {
   ngrok http --url=optimal-titmouse-hopefully.ngrok-free.app --response-header-add="Access-Control-Allow-Origin:*" "file://$1"
 }
+
 
 alias rm="rm -iv"
 alias mv="mv -iv"
@@ -451,6 +237,15 @@ compdef _completemarks jump
 compdef _completemarks unmark
 compdef _completemarks fj
 
+## zsh_unplugged
+repos=(
+  # must be loaded after compinit, but before plugins which wrap widgets (e.g. fast-syntax-highlighting)
+  'Aloxaf/fzf-tab'
+
+  'jeffreytse/zsh-vi-mode'
+
+  'zdharma-continuum/fast-syntax-highlighting'
+)
 plugin-load $repos
 
 shellfancyinits
