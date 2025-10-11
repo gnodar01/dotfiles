@@ -23,43 +23,8 @@ source $SUPERHOME/config/zsh/jump.zsh
 # prompt
 export STARSHIP_CONFIG="$SUPERHOME/config/starship/starship.toml"
 export STARSHIP_TRANSIENT_CONFIG="$SUPERHOME/config/starship/starship.toml"
+eval "$(starship init zsh)"
 source $SUPERHOME/config/zsh/transient_prompt.zsh
-
-
-function shellfancyinits() {
-  # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-  #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-  eval "$(starship init zsh)"
-
-  # this is for the zsh-vi-mode plugin I use with oh-my-zsh
-  # this test idiom from: https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
-  if [ -z ${ZVM_CONFIG_FUNC+x} ]
-  # if $SUPERHOME/config/oh-my-zsh/.zshrc.oh-my-zsh was NOT sourced before sourcing this file
-  # or if zsh-vi-mode there was NOT enabled
-  # then load fzf directly
-  then
-      # fzf - enable auto completing and key bindings
-      source <(fzf --zsh)
-  else
-      # else oh-my-zsh loaded with zsh-vi-mode
-      # which would normally override key bindings from other places
-      # we re-enable fzf keybindings using bellow, by wrapping it in a zsh-vi-mode hook
-      # https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#execute-extra-commands
-      zvm_after_init_commands+=('source <(fzf --zsh)')
-  fi
-}
-## late key bindings
-# runs right before you start typing at the prompt
-function _late_bindings() {
-  # omz "jump" plugin - expand mark to full path
-  bindkey "^G" _mark_expansion
-  # omz "jump" plugin custom extension - see below
-  bindkey "^h" _fuzzy_mark_expansion
-}
-autoload -Uz add-zle-hook-widget
-add-zle-hook-widget zle-line-init _late_bindings
-## / late key bindings
-
 
 # -m flag for multi-select, TAB/SHIFT-TAB to mark items
 export FZF_DEFAULT_OPS="-m"
@@ -246,6 +211,33 @@ repos=(
 
   'zdharma-continuum/fast-syntax-highlighting'
 )
+# load the plugins
 plugin-load $repos
 
-shellfancyinits
+## must come after plugins loaded ##
+
+# this is for the zsh-vi-mode plugin I use
+# `${var+x}` is a paramater expansion, nothing if var unset, string "x" otherwise
+# len("x") is not zero, and len("") is zero, so if `ZVM_CONFIG_FUNC` not set, then, else
+if [ -z ${ZVM_CONFIG_FUNC+x} ]
+# if zsh-vi-mode there was NOT enabled
+# then load fzf directly
+then
+    # fzf - enable auto completing and key bindings
+    source <(fzf --zsh)
+else
+    # zsh-vi-mode loaded
+    # which would normally override key bindings from other places
+    # we re-enable fzf keybindings using below, by wrapping it in a zsh-vi-mode hook
+    # https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#execute-extra-commands
+    zvm_after_init_commands+=('source <(fzf --zsh)')
+fi
+
+# late key bidnings - runs right before you start typing at the prompt
+function _late_bindings() {
+  # key binds for "jump" plugin (./zsh/jump.zsh) loaded above
+  bindkey "^G" _mark_expansion
+  bindkey "^H" _fuzzy_mark_expansion
+}
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget zle-line-init _late_bindings
