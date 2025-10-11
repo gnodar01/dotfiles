@@ -4,9 +4,11 @@
 # https://unix.stackexchange.com/questions/135084/double-rm-verification-in-zsh
 setopt rm_star_silent
 
+
 PATH="$SUPERHOME/bin:$PATH"
 # poetry, virtualenv, and others
 PATH="$HOME/.local/bin:$PATH"
+
 
 # https://superuser.com/questions/1563825/is-there-a-zsh-equivalent-to-the-bash-help-builtin
 if [[ "$(whence -w run-help | cut -d : -f 2 | tr -d ' ')" == "alias" ]]; then
@@ -15,6 +17,7 @@ fi
 autoload run-help
 HELPDIR=/usr/share/zsh/"${ZSH_VERSION}"/help
 alias help=run-help
+
 
 # NOTE: Can do the following
 # `0` - path to this file
@@ -31,6 +34,9 @@ export STARSHIP_CONFIG="$SUPERHOME/config/starship/starship.toml"
 export STARSHIP_TRANSIENT_CONFIG="$SUPERHOME/config/starship/starship.toml"
 eval "$(starship init zsh)"
 source $SUPERHOME/config/zsh/transient_prompt.zsh
+# cd into alias folder
+source $SUPERHOME/config/zsh/aliasPath.zsh
+
 
 # -m flag for multi-select, TAB/SHIFT-TAB to mark items
 export FZF_DEFAULT_OPS="-m"
@@ -41,38 +47,6 @@ export FZF_DEFAULT_COMMAND='fd -H --no-require-git .'
 
 # set neovim as main editor
 export EDITOR="nvim"
-
-# https://github.com/rptb1/aliasPath
-# found from here:
-# https://stackoverflow.com/questions/1175094/os-x-terminal-command-to-resolve-path-of-an-alias### cd into alias folder ###
-# clone, compile with `sudo xcodebuild install`, which creates `/usr/local/bin/aliasPath`
-# move to $HOME/bin
-export cdBack=""
-function cda() {
-  if [[ -f "$1" || -L "$1" ]]; then
-    cdBack="$(pwd)"
-    truePath="$(aliasPath "$1")"
-    builtin cd "$truePath"
-  else
-    builtin cd "$@"
-  fi
-}
-
-function cdb() {
-  if [[ -n "$cdBack" ]]; then
-    builtin cd "$cdBack"
-  else
-    echo "cd back not set"
-  fi
-}
-### /cd into alias folder ###
-
-
-# python
-# set this in case you want sys.path to include some custom path to a package
-# note: also check path/to/site-packages/easy-install.pth for things that `pip install -e` puts into sys.path
-#       it's possible to add a custom *.pth file which will also be parsed
-# export PYTHONPATH=""
 
 
 function yadmc() {
