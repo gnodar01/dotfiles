@@ -180,9 +180,6 @@ augroup END
 " when opening a file in vim, can do :setlocal syntax? to see what filetype it
 " detected
 
-" no longer needed
-" au BufRead,BufNewFile *.zshrcmanaged set filetype=zsh
-
 "
 " }}}
 

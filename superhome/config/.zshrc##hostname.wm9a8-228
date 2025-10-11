@@ -1,12 +1,9 @@
 # https://stackoverflow.com/questions/11378607/oh-my-zsh-disable-would-you-like-to-check-for-updates-prompt
 zstyle ':omz:update' mode disabled
 
-export SUPERHOME=$HOME/superhome
-
 source $SUPERHOME/config/oh-my-zsh/oh-my-zsh.zshrc
+source $SUPERHOME/config/.zshrc.common
 
-# Nodar stuff
-source $SUPERHOME/config/.zshrc
 shellfancyinits
 #shellautocomplete
 

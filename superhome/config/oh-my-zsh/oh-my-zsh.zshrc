@@ -1,8 +1,8 @@
 # Do:
-# `source ~/superhome/config/oh-my-zsh/oh-my-zsh.config`
-# At very top of ~/.zshrc
+# `source $SUPERHOME/config/oh-my-zsh/oh-my-zsh.config`
+# At very top of $SUPERHOME/config/.zshrc
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of $SUPERHOME/config/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -176,6 +176,6 @@ FAST_HIGHLIGHT[chroma-git]="→chroma/-subcommand.ch"
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
+# alias zshconfig="mate .zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
