@@ -1,20 +1,12 @@
-# profiling: https://stevenvanbael.com/profiling-zsh-startup
-# put this as the beginning of ~/.zshrc
-#zmodload zsh/zprof
-# put this at the end of ~/.zshrc
-#zprof
-
-export SUPERHOME=$HOME/superhome
-PATH="$SUPERHOME/bin:$PATH"
-
-# poetry, virtualenv, and others
-PATH="$HOME/.local/bin:$PATH"
-
 # when doing rm folder/* or `rm *` zsh asks "sure you want to delete all the files in ... [yn]?"
 # even if -f set
 # this disables that
 # https://unix.stackexchange.com/questions/135084/double-rm-verification-in-zsh
 setopt rm_star_silent
+
+PATH="$SUPERHOME/bin:$PATH"
+# poetry, virtualenv, and others
+PATH="$HOME/.local/bin:$PATH"
 
 # https://superuser.com/questions/1563825/is-there-a-zsh-equivalent-to-the-bash-help-builtin
 if [[ "$(whence -w run-help | cut -d : -f 2 | tr -d ' ')" == "alias" ]]; then
@@ -24,79 +16,18 @@ autoload run-help
 HELPDIR=/usr/share/zsh/"${ZSH_VERSION}"/help
 alias help=run-help
 
-alias rm="rm -iv"
-alias mv="mv -iv"
-alias cp="cp -riv"
-alias mkdir="mkdir -vp"
-
-alias diffc="diff --color=always"
-alias lessc="less -r"
-alias subl="sublime_text"
-
-#alias myip="curl http://ipecho.net/plain; echo"
-alias myip="curl -s https://ipv4.icanhazip.com/"
-alias myip6="curl -s https://ipv6.icanhazip.com/"
-alias myipp="utilhelpers myip"
-# show all env variables - must be alias not function
-alias envv="( setopt posixbuiltin; set; ) | less"
-alias dostat="utilhelpers dostat"
-
-alias pltoxml="utilhelpers pltoxml"
-alias xmltopl="utilhelpers xmltopl"
-
-alias surround="utilhelpers surround"
-
-# https://fgimian.github.io/blog/2015/06/27/a-simple-plistbuddy-tutorial/
-alias plistbuddy="/usr/libexec/PlistBuddy"
-
-# syntax highlight man pages with bat
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
-# use eza instead of ls
-alias l="eza --all --icons=auto --classify=auto"
-alias ll="eza --long --all --git --header --icons=auto --classify=auto"
-alias t="eza --oneline --all --icons=auto --classify=auto"
-alias tt="eza --tree --all --classify=auto --icons=auto --level=2"
-alias ttt="eza --tree --all --classify=auto --icons=auto --level=3"
-alias tttt="eza --tree --all --classify=auto --icons=auto --level=4"
-
-# https://github.com/rptb1/aliasPath
-# found from here:
-# https://stackoverflow.com/questions/1175094/os-x-terminal-command-to-resolve-path-of-an-alias### cd into alias folder ###
-# clone, compile with `sudo xcodebuild install`, which creates `/usr/local/bin/aliasPath`
-# move to $HOME/bin
-export cdBack=""
-cda() {
-  if [[ -f "$1" || -L "$1" ]]; then
-    cdBack="$(pwd)"
-    truePath="$(aliasPath "$1")"
-    builtin cd "$truePath"
-  else
-    builtin cd "$@"
-  fi
-}
-
-cdb() {
-  if [[ -n "$cdBack" ]]; then
-    builtin cd "$cdBack"
-  else
-    echo "cd back not set"
-  fi
-}
-### /cd into alias folder ###
-
-alias hex="hexyl"
-
 # needed for autocomplete
 # don't use this with omz, it's redundant
-shellautocomplete() {
+function shellautocomplete() {
   autoload -Uz compinit && compinit
 }
 
-shellfancyinits() {
+function shellfancyinits() {
   # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
   #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
   eval "$(starship init zsh)"
+
+  #zle -N zle-line-init _zle-line-init
 
   # this is for the zsh-vi-mode plugin I use with oh-my-zsh
   # this test idiom from: https://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
@@ -117,7 +48,7 @@ shellfancyinits() {
 }
 ## late key bindings
 # runs right before you start typing at the prompt
-_late_bindings() {
+function _late_bindings() {
   # omz "jump" plugin - expand mark to full path
   bindkey "^G" _mark_expansion
   # omz "jump" plugin custom extension - see below
@@ -127,6 +58,103 @@ autoload -Uz add-zle-hook-widget
 add-zle-hook-widget zle-line-init _late_bindings
 ## / late key bindings
 
+
+## omz jump plugin extension ##
+
+# jump back
+function jumpb () {
+  builtin cd "$OLDPWD" 2> /dev/null || {
+    echo "Desintation does not exist: \"$OLDPWD\""
+    return 2
+  }
+}
+
+# fuzzy jump
+function fj () {
+  local query="$1"
+  local candidate
+  candidate=$(ls -A "$MARKPATH" | fzf --query "$query" -1)
+
+  if [ -z "$candidate" ]; then
+    echo "Cannot resolve mark: $query"
+    return 1
+  fi
+
+  local markpath
+  if ! markpath=$(readlink "$MARKPATH/$candidate"); then
+    echo "No such link: $query -> $candidate"
+    return 1
+  fi
+
+  if ! builtin cd "$markpath" 2>/dev/null; then
+    echo "Destination does not exist for mark [$query -> $candidate]: $markpath"
+    return 2
+  fi
+}
+
+zle -N _fuzzy_mark_expansion
+function _fuzzy_mark_expansion() {
+  echo todo
+	setopt localoptions extendedglob
+  autoload -U modify-current-argument
+  modify-current-argument '$(readlink "$MARKPATH/$(ls -A $MARKPATH | fzf --query=$ARG -1)" || echo "$ARG")'
+}
+
+## /omz jump plugin extension ##
+
+## Prompt ##
+
+export STARSHIP_CONFIG="$SUPERHOME/config/starship/starship.toml"
+## transient prompt ##
+
+[[ -c /dev/null ]]  ||  return
+zmodload zsh/system ||  return
+
+TRANSIENT_PROMPT='$(STARSHIP_CONFIG=$SUPERHOME/config/starship/transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
+
+function set_prompt {
+    ## Set the values of PROMPT and RPROMPT here
+    # Sample values given below
+    PROMPT='$(starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
+    RPROMPT=''
+}
+
+zle -N send-break _transient_prompt_widget-send-break
+function _transient_prompt_widget-send-break {
+    _transient_prompt_widget-zle-line-finish
+    zle .send-break
+}
+
+zle -N zle-line-finish _transient_prompt_widget-zle-line-finish
+function _transient_prompt_widget-zle-line-finish {
+    (( ! _transient_prompt_fd )) && {
+        sysopen -r -o cloexec -u _transient_prompt_fd /dev/null
+        zle -F $_transient_prompt_fd _transient_prompt_restore_prompt
+    }
+    zle && PROMPT=$TRANSIENT_PROMPT RPROMPT= zle reset-prompt && zle -R
+}
+
+function _transient_prompt_restore_prompt {
+    exec {1}>&-
+    (( ${+1} )) && zle -F $1
+    _transient_prompt_fd=0
+    set_prompt
+    zle reset-prompt
+    zle -R
+}
+
+(( ${+precmd_functions} )) || typeset -ga precmd_functions
+(( ${#precmd_functions} )) || {
+    do_nothing() {true}
+    precmd_functions=(do_nothing)
+}
+
+precmd_functions+=_transient_prompt_precmd
+function _transient_prompt_precmd {
+    TRAPINT() { zle && _transient_prompt_widget-zle-line-finish; return $(( 128 + $1 )) }
+}
+## /transient prompt ##
+
 # -m flag for multi-select, TAB/SHIFT-TAB to mark items
 export FZF_DEFAULT_OPS="-m"
 #export FZF_COMPLETION_OPTS='--border --info=inline'
@@ -134,41 +162,33 @@ export FZF_DEFAULT_OPS="-m"
 # https://stackoverflow.com/questions/61865932/how-to-get-fzf-vim-ignore-node-modules-and-git-folders
 export FZF_DEFAULT_COMMAND='fd -H --no-require-git .'
 
-# basic preview with bat
-alias fzfpview="utilhelpers fzfpreview"
-# use opener; takes opt arg; depth 1
-alias fzfp="utilhelpers fzfp"
-# use opener; no arg; inf depth
-alias fzfpp="utilhelpers fzfpp"
-# use opener; no arg; inf depth; pipe res into ll
-alias fzfppls="utilhelpers fzfppls"
-
-alias npmglobals="utilhelpers npmglobals"
-
-alias pypi="utilhelpers pypi"
-alias pipcompat="utilhelpers pipcompat"
-
-alias dockersize="utilhelpers dockersize"
-
-alias nv="nvim"
-
 # set neovim as main editor
 export EDITOR="nvim"
 
-# node with vim mode (no autocomplete)
-# https://github.com/nodejs/node/issues/5608
-# https://github.com/nodejs/node/issues/5608#issuecomment-441785908
-if [ $(command -v rlwrap) ] ; then
-  alias vnode='NODE_NO_READLINE=1 rlwrap node'
-fi
+# https://github.com/rptb1/aliasPath
+# found from here:
+# https://stackoverflow.com/questions/1175094/os-x-terminal-command-to-resolve-path-of-an-alias### cd into alias folder ###
+# clone, compile with `sudo xcodebuild install`, which creates `/usr/local/bin/aliasPath`
+# move to $HOME/bin
+export cdBack=""
+function cda() {
+  if [[ -f "$1" || -L "$1" ]]; then
+    cdBack="$(pwd)"
+    truePath="$(aliasPath "$1")"
+    builtin cd "$truePath"
+  else
+    builtin cd "$@"
+  fi
+}
 
-# NOTE: just use pgrep instead
-# leaving here until you remember
-alias psa="ps -A | grep -v grep"
-
-alias pycolors="pycolors.py"
-alias pyfansi="pyfansi.py"
-alias pycodepoints="pycodepoints.py"
+function cdb() {
+  if [[ -n "$cdBack" ]]; then
+    builtin cd "$cdBack"
+  else
+    echo "cd back not set"
+  fi
+}
+### /cd into alias folder ###
 
 # python
 # set this in case you want sys.path to include some custom path to a package
@@ -176,7 +196,7 @@ alias pycodepoints="pycodepoints.py"
 #       it's possible to add a custom *.pth file which will also be parsed
 # export PYTHONPATH=""
 
-yadmc() {
+function yadmc() {
   # Check if yadm is installed
   if ! command -v yadm &>/dev/null; then
     echo "Error: yadm is not installed or not in PATH." >&2
@@ -228,48 +248,78 @@ function filengrok() {
   ngrok http --url=optimal-titmouse-hopefully.ngrok-free.app --response-header-add="Access-Control-Allow-Origin:*" "file://$1"
 }
 
-## omz jump plugin extension ##
+alias rm="rm -iv"
+alias mv="mv -iv"
+alias cp="cp -riv"
+alias mkdir="mkdir -vp"
 
-# jump back
-jumpb () {
-  builtin cd "$OLDPWD" 2> /dev/null || {
-    echo "Desintation does not exist: \"$OLDPWD\""
-    return 2
-  }
-}
+alias diffc="diff --color=always"
+alias lessc="less -r"
+alias subl="sublime_text"
 
-# fuzzy jump
-fj () {
-  local query="$1"
-  local candidate
-  candidate=$(ls -A "$MARKPATH" | fzf --query "$query" -1)
+#alias myip="curl http://ipecho.net/plain; echo"
+alias myip="curl -s https://ipv4.icanhazip.com/"
+alias myip6="curl -s https://ipv6.icanhazip.com/"
+alias myipp="utilhelpers myip"
+# show all env variables - must be alias not function
+alias envv="( setopt posixbuiltin; set; ) | less"
+alias dostat="utilhelpers dostat"
 
-  if [ -z "$candidate" ]; then
-    echo "Cannot resolve mark: $query"
-    return 1
-  fi
+alias pltoxml="utilhelpers pltoxml"
+alias xmltopl="utilhelpers xmltopl"
 
-  local markpath
-  if ! markpath=$(readlink "$MARKPATH/$candidate"); then
-    echo "No such link: $query -> $candidate"
-    return 1
-  fi
+alias surround="utilhelpers surround"
 
-  if ! builtin cd "$markpath" 2>/dev/null; then
-    echo "Destination does not exist for mark [$query -> $candidate]: $markpath"
-    return 2
-  fi
-}
-_fuzzy_mark_expansion() {
-	setopt localoptions extendedglob
-	autoload -U modify-current-argument
-  modify-current-argument '$(readlink "$MARKPATH/$(ls -A $MARKPATH | fzf --query=$ARG -1)" || echo "$ARG")'
-}
-zle -N _fuzzy_mark_expansion
+# https://fgimian.github.io/blog/2015/06/27/a-simple-plistbuddy-tutorial/
+alias plistbuddy="/usr/libexec/PlistBuddy"
 
-## /omz jump plugin extension ##
+# syntax highlight man pages with bat
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# use eza instead of ls
+alias l="eza --all --icons=auto --classify=auto"
+alias ll="eza --long --all --git --header --icons=auto --classify=auto"
+alias t="eza --oneline --all --icons=auto --classify=auto"
+alias tt="eza --tree --all --classify=auto --icons=auto --level=2"
+alias ttt="eza --tree --all --classify=auto --icons=auto --level=3"
+alias tttt="eza --tree --all --classify=auto --icons=auto --level=4"
+
+alias hex="hexyl"
+
+# basic preview with bat
+alias fzfpview="utilhelpers fzfpreview"
+# use opener; takes opt arg; depth 1
+alias fzfp="utilhelpers fzfp"
+# use opener; no arg; inf depth
+alias fzfpp="utilhelpers fzfpp"
+# use opener; no arg; inf depth; pipe res into ll
+alias fzfppls="utilhelpers fzfppls"
+
+alias npmglobals="utilhelpers npmglobals"
+
+alias pypi="utilhelpers pypi"
+alias pipcompat="utilhelpers pipcompat"
+
+alias dockersize="utilhelpers dockersize"
+
+alias nv="nvim"
+# node with vim mode (no autocomplete)
+# https://github.com/nodejs/node/issues/5608
+# https://github.com/nodejs/node/issues/5608#issuecomment-441785908
+if [ $(command -v rlwrap) ] ; then
+  alias vnode='NODE_NO_READLINE=1 rlwrap node'
+fi
+
+# NOTE: just use pgrep instead
+# leaving here until you remember
+alias psa="ps -A | grep -v grep"
+
+alias pycolors="pycolors.py"
+alias pyfansi="pyfansi.py"
+alias pycodepoints="pycodepoints.py"
+
 
 ### keep at bottom ###
 
 shellfancyinits
-#shellautocomplete
+shellautocomplete
