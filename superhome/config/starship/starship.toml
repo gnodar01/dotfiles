@@ -6,13 +6,18 @@ $hostname\
 $username\
 $os\
 $memory_usage\
-$directory
+$directory\
+$git_branch\
+$git_commit\
+$git_metrics\
+$git_status
 $character
 """
 right_format = """
 ${env_var.SHLVL}\
+$pixi\
 $python\
-$pixi
+$git_state
 """
 scan_timeout = 30 # ms
 command_timeout = 500 # ms
@@ -98,6 +103,38 @@ disabled = false
 [directory.substitutions]
   '~/Developer' = '(dev)'
 
+# https://starship.rs/config/#git-branch
+[git_branch]
+  disabled = false
+  style = 'bold green'
+  format = '[$symbol$branch(:$remote_branch)]($style) '
+  always_show_remote = false
+  symbol = ' '
+  truncation_length = 9223372036854775807 # 2^63-1
+  truncation_symbol = '…'
+  only_attached = false
+  ignore_branches = []
+
+# https://starship.rs/config/#git-branch
+[git_commit]
+  disabled = false
+  format = '[\($hash$tag\)]($style) '
+  style = 'bold yellow'
+  only_detached = true
+  tag_disabled = false
+  tag_max_candidates = 0
+  tag_symbol = ' 🏷️ '
+
+# https://starship.rs/config/#git-metrics
+[git_metrics]
+  disabled = false
+
+# https://starship.rs/config/#git-status
+[git_status]
+  disabled = false
+  style = 'bold pink'
+  stashed = '*'
+
 
 ## Right Prompts
 
@@ -152,3 +189,9 @@ disabled = false
     'pixi.lock'
   ]
   detect_folders = []
+
+# https://starship.rs/config/#git-state
+[git_state]
+  disabled = false
+  style = 'bold green'
+
