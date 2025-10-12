@@ -21,7 +21,7 @@ $git_state
 """
 scan_timeout = 30 # ms
 command_timeout = 500 # ms
-# neline added by transient_shell
+# newline added by transient_shell
 add_newline = false
 follow_symlinks = true
 
