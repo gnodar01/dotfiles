@@ -1,8 +1,14 @@
+# https://zsh.sourceforge.io/Doc/Release/Options.html
+
 # when doing rm folder/* or `rm *` zsh asks "sure you want to delete all the files in ... [yn]?"
 # even if -f set
 # this disables that
 # https://unix.stackexchange.com/questions/135084/double-rm-verification-in-zsh
 setopt rm_star_silent
+
+setopt auto_cd # do cd path if only 'path' is given as command
+setopt auto_pushd # cd pushes old directory onto directory stack
+setopt pushd_ignore_dups # don't push multiple copies of same directory onto directory stack
 
 
 PATH="$SUPERHOME/bin:$PATH"
@@ -36,6 +42,8 @@ eval "$(starship init zsh)"
 source $SUPERHOME/config/zsh/transient_prompt.zsh
 # cd into alias folder
 source $SUPERHOME/config/zsh/aliasPath.zsh
+# TODO: universal clipboard?
+# https://github.com/ohmyzsh/ohmyzsh/blob/853680fd621a8907338e0eee080dc6cf754408bf/lib/clipboard.zsh
 
 
 # -m flag for multi-select, TAB/SHIFT-TAB to mark items
@@ -101,6 +109,12 @@ function filengrok() {
   ngrok http --url=optimal-titmouse-hopefully.ngrok-free.app --response-header-add="Access-Control-Allow-Origin:*" "file://$1"
 }
 
+# normal aliases expand at beginning of command
+# global aliases, `alias -g`, expand anywhere in line
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
 
 alias rm="rm -iv"
 alias mv="mv -iv"
