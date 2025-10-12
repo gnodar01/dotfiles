@@ -10,7 +10,9 @@ $directory
 $character
 """
 right_format = """
-${env_var.SHLVL}
+${env_var.SHLVL}\
+$python\
+$pixi
 """
 scan_timeout = 30 # ms
 command_timeout = 500 # ms
@@ -33,6 +35,8 @@ purple = "#bd93f9"
 red = "#ff5555"
 yellow = "#f1fa8c"
 
+## Left Prompts
+
 # https://starship.rs/config/#character
 [character]
 format = '$symbol '
@@ -47,15 +51,6 @@ disabled = false
 # https://starship.rs/config/#package-version
 [package]
   disabled = true
-
-# https://starship.rs/config/#environment-variable
-[env_var.SHLVL]
-  disabled = false
-  default = '?'
-  style = 'orange bold'
-  #symbol = '🎚️'
-  symbol = ''
-  format = '[\($symbol$env_value\)]($style) '
 
 # https://starship.rs/config/#hostname
 [hostname]
@@ -102,3 +97,58 @@ disabled = false
 
 [directory.substitutions]
   '~/Developer' = '(dev)'
+
+
+## Right Prompts
+
+# https://starship.rs/config/#environment-variable
+[env_var.SHLVL]
+  disabled = false
+  default = '?'
+  style = 'orange bold'
+  #symbol = '🎚️'
+  symbol = ''
+  format = '[\($symbol$env_value\)]($style) '
+
+[pixi]
+  disabled = false
+  format = '[$symbol(\($environment\) )]($style)'
+  version_format = 'v${raw}'
+  # fairy is a wide unicode char suffering from:
+  # https://github.com/starship/starship/issues/6524
+  symbol = '📦 '
+  style = 'yellow bold'
+  show_default_environment = true
+  pixi_binary = ['pixi']
+  detect_extensions = []
+  detect_files = ['pixi.toml']
+  detect_folders = ['.pixi']
+
+[python]
+  disabled = false
+  format = '[${symbol}(${version} )(\($virtualenv\) )]($style)'
+  version_format = 'v${raw}'
+  symbol = '🐍 '
+  style = 'yellow bold'
+  # customize python binary path for pixi
+  python_binary = [
+    # this is the python from PATH if in a pixi shell
+    # (assuming no python on global PATH)
+    "python",
+    # fall back to pixi's python if it's available
+    ".pixi/envs/default/bin/python",
+  ]
+  detect_extensions = ['py', 'ipynb']
+  detect_files = [
+    '.python-version',
+    'Pipfile',
+    '__init__.py',
+    'pyproject.toml',
+    'requirements.txt',
+    'setup.py',
+    'tox.ini',
+    'pytest.ini',
+    'pixi.toml',
+    'pixi.lock'
+  ]
+  detect_folders = []
