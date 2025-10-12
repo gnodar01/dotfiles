@@ -14,6 +14,7 @@ $git_status
 $character
 """
 right_format = """
+$status\
 ${env_var.SHLVL}\
 $shlvl\
 $pixi\
@@ -21,7 +22,7 @@ $nix_shell\
 $python\
 $nodejs\
 $git_state\
-$jobs
+$jobs\
 """
 scan_timeout = 30 # ms
 command_timeout = 500 # ms
@@ -238,10 +239,29 @@ disabled = false
 
 # https://starship.rs/config/#jobs
 [jobs]
-  disabled = true # TODO: transient shell makes this think zero always
+  disabled = false
   format = '[$symbol$number]($style)'
   style = 'bold pink'
   symbol = '⛭'
   #symbol = '✦'
   symbol_threshold = 1
   number_threshold = 2
+
+# https://starship.rs/config/#status
+[status]
+  disabled = false
+  format = '[$symbol$common_meaning$maybe_int]($style) '
+  style = 'bold red'
+  #success_style = ''
+  #failure_style = ''
+  recognize_signal_code = true
+  map_symbol = true
+  pipestatus = true
+  pipestatus_separator = '|'
+  pipestatus_format = '\[$pipestatus\] => [$symbol$common_meaning$signal_name$maybe_int]($style) '
+  #pipestatus_segment_format = ''
+  symbol = '❌'
+  success_symbol = ''
+  not_executable_symbol = '🚫'
+  not_found_symbol = '🔍'
+  sigint_symbol = '⁉️'
