@@ -9,10 +9,13 @@ $memory_usage\
 $directory
 $character
 """
-right_format = ''
+right_format = """
+${env_var.SHLVL}
+"""
 scan_timeout = 30 # ms
 command_timeout = 500 # ms
-add_newline = true
+# neline added by transient_shell
+add_newline = false
 follow_symlinks = true
 
 palette = "dracula"
@@ -44,6 +47,15 @@ disabled = false
 # https://starship.rs/config/#package-version
 [package]
   disabled = true
+
+# https://starship.rs/config/#environment-variable
+[env_var.SHLVL]
+  disabled = false
+  default = '?'
+  style = 'orange bold'
+  #symbol = '🎚️'
+  symbol = ''
+  format = '[\($symbol$env_value\)]($style) '
 
 # https://starship.rs/config/#hostname
 [hostname]

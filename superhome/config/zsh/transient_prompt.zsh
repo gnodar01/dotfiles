@@ -12,8 +12,8 @@ zmodload zsh/system ||  return
 # single quote preserves the $(...) so it evaluates each time prompt is displayed
 TRANSIENT_PROMPT='$(STARSHIP_CONFIG=$SUPERHOME/config/starship/transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
 
+# dynamic prompt for normal display
 function _set_prompt_normal {
-  # dynamic prompt for normal display
   # single quote preserves the $(...) so it evaluates each time prompt is displayed
   # $COLUMNS: terminal width
   # $KEYMAP: current keymap (optional)
@@ -22,7 +22,33 @@ function _set_prompt_normal {
   # $STARSHIP_DURATION: last command duration
   # $STARSHIP_JOBS_COUNT: background jobs count
   PROMPT='$(starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
-  RPROMPT=''
+  RPROMPT='$(starship prompt --right)'
+}
+# dynamic prompt for normal display, while preserving modifications to `PS1`
+function _set_prompt_normal_preserve_ps {
+  # sometime programs start a new shell, and modify `PS1` to show they did so
+  #
+  # e.g. `pixi shell`, `devbox shell`, `source venv/bin/activate`, etc.
+  # for instance, in CellProfiler, running `pixi shell-hook -e dev` has this as the last line:
+  # `export PS1="(CellProfiler:dev) ${PS1:-}"`
+  #
+  # this preserves such changes, while still injecting the dynamic prompt we want
+
+  # the glob `\$\(*starship*\)` matches `$(/usr/local/bin/starship ...)` or `$(starship ...)`
+  if [[ $PS1 == *\$\(*starship*\)* ]]; then
+    local ps_prefix
+    # `%%pattern` removes the longest trailing match of the pattern, leaving the prefix
+    ps_prefix="${PS1%%\$\(*starship*\)*}"
+    # strip out newline from before
+    # `//pattern/replacement` replaces `pattern` with `replacement`, in this case blank, so strip all newlines
+    ps_prefix="${ps_prefix//$'\n'/}"
+    # insert a literal newline manually (make sure `add_newline = false` in `starship.toml`)
+    PROMPT=$'\n'"${ps_prefix}"'$(starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
+    RPROMPT='$(starship prompt --right)'
+  else
+    PROMPT="$PS1"
+    RPROMPT=''
+  fi
 }
 
 # rebind (extend) Zsh line editor widget, `send-break`
@@ -70,7 +96,8 @@ function _transient_prompt-restore-prompt {
   # resets `_transient_prompt_fd`
   _transient_prompt_fd=0
   # set the normal prompt
-  _set_prompt_normal
+  #_set_prompt_normal
+  _set_prompt_normal_preserve_ps
   # reset prompt
   zle reset-prompt
   # refresh display
