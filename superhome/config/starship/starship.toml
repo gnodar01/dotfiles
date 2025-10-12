@@ -47,7 +47,7 @@ disabled = false
 
 # https://starship.rs/config/#hostname
 [hostname]
-  style = 'bold dimmed pink'
+  style = 'bold cyan'
   ssh_only = false
   trim_at = '.'
   format = '[$ssh_symbol$hostname]($style) '
