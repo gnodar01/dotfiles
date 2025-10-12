@@ -20,7 +20,8 @@ $pixi\
 $nix_shell\
 $python\
 $nodejs\
-$git_state
+$git_state\
+$jobs
 """
 scan_timeout = 30 # ms
 command_timeout = 500 # ms
@@ -235,3 +236,12 @@ disabled = false
   disabled = false
   style = 'bold green'
 
+# https://starship.rs/config/#jobs
+[jobs]
+  disabled = true # TODO: transient shell makes this think zero always
+  format = '[$symbol$number]($style)'
+  style = 'bold pink'
+  symbol = '⛭'
+  #symbol = '✦'
+  symbol_threshold = 1
+  number_threshold = 2
