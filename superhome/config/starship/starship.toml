@@ -16,7 +16,9 @@ $character
 right_format = """
 ${env_var.SHLVL}\
 $pixi\
+$nix_shell\
 $python\
+$nodejs\
 $git_state
 """
 scan_timeout = 30 # ms
@@ -161,6 +163,17 @@ disabled = false
   detect_files = ['pixi.toml']
   detect_folders = ['.pixi']
 
+# https://starship.rs/config/#nix-shell
+[nix_shell]
+  disabled = false
+  style = 'bold cyan'
+  symbol = '❄️ '
+  format = '[$symbol$state( \($name\))]($style) '
+  impure_msg = 'impure'
+  pure_msg = 'pure'
+  unknown_msg = ''
+  heuristic = false
+
 [python]
   disabled = false
   format = '[${symbol}(${version} )(\($virtualenv\) )]($style)'
@@ -189,6 +202,21 @@ disabled = false
     'pixi.lock'
   ]
   detect_folders = []
+
+# https://starship.rs/config/#node-js
+[nodejs]
+  disabled = false
+  format = '[$symbol($version )]($style)'
+  version_format = 'v${raw}'
+  symbol = ' '
+  detect_extensions = ['js', 'mjs', 'cjs', 'ts', 'mts', 'cts', 'tsx']
+  detect_files = [
+    'package.json',
+    '.node-version',
+    '.nvmrc'
+  ]
+  detect_folders = ['node_modules']
+  not_capable_style = 'bold red'
 
 # https://starship.rs/config/#git-state
 [git_state]
