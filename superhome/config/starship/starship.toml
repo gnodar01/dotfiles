@@ -15,6 +15,7 @@ $character
 """
 right_format = """
 ${env_var.SHLVL}\
+$shlvl\
 $pixi\
 $nix_shell\
 $python\
@@ -142,12 +143,23 @@ disabled = false
 
 # https://starship.rs/config/#environment-variable
 [env_var.SHLVL]
-  disabled = false
+  disabled = true # in favor of below
+  format = '[\($symbol$env_value\)]($style) '
   default = '?'
   style = 'orange bold'
   #symbol = '🎚️'
   symbol = ''
-  format = '[\($symbol$env_value\)]($style) '
+
+# https://starship.rs/config/#shlvl
+[shlvl]
+  disabled = false # in favor of below
+  format = '[\($symbol$shlvl\)]($style) '
+  style = 'orange bold'
+  #symbol = '↕️ '
+  symbol = ''
+  threshold = 2
+  repeat = false
+  repeat_offset = 0
 
 [pixi]
   disabled = false
