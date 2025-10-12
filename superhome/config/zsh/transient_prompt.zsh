@@ -22,7 +22,7 @@ function _set_prompt_normal {
   # $STARSHIP_DURATION: last command duration
   # $STARSHIP_JOBS_COUNT: background jobs count
   PROMPT='$(starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
-  RPROMPT='$(starship prompt --right)'
+  RPROMPT='$(starship prompt --right --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
 }
 # dynamic prompt for normal display, while preserving modifications to `PS1`
 function _set_prompt_normal_preserve_ps {
@@ -44,7 +44,7 @@ function _set_prompt_normal_preserve_ps {
     ps_prefix="${ps_prefix//$'\n'/}"
     # insert a literal newline manually (make sure `add_newline = false` in `starship.toml`)
     PROMPT=$'\n'"${ps_prefix}"'$(starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
-    RPROMPT='$(starship prompt --right)'
+    RPROMPT='$(starship prompt --right --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
   else
     PROMPT="$PS1"
     RPROMPT=''
