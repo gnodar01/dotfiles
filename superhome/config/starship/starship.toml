@@ -1,19 +1,92 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-add_newline = false
-
+# https://starship.rs/config/#prompt
 format = """
+$hostname\
 $username\
-$hostname
+$os\
+$memory_usage\
+$directory
 $character
 """
+right_format = ''
+scan_timeout = 30 # ms
+command_timeout = 500 # ms
+add_newline = true
+follow_symlinks = true
 
+palette = "dracula"
+
+[palettes.dracula]
+background = "#282a36"
+current_line = "#44475a"
+foreground = "#f8f8f2"
+comment = "#6272a4"
+cyan = "#8be9fd"
+green = "#50fa7b"
+orange = "#ffb86c"
+pink = "#ff79c6"
+purple = "#bd93f9"
+red = "#ff5555"
+yellow = "#f1fa8c"
+
+# https://starship.rs/config/#character
+[character]
+format = '$symbol '
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+vimcmd_symbol = '[❮](bold green)'
+vimcmd_replace_one_symbol = '[❮](bold purple)'
+vimcmd_replace_symbol = '[❮](bold purple)'
+vimcmd_visual_symbol = '[❮](bold yellow)'
+disabled = false
+
+# https://starship.rs/config/#package-version
 [package]
   disabled = true
 
-[username]
-  show_always = true
-
+# https://starship.rs/config/#hostname
 [hostname]
+  style = 'bold dimmed pink'
   ssh_only = false
+  trim_at = '.'
+  format = '[$ssh_symbol$hostname]($style) '
 
+# https://starship.rs/config/#username
+[username]
+  style_user = 'bold dimmed yellow'
+  show_always = true
+  format = '\([$user]($style)\) '
+
+# https://starship.rs/config/#os
+[os]
+  disabled = true
+  style = 'bold orange'
+  format = '[$name - $version]($style)'
+
+# https://starship.rs/config/#memory-usage
+[memory_usage]
+  disabled = true
+  style = 'bold dimmed white'
+  threshold = 0
+  format = 'using $symbol[ram $ram( | swap $swap)]($style) '
+
+# https://starship.rs/config/#directory
+[directory]
+  truncation_length = 20
+  truncate_to_repo = false
+  style = 'bold purple'
+  format = '[$path]($style)[$read_only]($read_only_style) '
+  read_only = '🔒'
+  read_only_style = 'red'
+  #truncation_symbol = '.../'
+  truncation_symbol = ''
+  before_repo_root_style = 'dimmed purple'
+  repo_root_style = 'bold purple'
+  repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '
+  home_symbol = '~'
+  use_os_path_sep = true
+  fish_style_pwd_dir_length = 3
+
+[directory.substitutions]
+  '~/Developer' = '(dev)'
