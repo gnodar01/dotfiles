@@ -1,1 +1,0 @@
-../../.config/yadm/alt/superhome/config/.bashrc##os.Linux,distro.ubuntu
