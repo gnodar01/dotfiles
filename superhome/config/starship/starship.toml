@@ -69,7 +69,7 @@ disabled = false
 # https://starship.rs/config/#hostname
 [hostname]
   style = 'bold cyan'
-  ssh_only = false
+  ssh_only = true
   trim_at = '.'
   format = '[$ssh_symbol$hostname]($style) '
   #ssh_symbol = '🌐 '
@@ -77,9 +77,13 @@ disabled = false
 
 # https://starship.rs/config/#username
 [username]
-  style_user = 'bold dimmed yellow'
-  show_always = true
+  disabled = false
   format = '\([$user]($style)\) '
+  style_user = 'bold dimmed yellow'
+  style_root = 'bold red'
+  detect_env_vars = []
+  show_always = false
+  aliases = {}
 
 # https://starship.rs/config/#os
 [os]
