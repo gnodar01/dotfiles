@@ -114,7 +114,9 @@ disabled = false
   fish_style_pwd_dir_length = 3
 
 [directory.substitutions]
-  '~/Developer' = '(dev)'
+  #'~/Developer' = '(dev)'
+  '~/Developer' = ''
+
 
 # https://starship.rs/config/#git-branch
 [git_branch]
