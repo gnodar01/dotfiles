@@ -61,6 +61,8 @@ disabled = false
 # https://starship.rs/config/#package-version
 [package]
   disabled = true
+  #symbol = '📦 '
+  symbol = '󰏗 '
 
 # https://starship.rs/config/#hostname
 [hostname]
@@ -68,6 +70,8 @@ disabled = false
   ssh_only = false
   trim_at = '.'
   format = '[$ssh_symbol$hostname]($style) '
+  #ssh_symbol = '🌐 '
+  ssh_symbol = ' '
 
 # https://starship.rs/config/#username
 [username]
@@ -80,6 +84,7 @@ disabled = false
   disabled = true
   style = 'bold orange'
   format = '[$name - $version]($style)'
+  # os.symbols at bottom
 
 # https://starship.rs/config/#memory-usage
 [memory_usage]
@@ -87,13 +92,15 @@ disabled = false
   style = 'bold dimmed white'
   threshold = 0
   format = 'using $symbol[ram $ram( | swap $swap)]($style) '
+  #symbol = '🐏'
+  symbol = '󰍛 '
 
 # https://starship.rs/config/#directory
 [directory]
   truncation_length = 20
   truncate_to_repo = false
   style = 'bold purple'
-  format = '[$path]($style)[$read_only]($read_only_style) '
+  format = '[ $path]($style)[$read_only]($read_only_style) '
   read_only = '🔒'
   read_only_style = 'red'
   #truncation_symbol = '.../'
@@ -114,7 +121,8 @@ disabled = false
   style = 'bold green'
   format = '[$symbol$branch(:$remote_branch)]($style) '
   always_show_remote = false
-  symbol = ' '
+  #symbol = ' '
+  symbol = ' '
   truncation_length = 9223372036854775807 # 2^63-1
   truncation_symbol = '…'
   only_attached = false
@@ -128,7 +136,8 @@ disabled = false
   only_detached = true
   tag_disabled = false
   tag_max_candidates = 0
-  tag_symbol = ' 🏷️ '
+  #tag_symbol = ' 🏷️ '
+  tag_symbol = '  '
 
 # https://starship.rs/config/#git-metrics
 [git_metrics]
@@ -169,7 +178,8 @@ disabled = false
   version_format = 'v${raw}'
   # fairy is a wide unicode char suffering from:
   # https://github.com/starship/starship/issues/6524
-  symbol = '📦 '
+  #symbol = '📦 '
+  symbol = '󰏗 '
   style = 'yellow bold'
   show_default_environment = true
   pixi_binary = ['pixi']
@@ -181,7 +191,8 @@ disabled = false
 [nix_shell]
   disabled = false
   style = 'bold cyan'
-  symbol = '❄️ '
+  #symbol = '❄️ '
+  symbol = ' '
   format = '[$symbol$state( \($name\))]($style) '
   impure_msg = 'impure'
   pure_msg = 'pure'
@@ -192,7 +203,8 @@ disabled = false
   disabled = false
   format = '[${symbol}(${version} )(\($virtualenv\) )]($style)'
   version_format = 'v${raw}'
-  symbol = '🐍 '
+  #symbol = '🐍 '
+  symbol = ' '
   style = 'yellow bold'
   # customize python binary path for pixi
   python_binary = [
@@ -265,3 +277,72 @@ disabled = false
   not_executable_symbol = '🚫'
   not_found_symbol = '🔍'
   sigint_symbol = '⁉️'
+
+## symbols only: `starship preset nerd-font-symbols`
+[c]
+symbol = ' '
+
+[cpp]
+symbol = ' '
+
+[java]
+symbol = ' '
+
+[julia]
+symbol = ' '
+
+[lua]
+symbol = ' '
+
+#[os.symbols]
+#  AIX = '➿ '
+#  Alpaquita = '🔔 '
+#  AlmaLinux = '💠 '
+#  Alpine = '🏔️ '
+#  Amazon = '🙂 '
+#  Android = '🤖 '
+#  Arch = '🎗️ '
+#  Artix = '🎗️ '
+#  Bluefin = '🐟 '
+#  CachyOS = '🎗️ '
+#  CentOS = '💠 '
+#  Debian = '🌀 '
+#  DragonFly = '🐉 '
+#  Emscripten = '🔗 '
+#  EndeavourOS = '🚀 '
+#  Fedora = '🎩 '
+#  FreeBSD = '😈 '
+#  Garuda = '🦅 '
+#  Gentoo = '🗜️ '
+#  HardenedBSD = '🛡️ '
+#  Illumos = '🐦 '
+#  Kali = '🐉 '
+#  Linux = '🐧 '
+#  Mabox = '📦 '
+#  Macos = '🍎 '
+#  Manjaro = '🥭 '
+#  Mariner = '🌊 '
+#  MidnightBSD = '🌘 '
+#  Mint = '🌿 '
+#  NetBSD = '🚩 '
+#  NixOS = '❄️ '
+#  Nobara = '🎩 '
+#  OpenBSD = '🐡 '
+#  OpenCloudOS = '☁️ '
+#  openEuler = '🦉 '
+#  openSUSE = '🦎 '
+#  OracleLinux = '🦴 '
+#  Pop = '🍭 '
+#  Raspbian = '🍓 '
+#  Redhat = '🎩 '
+#  RedHatEnterprise = '🎩 '
+#  RockyLinux = '💠 '
+#  Redox = '🧪 '
+#  Solus = '⛵ '
+#  SUSE = '🦎 '
+#  Ubuntu = '🎯 '
+#  Ultramarine = '🔷 '
+#  Unknown = '❓ '
+#  Uos = '🐲 '
+#  Void = '  '
+#  Windows = '🪟 '
