@@ -10,3 +10,4 @@ bin/elfedit
 bin/readelf
 sources/cd_alias_folders
 config/zmk-config/
+config/zsh/.zshrc
