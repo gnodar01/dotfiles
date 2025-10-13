@@ -11,3 +11,5 @@ bin/readelf
 sources/cd_alias_folders
 config/zmk-config/
 config/zsh/.zshrc
+config/bash/.bashrc
+config/bash/.bash_logout
