@@ -2,8 +2,11 @@
 *.swp
 **/.emacs.d
 **/__pycache__/
+bin/aliasPath
+bin/fansi
 bin/anime
 bin/ipfs
 bin/elfedit
 bin/readelf
+sources/cd_alias_folders
 config/zmk-config/
