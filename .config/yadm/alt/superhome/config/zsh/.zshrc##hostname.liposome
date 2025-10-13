@@ -1,2 +1,11 @@
+# devbox (before common to have tools like fzf)
 eval "$(devbox global shellenv --init-hook)"
 source $SUPERHOME/config/zsh/.zshrc.common
+
+# devbox
+DEVBOX_NO_PROMPT=true
+eval "$(devbox completion zsh)"
+
+# pixi
+export PATH=/Users/Nodar/.pixi/bin:$PATH
+eval "$(pixi completion --shell zsh)"
