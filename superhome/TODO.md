@@ -1,14 +1,5 @@
 ## Boostraps
 
-### oh-my-zsh
-
-* powerlevel9k / powerlevel10k
-* oh-my-zsh
-* oh-my-zsh plugins/themes:
-  * plugins/fzf-tab
-  * plugins/zsh-vi-mode
-  * plugins/powerlevel9k
-
 ### CLI tools
 * bat
 * fzf
@@ -24,4 +15,4 @@
 ### Other config
 * iterm profile
 * VSCode profile? (already has a sync thing mechanism)
-
+* kitty profile
