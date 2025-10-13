@@ -1,1 +1,1 @@
-source $HOME/superhome/config/.bashrc
+source $HOME/superhome/config/bash/.bashrc
