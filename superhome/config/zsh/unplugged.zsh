@@ -1,4 +1,3 @@
-#!/bin/zsh
 # https://github.com/mattmc3/zsh_unplugged
 
 export ZPLUGINDIR="$HOME/.config/zsh/plugins"
