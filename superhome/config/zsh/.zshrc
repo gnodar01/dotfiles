@@ -1,0 +1,1 @@
+.zshrc##hostname.nodar-mbpro

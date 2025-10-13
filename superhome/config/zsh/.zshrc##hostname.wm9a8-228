@@ -1,5 +1,5 @@
 #source $SUPERHOME/config/oh-my-zsh/.zshrc.oh-my-zsh
-source $SUPERHOME/config/.zshrc.common
+source $SUPERHOME/config/zsh/.zshrc.common
 
 alias hn="clx"
 

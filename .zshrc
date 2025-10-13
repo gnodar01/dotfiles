@@ -5,4 +5,4 @@
 #zprof
 
 export SUPERHOME="$HOME/superhome"
-source $SUPERHOME/config/.zshrc
+source $SUPERHOME/config/zsh/.zshrc

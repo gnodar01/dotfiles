@@ -1,5 +1,5 @@
 #source $SUPERHOME/config/oh-my-zsh/.zshrc.oh-my-zsh
-source $SUPERHOME/config/.zshrc.common
+source $SUPERHOME/config/zsh/.zshrc.common
 
 # 1Password ssh agent
 # https://developer.1password.com/docs/ssh/get-started/#step-4-configure-your-ssh-or-git-client
