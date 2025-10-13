@@ -53,5 +53,5 @@
 	ui = true
 [merge]
 	conflictstyle = zdiff3
-[credential]
-	helper = osxkeychain
+[include]
+  path = .gitconfig.local
