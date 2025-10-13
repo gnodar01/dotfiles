@@ -1,0 +1,2 @@
+export SUPERHOME="$HOME/superhome"
+. "$SUPERHOME/config/.profile"
