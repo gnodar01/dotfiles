@@ -16,11 +16,7 @@ export GIT_EDITOR="$VISUAL"
 # ALIASES
 # ------------------------------------
 # Aliases for (1) quickly opening .bashrc and (2) have terminal recognize changes to it
-alias bashedit='sudo ${text_editor} ~/.bashrc'
 alias bashrefresh='source ~/.bashrc'
-
-alias bashappendedit='sudo ${text_editor} ~/.bashrc-append'
-alias bashappendrefresh='source ~/.bashrc-append'
 
 # Search history. Example usage: histg foo
 alias histg="history | grep"
@@ -138,28 +134,11 @@ ps1_dir="$BIPurple\w$NONE"
 export PS1="${ps1_dir}${ps1_git} \$ "
 
 # ------------------------------------
-# Load non-generic .bashrc
-# To use, create ~/.bashrc-append
-# This is where you might put aliases, functions, etc.
-# that are specific to your system
-# ------------------------------------
-if [ -f ~/.bashrc-append ]; then
-   source ~/.bashrc-append
-   appended=true
-fi
-
-# ------------------------------------
 # MOTD (Message of the Day)
 # What you see when Terminal opens
 # ------------------------------------
 echo "----------------------------"
 echo "Loaded $HOME/.bashrc"
-if [ ${appended} ]; then
-    echo "Appended $HOME/.bashrc-append"
-fi
-echo ""
-echo "To edit run $ bashedit"
-echo "To refresh run $ bashrefresh"
 echo ""
 echo "You are: `whoami`"
 echo "You're in: `pwd`"
