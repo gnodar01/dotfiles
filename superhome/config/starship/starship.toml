@@ -147,8 +147,22 @@ disabled = false
 [git_status]
   disabled = false
   style = 'bold pink'
+  format = '([\[$all_status$ahead_behind\]]($style) )'
+  conflicted = '='
+  ahead = '⇡'
+  behind = '⇣'
+  diverged = '⇕'
+  up_to_data = ''
+  untracked = '?'
+  #stashed = '$'
   stashed = '*'
-
+  modified = '!'
+  staged = '+'
+  renamed = '»'
+  deleted = '✘'
+  typechanged = ''
+  ignore_submodules = flase
+  use_git_executable = false # gitoxide if false
 
 ## Right Prompts
 
@@ -272,11 +286,17 @@ disabled = false
   pipestatus_separator = '|'
   pipestatus_format = '\[$pipestatus\] => [$symbol$common_meaning$signal_name$maybe_int]($style) '
   #pipestatus_segment_format = ''
-  symbol = '❌'
+  #symbol = '❌'
+  symbol = '✘'
+  #success_symbol = '✅'
+  #success_symbol = '✔'
   success_symbol = ''
-  not_executable_symbol = '🚫'
-  not_found_symbol = '🔍'
-  sigint_symbol = '⁉️'
+  #not_executable_symbol = '🚫'
+  not_executable_symbol = ''
+  #not_found_symbol = '🔍'
+  not_found_symbol = ''
+  #sigint_symbol = '⁉️'
+  sigint_symbol = ''
 
 ## symbols only: `starship preset nerd-font-symbols`
 [c]
