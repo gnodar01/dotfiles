@@ -4,7 +4,7 @@
 # https://stackoverflow.com/questions/1175094/os-x-terminal-command-to-resolve-path-of-an-alias
 
 # only runs on macOS
-[[ $(uname) == "Daarwin" ]] || return
+[[ $(uname) == "Darwin" ]] || return
 
 # clone, compile with `sudo xcodebuild install`, which creates `/usr/local/bin/aliasPath`
 # move to $HOME/bin

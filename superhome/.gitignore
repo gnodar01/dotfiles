@@ -1,10 +1,9 @@
+.DS_Store
 *.swp
 **/.emacs.d
 **/__pycache__/
-bin/fansi
 bin/anime
 bin/ipfs
 bin/elfedit
 bin/readelf
-sources/fansi
 config/zmk-config/
