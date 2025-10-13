@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 # cd into alias folder on macOs
 # https://github.com/rptb1/aliasPath
 # found from here:

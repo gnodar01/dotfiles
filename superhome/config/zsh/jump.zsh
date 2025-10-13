@@ -1,4 +1,3 @@
-#!/bin/zsh
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/jump/jump.plugin.zsh
 
 # Easily jump around the file system by manually adding marks
