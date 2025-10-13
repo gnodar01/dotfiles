@@ -19,6 +19,7 @@ $status\
 ${env_var.SHLVL}\
 $shlvl\
 $pixi\
+${custom.devbox}\
 $nix_shell\
 $python\
 $nodejs\
@@ -210,13 +211,30 @@ disabled = false
   detect_files = ['pixi.toml']
   detect_folders = ['.pixi']
 
+# https://starship.rs/config/#custom-commands
+[custom.devbox]
+  disabled = false
+  style = 'bold cyan'
+  #symbol = '❄️ '
+  symbol = ' '
+  format = '[$symbol]($style)'
+  detect_files = [
+    'devbox.json',
+    'devbox.lock'
+  ]
+  detect_folders = [
+    '.devbox'
+  ]
+
 # https://starship.rs/config/#nix-shell
 [nix_shell]
   disabled = false
   style = 'bold cyan'
   #symbol = '❄️ '
   symbol = ' '
-  format = '[$symbol$state( \($name\))]($style) '
+  #format = '[$symbol$state( \($name\))]($style) '
+  # no symbol to let custom devbox handle it
+  format = '[$state]($style) '
   impure_msg = 'impure'
   pure_msg = 'pure'
   unknown_msg = ''
