@@ -2,8 +2,6 @@
 
 # https://starship.rs/config/#prompt
 format = """
-$hostname\
-$username\
 $os\
 $memory_usage\
 $directory\
@@ -14,6 +12,8 @@ $git_status
 $character
 """
 right_format = """
+$hostname\
+$username\
 $cmd_duration\
 $status\
 ${env_var.SHLVL}\
@@ -65,25 +65,6 @@ disabled = false
   disabled = true
   #symbol = '📦 '
   symbol = '󰏗 '
-
-# https://starship.rs/config/#hostname
-[hostname]
-  style = 'bold cyan'
-  ssh_only = true
-  trim_at = '.'
-  format = '[$ssh_symbol$hostname]($style) '
-  #ssh_symbol = '🌐 '
-  ssh_symbol = ' '
-
-# https://starship.rs/config/#username
-[username]
-  disabled = false
-  format = '\([$user]($style)\) '
-  style_user = 'bold dimmed yellow'
-  style_root = 'bold red'
-  detect_env_vars = []
-  show_always = false
-  aliases = {}
 
 # https://starship.rs/config/#os
 [os]
@@ -173,6 +154,25 @@ disabled = false
 
 ## Right Prompts
 
+# https://starship.rs/config/#hostname
+[hostname]
+  style = 'bold dimmed cyan'
+  ssh_only = true
+  trim_at = '.'
+  format = '[$ssh_symbol$hostname]($style) '
+  #ssh_symbol = '🌐 '
+  ssh_symbol = ' '
+
+# https://starship.rs/config/#username
+[username]
+  disabled = false
+  format = '\([$user]($style)\) '
+  style_user = 'bold dimmed yellow'
+  style_root = 'bold red'
+  detect_env_vars = []
+  show_always = false
+  aliases = {}
+
 # https://starship.rs/config/#environment-variable
 [env_var.SHLVL]
   disabled = true # in favor of below
@@ -184,7 +184,7 @@ disabled = false
 
 [cmd_duration]
   disabled = false
-  style = 'bold yellow'
+  style = 'bold orange'
   format = '[ $duration]($style) '
   min_time = 2_000 # in ms
   show_milliseconds = false
