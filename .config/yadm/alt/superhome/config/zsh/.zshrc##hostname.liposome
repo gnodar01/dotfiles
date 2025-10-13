@@ -1,1 +1,2 @@
 source $SUPERHOME/config/zsh/.zshrc.common
+eval "$(devbox global shellenv --init-hook)"
