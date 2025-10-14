@@ -178,20 +178,22 @@ alias fzfpp="utilhelpers fzfpp"
 # use opener; no arg; inf depth; pipe res into ll
 alias fzfppls="utilhelpers fzfppls"
 
-alias npmglobals="utilhelpers npmglobals"
-
 alias pypi="utilhelpers pypi"
 alias pipcompat="utilhelpers pipcompat"
 
 alias dockersize="utilhelpers dockersize"
 
 alias nv="nvim"
+# neovim in fullscreen terminal
+alias nvt="nvim -c 'term' -c 'startinsert'"
+
 # node with vim mode (no autocomplete)
 # https://github.com/nodejs/node/issues/5608
 # https://github.com/nodejs/node/issues/5608#issuecomment-441785908
 if [ $(command -v rlwrap) ] ; then
   alias vnode='NODE_NO_READLINE=1 rlwrap node'
 fi
+alias npmglobals="utilhelpers npmglobals"
 
 # NOTE: just use pgrep instead
 # leaving here until you remember
