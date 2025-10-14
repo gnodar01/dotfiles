@@ -18,7 +18,8 @@
     "git":             "latest",
     "yadm":            "latest",
     "delta":           "latest",
-    "starship":        "latest"
+    "starship":        "latest",
+    "podman":          "latest"
   },
   "shell": {
     "init_hook": [
