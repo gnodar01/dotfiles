@@ -102,6 +102,8 @@ disabled = false
 [directory.substitutions]
   #'~/Developer' = '(dev)'
   '~/Developer' = ''
+  '~/developer' = ''
+  '~/dev' = ''
 
 
 # https://starship.rs/config/#git-branch
