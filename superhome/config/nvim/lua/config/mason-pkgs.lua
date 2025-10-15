@@ -119,6 +119,12 @@ local lsp_definitions = {
       },
     },
   },
+
+  -- https://github.com/uros-5/jinja-lsp
+  jinja_lsp = {
+    install = 'jinja_lsp',
+    config = {},
+  },
 }
 
 -- These go to `nvim-lspconfig` in `plugins/lsp`
