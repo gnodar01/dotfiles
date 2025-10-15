@@ -311,8 +311,8 @@ disabled = false
   disabled = false
   format = '[$symbol$common_meaning$maybe_int]($style) '
   style = 'bold red'
-  #success_style = ''
-  #failure_style = ''
+  success_style = 'bold green'
+  failure_style = 'bold red'
   recognize_signal_code = true
   map_symbol = true
   pipestatus = true
@@ -325,11 +325,13 @@ disabled = false
   #success_symbol = '✔'
   success_symbol = ''
   #not_executable_symbol = '🚫'
-  not_executable_symbol = ''
+  not_executable_symbol = ''
   #not_found_symbol = '🔍'
   not_found_symbol = ''
   #sigint_symbol = '⁉️'
-  sigint_symbol = ''
+  sigint_symbol = ''
+  #signal_symbol = '⚡'
+  signal_symbol = ''
 
 ## symbols only: `starship preset nerd-font-symbols`
 [c]
