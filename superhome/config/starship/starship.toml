@@ -26,6 +26,7 @@ $nodejs\
 $git_state\
 $jobs\
 """
+
 scan_timeout = 30 # ms
 command_timeout = 500 # ms
 # newline added by transient_shell
@@ -46,6 +47,12 @@ pink = "#ff79c6"
 purple = "#bd93f9"
 red = "#ff5555"
 yellow = "#f1fa8c"
+
+## Profiles (i.e. transient prompt)
+
+# https://github.com/starship/starship/discussions/5950
+[profiles]
+  transient="$character"
 
 ## Left Prompts
 

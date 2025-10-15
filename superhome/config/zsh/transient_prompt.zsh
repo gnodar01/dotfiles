@@ -9,7 +9,8 @@ zmodload zsh/system ||  return
 
 # dynamic prompt for transient display
 # single quote preserves the $(...) so it evaluates each time prompt is displayed
-TRANSIENT_PROMPT='$(STARSHIP_CONFIG=$SUPERHOME/config/starship/transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
+#TRANSIENT_PROMPT='$(STARSHIP_CONFIG=$SUPERHOME/config/starship/transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
+TRANSIENT_PROMPT='$(starship prompt --profile transient --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
 
 # dynamic prompt for normal display
 function _set_prompt_normal {
