@@ -12,6 +12,7 @@ sources/cd_alias_folders
 config/zmk-config/
 config/.profile
 config/zsh/.zshrc
+config/zsh/.zshenv
 config/bash/.bashrc
 config/bash/.bash_logout
 config/bash/.bash_profile

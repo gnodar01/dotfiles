@@ -1,1 +1,0 @@
-../../../.config/yadm/alt/superhome/config/zsh/.zshenv##hostname.wm9a8-228
