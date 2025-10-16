@@ -203,6 +203,28 @@ alias pycolors="pycolors.py"
 alias pyfansi="pyfansi.py"
 alias pycodepoints="pycodepoints.py"
 
+# first -u (--unrestricted): --no-ignore
+#   --no-ignore: --no-ignore-dot, --no-ignore-exclude, --no-ignore-global, --no-ignore-parent, --no-ignore-vcs
+#     --no-ignore-dot: don't respect files .ignore and .rgignore
+#     --no-ignore-exclude: don't respect manual repo things like .git/info/exclude
+#     --no-ignore-global: don't respect global sources like core.excludesFile (default of $HOME/.config/git/ignore)
+#     --no-ignore-parent: don't respect parent directory's ignore files
+#     --no-ignore-vcs: don't respect .gitignore
+# second -u (--unrestricted): -./--hidden
+#   --hidden: search hidden files and directories
+# -L (--follow): follow symbolic links (still reports loops and broken links unless --no-messages provided)
+alias urg="rg -uuL"
+# -u (--unrestricted): -I, -H
+#   -I (--no-ignore): don't respect
+#     .gitignore (--no-ignore-vcs)
+#     .git/info/exclude (--no-ignore-vcs)
+#     $HOME/.config/git/ignore (--no-ignore-vcs)
+#     .ignore
+#     .fdignore
+#     $HOME/.config/fd/ignore
+#   -H (--hidden): include hidden files and directories
+alias ufd="fd -u"
+
 
 # WARN: below should probably stay at bottom, in the order that it is
 # if moving things around, make sure to test breakage
