@@ -9,3 +9,5 @@ eval "$(devbox completion zsh)"
 # pixi
 export PATH=/Users/Nodar/.pixi/bin:$PATH
 eval "$(pixi completion --shell zsh)"
+
+alias docker=podman
