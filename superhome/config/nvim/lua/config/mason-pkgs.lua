@@ -119,24 +119,7 @@ local lsp_definitions = {
       },
     },
   },
-
-  -- https://github.com/uros-5/jinja-lsp
-  jinja_lsp = {
-    install = 'jinja_lsp',
-    config = {
-      filetypes = { 'jinja', 'rust', 'python' },
-    },
-  },
 }
-
--- extra needed for jinja_lsp
-vim.filetype.add({
-  extension = {
-    jinja = 'jinja',
-    jinja2 = 'jinja',
-    j2 = 'jinja',
-  },
-})
 
 -- These go to `nvim-lspconfig` in `plugins/lsp`
 mason_pkgs.lsp_server_configs = {}
