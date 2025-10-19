@@ -266,6 +266,11 @@ else
     # https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#execute-extra-commands
     zvm_after_init_commands+=('source <(fzf --zsh)')
 fi
+# enable zsh-vi-mode clipboard support (use auto-detect by default)
+# normal gp - paste after curosr
+# normal gP - baste before cursor
+# visual gp/gP - replace selction with clipboard
+ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 
 # late key bidnings - runs right before you start typing at the prompt
 function _late_bindings() {
