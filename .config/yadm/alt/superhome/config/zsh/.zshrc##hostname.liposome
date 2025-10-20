@@ -11,3 +11,8 @@ export PATH=/Users/Nodar/.pixi/bin:$PATH
 eval "$(pixi completion --shell zsh)"
 
 alias docker=podman
+
+# forces `groff` to use color-capable Ansi SGR output instead of overstrike formatting
+# necessary with MANPAGER="sh -c 'col-bx | bat -l man -p" in .zshrc.common
+# but only on Ubuntu/Linux, not on macos
+export MANROFFOPT='-c'
