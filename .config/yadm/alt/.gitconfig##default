@@ -21,6 +21,7 @@
 	gdown = !githelpers gdown
 	gup = !githelpers gup
 	bdiff = !githelpers bdiff
+  difx = !githelpers difx
 	helpers = !githelpers help
 	aliases = !githelpers aliases
 	sbranch = !githelpers sbranch

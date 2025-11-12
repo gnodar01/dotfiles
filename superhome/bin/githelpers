@@ -49,6 +49,10 @@ function bdiff() {
     git diff --name-only --diff-filter=d | xargs bat --diff
 }
 
+function difx() {
+    git diff "$1" -- . ":(exclude)pixi.lock"
+}
+
 function sbs() {
     local config="$HOME/.gitconfig"
 
@@ -132,10 +136,13 @@ case "$1" in
         gdown
         ;;
     gup)
-        gup
+        gup "$2"
         ;;
     bdiff)
         bdiff
+        ;;
+    difx)
+        difx "$2"
         ;;
     sbs)
         sbs
