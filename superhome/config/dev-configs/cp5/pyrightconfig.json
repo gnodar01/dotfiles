@@ -13,7 +13,7 @@
   "include": [
     "./CellProfiler/src/frontend/",
     "./CellProfiler/src/subpackages/core/",
-    "./CellProfiler/src/subpackages/library//"
+    "./CellProfiler/src/subpackages/library/"
   ],
   "exclude": [
     ".git",
@@ -23,7 +23,7 @@
   "extraPaths": [
     "./CellProfiler/src/frontend/",
     "./CellProfiler/src/subpackages/core/",
-    "./CellProfiler/src/subpackages/library//"
+    "./CellProfiler/src/subpackages/library/"
   ],
   "pythonPlatform": "All",
   "venvPath": "./CellProfiler/.pixi/envs/",
