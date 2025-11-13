@@ -84,6 +84,7 @@ end, { desc = 'Open [T]erminal without focus' })
 -- diagnostic keymaps --
 
 vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- show error message in hover box
 vim.keymap.set('n', '<Leader>Q', vim.diagnostic.open_float, { desc = 'Show diagnostics under [Q]cursor' })
 
 vim.g.diagnostic_enable = true
