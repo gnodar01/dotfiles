@@ -158,6 +158,8 @@ alias plistbuddy="/usr/libexec/PlistBuddy"
 
 # syntax highlight man pages with bat
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# good, but above is preffered
+# export MANPAGER="nvim +Man!"
 
 # use eza instead of ls
 alias l="eza --all --icons=auto --classify=auto"
