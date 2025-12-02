@@ -106,6 +106,7 @@ function usage() {
     echo "\tgdown - go down in git history (back to parent)"
     echo "\tgup - go up in git history (up to child, assumes one child)"
     echo "\tbdiff - syntax highlight git diffs with bat"
+    echo "\tdifx - git diff without pixi.lock"
     echo "\tsbs - toggle Delta's side-by-side feature in gitconfig"
     echo "\taliases - list all git aliases"
 }
