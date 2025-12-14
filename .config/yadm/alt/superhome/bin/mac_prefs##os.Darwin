@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# System Settings -> Accessibility -> Zoom -> Advanced -> Follow keyboard focus: Never
+defaults write com.apple.universalaccess closeViewZoomFocusFollowModeKey -int '0'
