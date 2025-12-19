@@ -199,7 +199,9 @@ alias npmglobals="utilhelpers npmglobals"
 
 # NOTE: just use pgrep instead
 # leaving here until you remember
-alias psa="ps -A | grep -v grep"
+function psa() {
+  ps -A | grep -v grep | grep -i "$1"
+}
 
 alias pycolors="pycolors.py"
 alias pyfansi="pyfansi.py"
