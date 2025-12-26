@@ -8,6 +8,7 @@ bin/anime
 bin/ipfs
 bin/elfedit
 bin/readelf
+bin/mac_prefs
 sources/cd_alias_folders
 config/zmk-config/
 config/.profile
