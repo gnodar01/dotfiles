@@ -52,7 +52,7 @@ function cp_dbtest() {
 PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 
 # Docker
-PATH="$HOME/.docker/bin:$PATH"
+alias docker="podman"
 
 # Pixi (conda/pip alt)
 PATH="$HOME/.pixi/bin:$PATH"
