@@ -16,3 +16,8 @@ alias docker=podman
 # necessary with MANPAGER="sh -c 'col-bx | bat -l man -p" in .zshrc.common
 # but only on Ubuntu/Linux, not on macos
 export MANROFFOPT='-c'
+
+# carry over pixi and devbox modified path and general env to sudo
+function sudop() {
+  sudo -E env PATH="$PATH" "$@"
+}
