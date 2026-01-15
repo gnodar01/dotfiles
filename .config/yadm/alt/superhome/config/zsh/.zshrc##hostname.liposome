@@ -21,3 +21,15 @@ export MANROFFOPT='-c'
 function sudop() {
   sudo -E env PATH="$PATH" "$@"
 }
+
+# resolve aliases like `ll` as well with sudop
+function sudopa() {
+  local cmd="$1"
+  shift
+
+  if [[ -z ${aliases[$cmd]} ]]; then
+    sudop $cmd "$@"
+  else
+    sudop ${=aliases[$cmd]} "$@"
+  fi
+}
