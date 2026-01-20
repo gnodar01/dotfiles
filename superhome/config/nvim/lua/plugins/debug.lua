@@ -214,5 +214,37 @@ return {
       end
       return config
     end
+
+    local function get_test_under_cursor()
+      local ts_utils = require('nvim-treesitter.ts_utils')
+      local node = ts_utils.get_node_at_cursor()
+
+      while node do
+        if node:type() == 'function_definition' then
+          local name_node = node:field('name')[1]
+          return vim.treesitter.get_node_text(name_node, 0)
+        end
+        node = node:parent()
+      end
+    end
+
+    dap.listeners.on_config['nodar-PythonCursorRun'] = function(config)
+      if config['args'] ~= nil and type(config.args) == 'string' and config.args == '${ngcommand:runPyCursor}' then
+        local copy = vim.deepcopy(config)
+
+        local test_name = get_test_under_cursor()
+
+        if not test_name then
+          vim.notify('No test found under cursor', vim.log.levels.ERROR)
+          return config
+        end
+
+        local replacedArg = string.format('%s::%s', vim.fn.expand('%'), test_name)
+        copy.args = { replacedArg }
+
+        return copy
+      end
+      return config
+    end
   end,
 }
