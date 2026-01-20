@@ -84,6 +84,19 @@
         "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
       },
       "console": "integratedTerminal"
+    },
+    {
+      "name": "under cursor",
+      "type": "python",
+      "request": "launch",
+      "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "pytest",
+      "args": "${ngcommand:runPyCursor}",
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
+      "console": "integratedTerminal"
     }
   ]
 }
