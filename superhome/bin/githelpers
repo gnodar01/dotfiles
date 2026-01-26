@@ -68,15 +68,17 @@ function sctd() {
     # convert selection into an array
     commits=("${(@f)selection}")
 
-    if (( ${#commits[@]} < 2 )); then
-        echo "select at least two commits"
+    if (( ${#commits[@]} < 1 )); then
+        echo "select one or more commits"
         return 1
+    elif (( ${#commits[@]} == 1 )); then
+        git show ${commits[1]}
+    else # select exactly 2 from >= 2 commits
+      first=${commits[1]}
+      last=${commits[-1]}
+
+      git diff ${first}..${last}
     fi
-
-    first=${commits[1]}
-    last=${commits[-1]}
-
-    git diff ${first}..${last}
 }
 
 function sbs() {
