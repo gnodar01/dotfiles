@@ -8,7 +8,7 @@ local mason_pkgs = {}
 --
 -- First item in pair is key `install`, the value of which goes to `mason-tool-installer`.
 --   It is the LSP to install.
---   `mason-lspconfig` handles translating between `nvim-lspconfig` and `mason.nvim` names
+--   `mason-lspconfig` handles translating between `nvim-lspconfig` (:help lspconfig-all} and `mason.nvim` names
 --   (e.g. `lus_ls` <-> `lua-language-server`).
 --
 --   It can be a string, which is the name, or table where `[1]` is the name, followed by any of
@@ -118,6 +118,12 @@ local lsp_definitions = {
         fallbackFlags = { '-std=c++20' },
       },
     },
+  },
+
+  -- https://github.com/terror/just-lsp
+  vim_just = {
+    install = 'just-lsp',
+    config = {},
   },
 }
 
