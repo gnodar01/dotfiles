@@ -56,7 +56,14 @@ function difx() {
 function sctd() {
     local selection fzf_status commits first last
 
-    selection=$(git lg --color=always | fzf --ansi --no-sort --multi --bind 'enter:accept' --preview 'git show --color=always {2}')
+    if [ -n "$1" ]; then
+      # diff against provided ref
+      selection=$(git lg --color=always ${1}~1..HEAD | fzf --cycle --ansi --no-sort --multi --bind 'enter:accept' --preview 'git show --color=always {2}')
+    else
+      # else diff everything
+      selection=$(git lg --color=always | fzf --cycle --ansi --no-sort --multi --bind 'enter:accept' --preview 'git show --color=always {2}')
+    fi
+
     fzf_status=$?
 
     if [[ $fzf_status -ne 0 ]]; then
@@ -175,7 +182,7 @@ case "$1" in
         difx "$2"
         ;;
     sctd)
-        sctd
+        sctd "$2"
         ;;
     sbs)
         sbs
