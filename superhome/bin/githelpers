@@ -53,6 +53,32 @@ function difx() {
     git diff "$1" -- . ":(exclude)pixi.lock"
 }
 
+function sctd() {
+    local selection fzf_status commits first last
+
+    selection=$(git lg --color=always | fzf --ansi --no-sort --multi --bind 'enter:accept' --preview 'git show --color=always {2}')
+    fzf_status=$?
+
+    if [[ $fzf_status -ne 0 ]]; then
+        return $fzf_status
+    fi
+
+    selection=$(echo ${selection} | awk '{print $2}' | tail -r)
+
+    # convert selection into an array
+    commits=("${(@f)selection}")
+
+    if (( ${#commits[@]} < 2 )); then
+        echo "select at least two commits"
+        return 1
+    fi
+
+    first=${commits[1]}
+    last=${commits[-1]}
+
+    git diff ${first}..${last}
+}
+
 function sbs() {
     local config="$HOME/.gitconfig"
 
@@ -107,6 +133,7 @@ function usage() {
     echo "\tgup - go up in git history (up to child, assumes one child)"
     echo "\tbdiff - syntax highlight git diffs with bat"
     echo "\tdifx - git diff without pixi.lock"
+    echo "\tsctd - select commits to diff"
     echo "\tsbs - toggle Delta's side-by-side feature in gitconfig"
     echo "\taliases - list all git aliases"
 }
@@ -144,6 +171,9 @@ case "$1" in
         ;;
     difx)
         difx "$2"
+        ;;
+    sctd)
+        sctd
         ;;
     sbs)
         sbs
