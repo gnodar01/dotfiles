@@ -142,7 +142,7 @@ function usage() {
     echo "\tgup - go up in git history (up to child, assumes one child)"
     echo "\tbdiff - syntax highlight git diffs with bat"
     echo "\tdifx - git diff without pixi.lock"
-    echo "\tsctd - select commits to diff"
+    echo "\tsctd [<ref>] - select commits to diff; if ref provided diff only from ref to HEAD; else everything"
     echo "\tsbs - toggle Delta's side-by-side feature in gitconfig"
     echo "\taliases - list all git aliases"
 }
