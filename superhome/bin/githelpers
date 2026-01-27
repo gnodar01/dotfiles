@@ -64,7 +64,9 @@ function sctd() {
     local fzfcmd() {
       fzf --ansi --no-sort --multi \
         --bind 'enter:accept,esc:clear-query' \
-        --preview 'git show --color=always {-1}'
+        --preview 'git show --color=always {-1}' \
+        --style=minimal \
+        --height 50%
     }
 
     if [ -n "$1" ]; then
