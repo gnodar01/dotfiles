@@ -25,16 +25,6 @@ loadrvm() {
 # Haskell
 #[ -f "/Users/Nodar/.ghcup/env" ] && source "/Users/Nodar/.ghcup/env" # ghcup-env
 
-# CellProfiler Stuff
-cpteststart() {
-  export CP_MYSQL_TEST_HOST="127.0.0.1"
-  export CP_MYSQL_TEST_DB="cellprofiler_test"
-  export CP_MYSQL_TEST_USER="root"
-  export CP_MYSQL_TEST_PASSWORD="None"
-  mysql.server start
-}
-# /CellProfiler stuff
-
 # docker
 # set in settings -> advanced -> User
 PATH="$PATH:$HOME/.docker/bin"
