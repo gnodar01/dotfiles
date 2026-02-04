@@ -17,4 +17,4 @@ config/zsh/.zshenv
 config/bash/.bashrc
 config/bash/.bash_logout
 config/bash/.bash_profile
-
+config/dev-configs/cp5/.vscode/launch.json
