@@ -51,7 +51,7 @@ return {
       { '<Leader>c', group = '[C]ode', mode = { 'n', 'x' } },
       { '<Leader>d', group = '[D]ocument/[D]ebug' },
       { '<Leader>f', group = '[F]uzzy Search' },
-      { '<Leader>j', group = '[J]Git Hunk', mode = { 'n', 'v' } },
+      { '<Leader>j', group = '[G]it (NeoGit | Hunk)', mode = { 'n', 'v' } },
       { '<Leader>h', group = '[H]arpoon' },
       { '<Leader>o', group = '[O]pencode', mode = { 'n', 'v' } },
       { '<Leader>r', group = '[R]ename' },
