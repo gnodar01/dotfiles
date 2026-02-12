@@ -7,7 +7,7 @@ DEVBOX_NO_PROMPT=true
 eval "$(devbox completion zsh)"
 
 # pixi
-export PATH=/Users/Nodar/.pixi/bin:$PATH
+export PATH=$HOME/.pixi/bin:$PATH
 eval "$(pixi completion --shell zsh)"
 
 alias docker=podman
