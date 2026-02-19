@@ -2,6 +2,8 @@
 eval "$(devbox global shellenv --init-hook)"
 source $SUPERHOME/config/zsh/.zshrc.common
 
+export XDG_CONFIG_HOME=$HOME/.config
+
 # devbox
 DEVBOX_NO_PROMPT=true
 eval "$(devbox completion zsh)"
