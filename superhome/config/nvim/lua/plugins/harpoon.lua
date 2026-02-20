@@ -4,9 +4,11 @@
 -- quick file navigation
 
 return {
-  'ThePrimeagen/harpoon',
+  -- 'ThePrimeagen/harpoon',
+  'gnodar01/harpoon',
+  -- dir = "/Users/Nodar/Developer/harpoons_parent/harpoon",
   name = 'harpoon',
-  branch = 'harpoon2',
+  branch = 'harpoons',
   dependencies = {
     'plenary',
     'telescope',
@@ -22,6 +24,10 @@ return {
       },
     })
 
+    vim.keymap.set('n', '<Leader>hM', function()
+      harpoon.ui:toggle_sub_project_menu(harpoon)
+    end, { desc = 'Harpoon Sub-project [M]enu' })
+
     vim.keymap.set('n', '<Leader>ha', function()
       harpoon:list():add()
     end, { desc = '[A]dd to harpoon list' })
@@ -29,23 +35,12 @@ return {
       harpoon.ui:toggle_quick_menu(harpoon:list())
     end, { desc = 'Quick [M]enu' })
 
-    vim.keymap.set('n', '<Leader>ho', function()
-      harpoon:list():select(1)
-    end, { desc = 'Select [O]ne' })
-    vim.keymap.set('n', '<Leader>hw', function()
-      harpoon:list():select(2)
-    end, { desc = 'Select T[W]o' })
-    vim.keymap.set('n', '<Leader>ht', function()
-      harpoon:list():select(3)
-    end, { desc = 'Select [T]hree' })
-    vim.keymap.set('n', '<Leader>hf', function()
-      harpoon:list():select(4)
-    end, { desc = 'Select [F]our' })
-
     vim.keymap.set('n', '<Leader>hq', function()
       harpoon:list():select(1)
     end, { desc = 'Select One' })
-    -- w already mapped to 2
+    vim.keymap.set('n', '<Leader>hw', function()
+      harpoon:list():select(2)
+    end, { desc = 'Select T[W]o' })
     vim.keymap.set('n', '<Leader>he', function()
       harpoon:list():select(3)
     end, { desc = 'Select Three' })
