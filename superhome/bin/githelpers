@@ -83,7 +83,7 @@ function sctd() {
         return $fzf_status
     fi
 
-    selection=$(echo ${selection} | awk '{print $NF}' | tail -r)
+    selection=$(echo ${selection} | awk '{print $NF}' | tac)
 
     # convert selection into an array
     commits=("${(@f)selection}")
