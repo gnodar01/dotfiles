@@ -50,3 +50,9 @@ Thumbs.db
 ##############
 .ipynb_checkpoints
 __pycache__
+
+**/.vscode
+Agents.md
+AGENTS.md
+*.notes.md
+*.notes.txt
