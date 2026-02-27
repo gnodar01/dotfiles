@@ -19,7 +19,8 @@
     "yadm":            "latest",
     "delta":           "latest",
     "starship":        "latest",
-    "podman":          "latest"
+    "podman":          "latest",
+    "gh":              "latest"
   },
   "shell": {
     "init_hook": [
