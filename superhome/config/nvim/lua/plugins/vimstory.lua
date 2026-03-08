@@ -3,7 +3,9 @@ return {
   dir = '/Users/Nodar/Developer/vimstory',
   name = 'vimstory',
   --branch = 'dev',
-  dependencies = {},
+  dependencies = {
+    'plenary',
+  },
   -- config = function() end,
   -- opts = {},
 }
