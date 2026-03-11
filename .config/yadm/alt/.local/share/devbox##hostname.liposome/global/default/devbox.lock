@@ -753,8 +753,8 @@
       }
     },
     "pixi@latest": {
-      "last_modified": "2026-01-26T09:54:05Z",
-      "resolved": "github:NixOS/nixpkgs/5b265bda51b42a2a85af0a543c3e57b778b01b7d#pixi",
+      "last_modified": "2026-02-23T15:40:43Z",
+      "resolved": "github:NixOS/nixpkgs/80d901ec0377e19ac3f7bb8c035201e2e098cc97#pixi",
       "source": "devbox-search",
       "version": "0.63.2",
       "systems": {
@@ -762,41 +762,41 @@
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/52bal2g4mj7sfav7r8n891xbvyr5sbl9-pixi-0.63.2",
+              "path": "/nix/store/fnr1z9al980l7mhcvrca72pp3dy76v27-pixi-0.63.2",
               "default": true
             }
           ],
-          "store_path": "/nix/store/52bal2g4mj7sfav7r8n891xbvyr5sbl9-pixi-0.63.2"
+          "store_path": "/nix/store/fnr1z9al980l7mhcvrca72pp3dy76v27-pixi-0.63.2"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/y4za7k5n6hkgynarli6iv0h50azb3abq-pixi-0.63.2",
+              "path": "/nix/store/7yfps4kq1fxhm79i8xlphim2h1zfacqc-pixi-0.63.2",
               "default": true
             }
           ],
-          "store_path": "/nix/store/y4za7k5n6hkgynarli6iv0h50azb3abq-pixi-0.63.2"
+          "store_path": "/nix/store/7yfps4kq1fxhm79i8xlphim2h1zfacqc-pixi-0.63.2"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/j758iyvssllw3cvs0brhydbqb76ayjzw-pixi-0.63.2",
+              "path": "/nix/store/ywakfqyrbsaycsnsjr4z615jq1qdzpdb-pixi-0.63.2",
               "default": true
             }
           ],
-          "store_path": "/nix/store/j758iyvssllw3cvs0brhydbqb76ayjzw-pixi-0.63.2"
+          "store_path": "/nix/store/ywakfqyrbsaycsnsjr4z615jq1qdzpdb-pixi-0.63.2"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/gk5nr96y227yjwb9adshf1ny1hdgg9yv-pixi-0.63.2",
+              "path": "/nix/store/2idfgj2r8zh7a8bqd3hnnkmjr7xflc2v-pixi-0.63.2",
               "default": true
             }
           ],
-          "store_path": "/nix/store/gk5nr96y227yjwb9adshf1ny1hdgg9yv-pixi-0.63.2"
+          "store_path": "/nix/store/2idfgj2r8zh7a8bqd3hnnkmjr7xflc2v-pixi-0.63.2"
         }
       }
     },
