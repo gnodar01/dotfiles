@@ -101,40 +101,130 @@ function sctd() {
     fi
 }
 
-function sbs() {
-    local config="$HOME/.gitconfig"
+# https://github.com/sspathak/grob
+function grob() {
+    local extra_flags=("$@")
 
-    # Check for [delta] section
-    if ! grep -q '^\[delta\]' "$config"; then
-        echo "Error: [delta] section not found in $config" >&2
-        return 1
+    # Text formatting
+    local bold=$(tput bold)
+    local reset=$(tput sgr0)
+    local blue=$(tput setaf 4)
+    local green=$(tput setaf 2)
+    local yellow=$(tput setaf 3)
+    local red=$(tput setaf 1)
+    local cyan=$(tput setaf 6)
+    local mag=$(tput setaf 5)
+    local dim=$(tput setaf 8)
+
+    if ! git diff-index --quiet HEAD --; then
+        echo "${yellow}⚠️  Warning: Uncommitted changes detected. Please stash or commit first.${reset}"
+        exit 1
     fi
 
-    # Find start and end of [delta] section
-    local start_line end_line
-    start_line=$(grep -n '^\[delta\]' "$config" | cut -d: -f1)
-    end_line=$(grep -n '^\[' "$config" | awk -F: -v s="$start_line" '$1 > s {print $1; exit}')
-    [[ -z "$end_line" ]] && end_line=$(wc -l < "$config")
+    # 1. Select Target Branch
+    local target_branch=$(git branch --format='%(refname:short)' | \
+        fzf --height 60% --border --prompt="onto ➜ " \
+            --header="STEP 1: Select TARGET branch" \
+            --preview-window=up:40% \
+            --bind 'shift-up:preview-up,shift-down:preview-down' \
+            --preview 'git log --oneline --graph --color=always -n 15 {}')
 
-    # Look for side-by-side line in the section
-    local side_line rel_line abs_line
-    side_line=$(sed -n "${start_line},${end_line}p" "$config" | grep -n '^\s*side-by-side\s*=')
-    if [[ -z "$side_line" ]]; then
-        echo "Error: side-by-side line not found in [delta] section of $config" >&2
-        return 1
+    [[ -z "$target_branch" ]] && exit 0
+
+    # 2. Select Oldest Commit 
+    local header_text="TARGET: [${bold}${green}${target_branch}${reset}]"$'\n'"STEP 2: Select the OLDEST commit to move (includes selection + all newer)"
+
+    # FIX: Cleaned up the sed quoting and the awk escaping for Zsh compatibility
+    local preview_cmd='
+        git show --format="%C(yellow)%h%C(reset) %C(magenta)%an%C(reset) %C(cyan)(%ad)%C(reset)%n%s" --date=format:"%b %d, %Y" --color=always {1} | head -n 2;
+        echo "";
+        git diff --shortstat {1}^ {1} | awk "{
+            gsub(/[0-9]+/, \"\\033[33m&\\033[0m\");
+            gsub(/insertion/, \"\\033[32minsertion\\033[0m\");
+            gsub(/deletion/, \"\\033[31mdeletion\\033[0m\");
+            print
+        }";
+        echo "";
+        git show --stat --format="" --color=always {1} | sed "\$d";
+        echo "";
+        echo "'"$(tput setaf 8)"'──────────────────────────────────────────────────'"$reset"'";
+        git show -s --format="%C(bold)Full SHA:%C(reset) %H%n%C(bold)Author:%C(reset)   %ae%n%C(bold)Commit:%C(reset)   %ad" --date=format:"%b %d, %Y %H:%M:%S" {1}'
+
+    local selection=$(git log --oneline --color=always | \
+        fzf --ansi --height 60% --border \
+            --prompt="move from ➜ " \
+            --header="$header_text" \
+            --preview-window=up:6:wrap \
+            --bind 'shift-up:preview-up,shift-down:preview-down' \
+            --preview "$preview_cmd")
+
+    [[ -z "$selection" ]] && exit 0
+
+    local commit_hash=$(echo "$selection" | awk '{print $1}')
+    local commit_index=$(git log --oneline | grep -nF "$commit_hash" | cut -d: -f1)
+    local base_ref="HEAD~$commit_index"
+
+    # 3. Confirmation UI
+    echo "\n${bold}${cyan}REBASE PREVIEW${reset}"
+    echo "${dim}====================================================${reset}"
+    printf "  %-18s %s\n" "${bold}Target Branch:${reset}" "${green}${target_branch}${reset}"
+    printf "  %-18s %s\n" "${bold}Commit Count :${reset}"  "${yellow}${commit_index} commit(s)${reset}"
+    printf "  %-18s %s\n" "${bold}Starting At  :${reset}"   "${mag}${commit_hash}${reset}"
+
+    if [[ ${#extra_flags[@]} -gt 0 ]]; then
+        printf "  %-18s %s\n" "${bold}Extra Flags  :${reset}"   "${blue}${extra_flags[*]}${reset}"
     fi
 
-    rel_line=$(echo "$side_line" | cut -d: -f1)
-    abs_line=$(( start_line + rel_line - 1 ))
+    echo "${dim}----------------------------------------------------${reset}"
+    echo "  ${bold}Command:${reset} ${dim}git rebase --onto $target_branch $base_ref ${extra_flags[*]}${reset}"
+    echo "${dim}====================================================${reset}\n"
 
-    # Flip true <-> false
-    if echo "$side_line" | grep -q '= *true'; then
-        sed -i '' "${abs_line}s/true/false/" "$config"
-        echo "Set side-by-side = false"
+    echo -n "  Confirm execution? (y/N): "
+    read -k 1 confirm
+    echo "\n" 
+
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        echo "${green}Executing rebase...${reset}"
+        git rebase --onto "$target_branch" "$base_ref" "${extra_flags[@]}"
     else
-        sed -i '' "${abs_line}s/false/true/" "$config"
-        echo "Set side-by-side = true"
+        echo "${dim}Aborted.${reset}"
     fi
+}
+
+function sbs() {
+      local config="$HOME/.gitconfig"
+
+      # Check for [delta] section
+      if ! grep -q '^\[delta\]' "$config"; then
+          echo "Error: [delta] section not found in $config" >&2
+          return 1
+      fi
+
+      # Find start and end of [delta] section
+      local start_line end_line
+      start_line=$(grep -n '^\[delta\]' "$config" | cut -d: -f1)
+      end_line=$(grep -n '^\[' "$config" | awk -F: -v s="$start_line" '$1 > s {print $1; exit}')
+      [[ -z "$end_line" ]] && end_line=$(wc -l < "$config")
+
+      # Look for side-by-side line in the section
+      local side_line rel_line abs_line
+      side_line=$(sed -n "${start_line},${end_line}p" "$config" | grep -n '^\s*side-by-side\s*=')
+      if [[ -z "$side_line" ]]; then
+          echo "Error: side-by-side line not found in [delta] section of $config" >&2
+          return 1
+      fi
+
+      rel_line=$(echo "$side_line" | cut -d: -f1)
+      abs_line=$(( start_line + rel_line - 1 ))
+
+      # Flip true <-> false
+      if echo "$side_line" | grep -q '= *true'; then
+          sed -i '' "${abs_line}s/true/false/" "$config"
+          echo "Set side-by-side = false"
+      else
+          sed -i '' "${abs_line}s/false/true/" "$config"
+          echo "Set side-by-side = true"
+      fi
 }
 
 function aliases() {
@@ -156,6 +246,7 @@ function usage() {
     echo "\tbdiff - syntax highlight git diffs with bat"
     echo "\tdifx - git diff without pixi.lock"
     echo "\tsctd [<ref>] - select commits to diff; if ref provided diff only from ref to HEAD; else everything"
+    echo "\tgrob [<ref>] - interactive git rebase onto branch"
     echo "\tsbs - toggle Delta's side-by-side feature in gitconfig"
     echo "\taliases - list all git aliases"
 }
@@ -196,6 +287,9 @@ case "$1" in
         ;;
     sctd)
         sctd "$2"
+        ;;
+    grob)
+        grob "${@:2}" # all pos args from 2 to end
         ;;
     sbs)
         sbs

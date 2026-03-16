@@ -23,6 +23,7 @@
 	bdiff = !githelpers bdiff
   difx = !githelpers difx
   sctd = !githelpers sctd
+  grob = !githelpers grob
 	helpers = !githelpers help
 	aliases = !githelpers aliases
 	sbranch = !githelpers sbranch
