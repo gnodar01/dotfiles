@@ -1,5 +1,35 @@
 return {
   {
+    -- https://github.com/esmuellert/codediff.nvim
+    -- rich git diffs
+    -- WARN: this will automatically download libvscode-diff lib
+    -- https://github.com/micnil/vscode-diff
+    'esmuellert/codediff.nvim',
+    lazy = true,
+    cmd = 'CodeDiff',
+
+    config = function()
+      -- for dracula integration, copying this:
+      -- https://github.com/Mofiqul/dracula.nvim/commit/ae752c13e95fb7c5f58da4b5123cb804ea7568ee
+      -- to match these:
+      -- https://github.com/esmuellert/codediff.nvim?tab=readme-ov-file#highlight-groups
+      local colors = require('dracula').colors()
+
+      -- first do normal setup to let it set its colors
+      require('codediff').setup({})
+
+      -- then override them after the fact
+
+      vim.api.nvim_set_hl(0, 'CodeDiffLineInsert', { fg = colors.bright_green, bg = colors.menu })
+      vim.api.nvim_set_hl(0, 'CodeDiffLineDelete', { fg = colors.bright_red, bg = colors.menu })
+      vim.api.nvim_set_hl(0, 'CodeDiffCharInsert', { fg = colors.green, bg = colors.menu })
+      vim.api.nvim_set_hl(0, 'CodeDiffCharDelete', { fg = colors.red, bg = colors.menu })
+      vim.api.nvim_set_hl(0, 'CodeDiffFiller', { fg = colors.comment, bg = colors.menu })
+      vim.api.nvim_set_hl(0, 'CodeDiffLineMove', { fg = colors.bright_yellow, bg = colors.menu })
+      vim.api.nvim_set_hl(0, 'CodeDiffMoveTo', { fg = colors.yellow, bg = colors.menu })
+    end,
+  },
+  {
     -- https://github.com/NeogitOrg/neogit
     -- a git interface for neovim, inspired by magit
     'NeogitOrg/neogit',
@@ -7,9 +37,12 @@ return {
     lazy = true,
     dependencies = {
       'nvim-lua/plenary.nvim', -- required
-      -- 'sindrets/diffview.nvim', -- optional - Diff integration
 
-      -- Only one of these is needed.
+      -- Diff integration - only one of these is needed
+      'esmuellert/codediff.nvim', -- optional
+      -- 'sindrets/diffview.nvim', -- optional
+
+      -- Picker - only one of these is needed.
       'nvim-telescope/telescope.nvim', -- optional
       -- 'ibhagwan/fzf-lua', -- optional
       -- 'nvim-mini/mini.pick', -- optional
