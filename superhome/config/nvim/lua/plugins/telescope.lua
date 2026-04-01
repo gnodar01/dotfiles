@@ -4,7 +4,7 @@
 return {
   'nvim-telescope/telescope.nvim',
   name = 'telescope',
-  tag = '0.1.8',
+  --tag = '0.1.8',
   event = 'VimEnter',
   dependencies = {
     'plenary',

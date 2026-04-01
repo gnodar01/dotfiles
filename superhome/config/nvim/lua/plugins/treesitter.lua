@@ -3,6 +3,8 @@
 
 -- https://github.com/nvim-treesitter/nvim-treesitter#supported-languages
 local langs = {
+  -- https://github.com/tree-sitter-grammars/tree-sitter-query
+  -- TS parser for TS query files (schem-like)
   'query',
   'vim',
   'vimdoc',
@@ -39,26 +41,18 @@ local langs = {
 return {
   'nvim-treesitter/nvim-treesitter',
   --tag = 'v0.9.3',
+  branch = 'main',
+  lazy = false,
   build = ':TSUpdate',
-  main = 'nvim-treesitter.configs', -- sets main module to use for opts
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-  opts = {
-    ensure_installed = langs,
-    -- autoinstall languages that are not installed
-    auto_install = true,
-    highlight = {
-      enable = true,
-      -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-      --  If experiencing weird indenting issues, add the language to
-      --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-      additional_vim_regex_highlighting = { 'ruby' },
-    },
-    indent = { enable = true, disable = { 'ruby' } },
-  },
-  -- There are additional nvim-treesitter modules that you can use to interact
-  -- with nvim-treesitter.
-  --
-  --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-  --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-  --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  enabled = true,
+  config = function()
+    local TS = require('nvim-treesitter')
+    TS.setup({
+      -- directory to install parsers and queries to (prepended to `runtimepath` to have priority)
+      install_dir = vim.fn.stdpath('data') .. '/site',
+    })
+    -- this is a no-op if parsers are already installed
+    -- runs async
+    TS.install(langs)
+  end,
 }
