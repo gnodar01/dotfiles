@@ -54,5 +54,14 @@ return {
     -- this is a no-op if parsers are already installed
     -- runs async
     TS.install(langs)
+
+    for _, lang in pairs(langs) do
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { lang },
+        callback = function()
+          vim.treesitter.start()
+        end,
+      })
+    end
   end,
 }
