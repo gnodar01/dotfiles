@@ -8,6 +8,7 @@ return {
   {
     'sudo-tee/opencode.nvim',
     name = 'opencode',
+    event = 'VeryLazy',
     --
     -- https://github.com/sudo-tee/opencode.nvim?tab=readme-ov-file#%EF%B8%8F-configuration
     config = function()
