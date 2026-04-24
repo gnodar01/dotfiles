@@ -71,6 +71,10 @@ export FZF_DEFAULT_COMMAND='fd -H --no-require-git .'
 # set neovim as main editor
 export EDITOR="nvim"
 
+# respected by at least gh cli, and hopefully other tools i use
+# https://cli.github.com/telemetry
+export DO_NOT_TRACK=true
+
 
 function yadmc() {
   # Check if yadm is installed
