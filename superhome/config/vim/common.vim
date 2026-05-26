@@ -133,6 +133,9 @@ set colorcolumn=161
 
 " MAPPINGS --------------------------------------------------------------- {{{
 
+" highlight current word and place in search buffer, but do not jump to next
+" occurance immediately
+nmap <leader>* :let @/ = expand('<cword>')<CR>
 " Move focus to the left window
 nmap <C-h> <C-w><C-h>
 " Move focus to the right window
