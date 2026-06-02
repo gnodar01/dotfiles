@@ -10,7 +10,9 @@
 	lgb = log --graph --date-order --branches --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	lga = log --graph --date-order --all --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
 	staash = stash --all
-	safeforce = git push --force-with-lease
+	safeforce = push --force-with-lease
+  cb = rev-parse --abbrev-ref HEAD
+  cbr = !(git rev-parse --abbrev-ref HEAD | tr -d '\n')
   b = branch -vva
 	sftd = !githelpers sftd
 	sftr = !githelpers sftr
