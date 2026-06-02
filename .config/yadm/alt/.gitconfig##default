@@ -1,63 +1,63 @@
 [user]
-	name = Nodar Gogoberidze
-	email = gnodar01@gmail.com
+  name = Nodar Gogoberidze
+  email = gnodar01@gmail.com
 [url "https://"]
-	insteadOf = git://
+ insteadOf = git://
 [alias]
-	graph = log --pretty=format:'%h %s' --graph
-	logp = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-	lg = log --graph --date-order --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
-	lgb = log --graph --date-order --branches --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
-	lga = log --graph --date-order --all --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
-	staash = stash --all
-	safeforce = push --force-with-lease
+  graph = log --pretty=format:'%h %s' --graph
+  logp = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+  lg = log --graph --date-order --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
+  lgb = log --graph --date-order --branches --first-parent --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
+  lga = log --graph --date-order --all --pretty=format:'%C(auto)%h%Creset %C(auto)%d%Creset %s %C(green)(%ad) %C(bold cyan)<%an>%Creset'
+  staash = stash --all
+  safeforce = push --force-with-lease
   cb = rev-parse --abbrev-ref HEAD
   cbr = !(git rev-parse --abbrev-ref HEAD | tr -d '\n')
   b = branch -vva
-	sftd = !githelpers sftd
-	sftr = !githelpers sftr
-	sfta = !githelpers sfta
-	ssftr = !githelpers ssftr
-	grepmod = !githelpers grepmod
-	grepdiff = !githelpers grepdiff
-	gdown = !githelpers gdown
-	gup = !githelpers gup
-	bdiff = !githelpers bdiff
+  sftd = !githelpers sftd
+  sftr = !githelpers sftr
+  sfta = !githelpers sfta
+  ssftr = !githelpers ssftr
+  grepmod = !githelpers grepmod
+  grepdiff = !githelpers grepdiff
+  gdown = !githelpers gdown
+  gup = !githelpers gup
+  bdiff = !githelpers bdiff
   difx = !githelpers difx
   sctd = !githelpers sctd
   fd = !githelpers fd
   grob = !githelpers grob
-	helpers = !githelpers help
-	aliases = !githelpers aliases
-	sbranch = !githelpers sbranch
-	sbs = !githelpers sbs
+  helpers = !githelpers help
+  aliases = !githelpers aliases
+  sbranch = !githelpers sbranch
+  sbs = !githelpers sbs
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [core]
-	pager = delta
-	autocrlf = input
-	eol = lf
-	editor = nvim
-	excludesfile = ~/.gitignore
+  pager = delta
+  autocrlf = input
+  eol = lf
+  editor = nvim
+  excludesfile = ~/.gitignore
 [interactive]
-	diffFilter = delta --color-only
+  diffFilter = delta --color-only
 [pull]
-	rebase = true
+  rebase = true
 [push]
-	default = upstream
+  default = upstream
 [delta]
-	navigate = true # use n and N to move between diff sections
-	line-numbers = true
-	side-by-side = true
+  navigate = true # use n and N to move between diff sections
+  line-numbers = true
+  side-by-side = true
 [status]
-	showStash = true
+  showStash = true
 [rerere]
-	enabled = true
+  enabled = true
 [branch]
-	sort = -committerdate
+  sort = -committerdate
 [color]
-	ui = true
+  ui = true
 [merge]
-	conflictstyle = zdiff3
+  conflictstyle = zdiff3
 [include]
   path = .gitconfig.local
