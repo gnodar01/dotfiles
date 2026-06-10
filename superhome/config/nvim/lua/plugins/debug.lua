@@ -216,8 +216,9 @@ return {
     end
 
     local function get_test_under_cursor()
-      local ts_utils = require('nvim-treesitter.ts_utils')
-      local node = ts_utils.get_node_at_cursor()
+      --local ts_utils = require('nvim-treesitter.ts_utils')
+      --local node = ts_utils.get_node_at_cursor()
+      local node = vim.treesitter.get_node()
 
       while node do
         if node:type() == 'function_definition' then
