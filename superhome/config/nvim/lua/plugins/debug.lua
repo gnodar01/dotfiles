@@ -240,8 +240,10 @@ return {
           return config
         end
 
-        local replacedArg = string.format('%s::%s', vim.fn.expand('%'), test_name)
-        copy.args = { replacedArg }
+        local replacedArgFileName = string.format('%s', vim.fn.expand('%'))
+        -- -k because otherwise have to do <filename>::<classname>::<testname> as one arg
+        local replacedArgTestName = string.format('-k %s', test_name)
+        copy.args = { replacedArgFileName, replacedArgTestName }
 
         return copy
       end
