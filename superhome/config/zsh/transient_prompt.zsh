@@ -11,6 +11,22 @@ zmodload zsh/system ||  return
 # single quote preserves the $(...) so it evaluates each time prompt is displayed
 TRANSIENT_PROMPT='$(starship prompt --profile transient --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
 
+# kitty (and other OSC 133 terminals) inject a "prompt start" mark at the front
+# of PS1 via shell integration. That mark is how the terminal delimits each
+# command's output (used by `kitty @ get-text --extent last_cmd_output`, i.e.
+# kitty-scrollback.nvim's kitty_mod+g). Replacing the finished command's prompt
+# with the raw starship transient prompt drops the mark, so kitty can no longer
+# tell where one command's output ends and the next begins and merges them.
+# Re-add the zero-width mark (%{...%}) so transient prompts stay delimited.
+if [[ -n $KITTY_SHELL_INTEGRATION ]]; then
+  # KITTY_SHELL_INTEGRATION used as guard described here: https://sw.kovidgoyal.net/kitty/shell-integration/#shell-integration
+  # %{ ... }% - tells zsh that enclosed bytes are zero width, so prompt alignment isn't affected
+  # \e]133;A\a - standard prompt-mark start (\a is standard terminator kitty accepts to avoid backslash-escaping ESC \)
+  # Only ;A needed here. ;C (output start) and ;D (command done) marks emitted by kitty's own preexec/precmd hooks, not from $PROMPT, so transient redraw shouldn't touch them.
+  #   more info: https://sw.kovidgoyal.net/kitty/shell-integration/#notes-for-shell-developers
+  TRANSIENT_PROMPT=$'%{\e]133;A\a%}'"$TRANSIENT_PROMPT"
+fi
+
 # dynamic prompt for normal display
 function _set_prompt_normal {
   # single quote preserves the $(...) so it evaluates each time prompt is displayed
