@@ -44,6 +44,17 @@ alias help=run-help
 # `h` - head of path, strip out this filename from path, leaving just dir
 # ${0:A:h}/path/to/some_file_relative_to_here.ext
 
+# https://sw.kovidgoyal.net/kitty/shell-integration/#manual-shell-integration
+# manually enable kitty's shell integration
+# needed for spawnning sub-shells and vitual envs (eg pixi)
+# needs to be before starship and transient_prompt
+if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
+  export KITTY_SHELL_INTEGRATION="enabled"
+  autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+  kitty-integration
+  unfunction kitty-integration
+fi
+
 # zsh_unplugged
 source $SUPERHOME/config/zsh/unplugged.zsh
 # omz jump plugin extension
