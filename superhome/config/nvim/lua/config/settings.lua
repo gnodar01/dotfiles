@@ -140,3 +140,61 @@ vim.keymap.set('n', '<Leader>sw', function()
     vim.defer_fn(poll, 500)
   end)
 end, { desc = '[W]rite and checktime after 1s' })
+
+-- kitty-scrollback.nvim config overrides --
+--
+-- The kitty kitten launches nvim, appends the plugin to 'runtimepath' and
+-- `require`s `kitty-scrollback.launch` from a VimEnter autocmd it registers via
+-- `--cmd` (before our init.lua runs). That fires `User KittyScrollbackLaunch`
+-- and immediately reads `require('kitty-scrollback').configs`. lazy.nvim defers
+-- plugin `init`/`config` until its own (later-registered) VimEnter, so anything
+-- routed through the lazy spec runs too late and the launch falls back to
+-- builtin defaults (Visual 'darken', cursorline/statusline disabled).
+--
+-- Registering the autocmd here -- synchronously at startup, before VimEnter --
+-- guarantees setup() runs while the kitten is firing the event, so our options
+-- actually take effect.
+do
+  -- No colorscheme loads in the scrollback nvim (colors come from kitty's own
+  -- theme via KittyScrollbackNvimNormal), so Visual + CursorLine fall back to
+  -- nvim defaults. Set them explicitly to our dracula-soft values so the
+  -- selection and the cursorline bar match what we see in a normal nvim.
+  local dracula_cursorline = '#33343f'
+  local dracula_visual = '#3e4452'
+  local overrides = {
+    -- false keeps the plugin's laststatus=0, so the (unstyled, since linefly
+    -- can't load here) statusline stays hidden for a clean scrollback view
+    restore_options = false,
+    visual_selection_highlight_mode = 'nvim',
+    callbacks = {
+      after_ready = function()
+        vim.api.nvim_set_hl(0, 'KittyScrollbackNvimVisual', { bg = dracula_visual })
+        vim.api.nvim_set_hl(0, 'CursorLine', { bg = dracula_cursorline })
+        -- re-enable cursorline (the "horizontal bar") on the scrollback window;
+        -- it is disabled window-locally, which a global option can't undo
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].filetype == 'kitty-scrollback' then
+            vim.wo[win].cursorline = true
+          end
+        end
+      end,
+    },
+  }
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'KittyScrollbackLaunch',
+    callback = function()
+      require('kitty-scrollback').setup({
+        ksb_builtin_last_cmd_output = vim.tbl_extend('force', overrides, {
+          kitty_get_text = { extent = 'last_cmd_output' },
+        }),
+        ksb_builtin_get_text_all = vim.tbl_extend('force', overrides, {
+          kitty_get_text = { extent = 'all' },
+        }),
+        ksb_builtin_last_visited_cmd_output = vim.tbl_extend('force', overrides, {
+          kitty_get_text = { extent = 'last_visited_cmd_output' },
+        }),
+      })
+    end,
+  })
+end
