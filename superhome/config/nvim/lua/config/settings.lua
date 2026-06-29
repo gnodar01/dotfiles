@@ -159,8 +159,12 @@ do
   -- theme via KittyScrollbackNvimNormal), so Visual + CursorLine fall back to
   -- nvim defaults. Set them explicitly to our dracula-soft values so the
   -- selection and the cursorline bar match what we see in a normal nvim.
-  local dracula_cursorline = '#33343f'
-  local dracula_visual = '#3e4452'
+  --local dracula_cursorline = '#33343f'
+  --local dracula_visual = '#3e4452'
+  --local cursorline_color = dracula_cursorline
+  --local visual_color = dracula_visual
+  local cursorline_color = '#44475A'
+  local visual_color = '#6272A4'
   local overrides = {
     -- false keeps the plugin's laststatus=0, so the (unstyled, since linefly
     -- can't load here) statusline stays hidden for a clean scrollback view
@@ -168,8 +172,8 @@ do
     visual_selection_highlight_mode = 'nvim',
     callbacks = {
       after_ready = function()
-        vim.api.nvim_set_hl(0, 'KittyScrollbackNvimVisual', { bg = dracula_visual })
-        vim.api.nvim_set_hl(0, 'CursorLine', { bg = dracula_cursorline })
+        vim.api.nvim_set_hl(0, 'KittyScrollbackNvimVisual', { bg = visual_color })
+        vim.api.nvim_set_hl(0, 'CursorLine', { bg = cursorline_color })
         -- re-enable cursorline (the "horizontal bar") on the scrollback window;
         -- it is disabled window-locally, which a global option can't undo
         for _, win in ipairs(vim.api.nvim_list_wins()) do
