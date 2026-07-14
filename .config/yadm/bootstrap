@@ -1,0 +1,43 @@
+#!/bin/sh
+# yadm bootstrap — runs after `yadm clone` (or via `yadm bootstrap`).
+# Idempotent; safe to re-run.
+#
+# What self-heals on its own (NOT handled here):
+#   - zsh plugins   : superhome/config/zsh/unplugged.zsh clones them on first shell
+#   - lazy.nvim     : superhome/config/nvim/lua/config/lazy.lua bootstraps on first launch
+#   - mason tools   : mason-tool-installer runs on nvim startup
+#
+# What this handles:
+#   1. ~/.config/nvim link fallback — the nvim##default alt should create this, but
+#      guard in case the alt didn't apply (belt & suspenders).
+#   2. Front-load neovim plugin install so the first interactive launch is fast/clean.
+
+set -u
+
+SUPERHOME="${SUPERHOME:-$HOME/superhome}"
+NVIM_SRC="$SUPERHOME/config/nvim"
+NVIM_DST="$HOME/.config/nvim"
+
+# 1. ensure ~/.config/nvim exists (fallback; nvim##default alt normally does this)
+if [ -e "$NVIM_SRC" ]; then
+  if [ -e "$NVIM_DST" ] || [ -L "$NVIM_DST" ]; then
+    echo "[bootstrap] ~/.config/nvim -> $(readlink -f "$NVIM_DST" 2>/dev/null || echo "$NVIM_DST")"
+  else
+    mkdir -p "$HOME/.config"
+    ln -s "$NVIM_SRC" "$NVIM_DST"
+    echo "[bootstrap] linked ~/.config/nvim -> $NVIM_SRC (alt fallback)"
+  fi
+else
+  echo "[bootstrap] WARN: $NVIM_SRC not found; skipping nvim link"
+fi
+
+# 2. front-load neovim plugin sync
+if command -v nvim >/dev/null 2>&1 && { [ -e "$NVIM_DST" ] || [ -L "$NVIM_DST" ]; }; then
+  echo "[bootstrap] syncing neovim plugins (lazy) — may take a while"
+  nvim --headless "+Lazy! sync" +qa || echo "[bootstrap] WARN: Lazy sync returned non-zero"
+  echo "[bootstrap] neovim sync done"
+else
+  echo "[bootstrap] nvim missing or config not linked; skipping plugin sync"
+fi
+
+echo "[bootstrap] complete"
