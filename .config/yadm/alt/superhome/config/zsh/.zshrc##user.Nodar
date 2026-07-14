@@ -1,0 +1,51 @@
+source $SUPERHOME/config/zsh/.zshrc.common
+
+# 1Password ssh agent
+# https://developer.1password.com/docs/ssh/get-started/#step-4-configure-your-ssh-or-git-client
+# not normally needed, e.g. for git or ssh, since it's set in ~/.ssh/config 
+# but if doing something like ssh-add -l, it is needed
+# this actually overrides the SSH_AUTH_SOCK that would be set if otherwise left
+# alone, by launchctl, i.e. launchctl print gui/501/com.openssh.ssh-agent
+# for a more advanced setup, like SSH_AUTH_SOCK being set to 1Password, even for
+# apps launched outside of the terminal, see here for setting up a launch agent:
+# https://developer.1password.com/docs/ssh/agent/compatibility#ssh-auth-sock
+export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
+notes() {
+  vi ~/Documents/notes/${1}.txt
+}
+
+# see "System_Changes/CLI/zlogin and zshrc" for info on below function" 2/4/2019
+loadrvm() {
+  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+  # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+  export PATH="$PATH:$HOME/.rvm/bin"
+}
+
+# Haskell
+#[ -f "/Users/Nodar/.ghcup/env" ] && source "/Users/Nodar/.ghcup/env" # ghcup-env
+
+# docker
+# set in settings -> advanced -> User
+PATH="$PATH:$HOME/.docker/bin"
+
+# rust
+PATH="$HOME/.cargo/bin:$PATH"
+
+# pixi
+export PATH=/Users/Nodar/.pixi/bin:$PATH
+eval "$(pixi completion --shell zsh)"
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+# https://docs.volta.sh/advanced/pnpm
+export VOLTA_FEATURE_PNPM=1
+
+# ngrok completions
+#if command -v ngrok &>/dev/null; then
+#  eval "$(ngrok completion)"
+#fi
+
+# current directory in path (should be last)
+PATH="$PATH:."
+
