@@ -18,11 +18,11 @@
     "yadm":                                                                 "latest",
     "delta":                                                                "latest",
     "starship":                                                             "latest",
-    "podman":                                                               "latest",
     "gh":                                                                   "latest",
     "github:NixOS/nixpkgs/ccb635f945aa6d34300627e70633878645db2db3#neovim": "",
     "tree-sitter":                                                          "latest",
-    "claude-code":                                                          "latest"
+    "claude-code":                                                          "latest",
+    "podman":                                                               "latest"
   },
   "nixpkgs": {
     "commit": "ccb635f945aa6d34300627e70633878645db2db3"
