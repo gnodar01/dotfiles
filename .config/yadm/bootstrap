@@ -1,22 +1,39 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # yadm bootstrap — runs after `yadm clone` (or via `yadm bootstrap`).
 # Idempotent; safe to re-run.
 #
 # What self-heals on its own (NOT handled here):
-#   - zsh plugins   : superhome/config/zsh/unplugged.zsh clones them on first shell
-#   - lazy.nvim     : superhome/config/nvim/lua/config/lazy.lua bootstraps on first launch
-#   - mason tools   : mason-tool-installer runs on nvim startup
+#   - zsh plugins : superhome/config/zsh/unplugged.zsh clones them on first shell
+#   - lazy.nvim   : superhome/config/nvim/lua/config/lazy.lua bootstraps on launch
 #
 # What this handles:
 #   1. ~/.config/nvim link fallback — the nvim##default alt should create this, but
 #      guard in case the alt didn't apply (belt & suspenders).
-#   2. Front-load neovim plugin install so the first interactive launch is fast/clean.
+#   2. Front-load the neovim plugin sync (lazy).
+#   3. Front-load mason tools + treesitter parsers via provision.lua, so the first
+#      interactive `nvim` launch has nothing left to download.
+#
+# Every step, install, and a closing health summary are teed to a single unified
+# log: ~/.local/state/yadm/bootstrap.log  (bash is required for `tee` here).
 
 set -u
 
 SUPERHOME="${SUPERHOME:-$HOME/superhome}"
 NVIM_SRC="$SUPERHOME/config/nvim"
 NVIM_DST="$HOME/.config/nvim"
+
+# provision.lua ships next to this bootstrap in the yadm config dir
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROVISION="$SCRIPT_DIR/provision.lua"
+
+# ---- unified log: tee all stdout+stderr to a single file (append-per-run) ----
+LOG="${XDG_STATE_HOME:-$HOME/.local/state}/yadm/bootstrap.log"
+mkdir -p "$(dirname "$LOG")"
+exec > >(tee -a "$LOG") 2>&1
+
+echo "================================================================"
+echo "[bootstrap] run @ $(date '+%Y-%m-%d %H:%M:%S %z')  (log: $LOG)"
+echo "================================================================"
 
 # 1. ensure ~/.config/nvim exists (fallback; nvim##default alt normally does this)
 if [ -e "$NVIM_SRC" ]; then
@@ -31,13 +48,23 @@ else
   echo "[bootstrap] WARN: $NVIM_SRC not found; skipping nvim link"
 fi
 
-# 2. front-load neovim plugin sync
 if command -v nvim >/dev/null 2>&1 && { [ -e "$NVIM_DST" ] || [ -L "$NVIM_DST" ]; }; then
+  # 2. front-load neovim plugin sync (installs plugins that step 3 relies on)
   echo "[bootstrap] syncing neovim plugins (lazy) — may take a while"
   nvim --headless "+Lazy! sync" +qa || echo "[bootstrap] WARN: Lazy sync returned non-zero"
-  echo "[bootstrap] neovim sync done"
+  echo "[bootstrap] neovim plugin sync done"
+
+  # 3. front-load mason tools + treesitter parsers (+ health summary)
+  if [ -f "$PROVISION" ]; then
+    echo "[bootstrap] provisioning neovim tools (mason + treesitter) — may take a while"
+    nvim --headless -u "$NVIM_DST/init.lua" -l "$PROVISION" \
+      || echo "[bootstrap] WARN: provisioning returned non-zero"
+    echo "[bootstrap] neovim provisioning done"
+  else
+    echo "[bootstrap] WARN: $PROVISION not found; skipping mason/treesitter provisioning"
+  fi
 else
-  echo "[bootstrap] nvim missing or config not linked; skipping plugin sync"
+  echo "[bootstrap] nvim missing or config not linked; skipping plugin sync + provisioning"
 fi
 
-echo "[bootstrap] complete"
+echo "[bootstrap] complete @ $(date '+%Y-%m-%d %H:%M:%S %z')"
