@@ -341,14 +341,33 @@ mason_pkgs.debug_configurations.javascriptreact = mason_pkgs.debug_configuration
 mason_pkgs.debug_configurations.typescriptreact = mason_pkgs.debug_configurations.javascript
 
 -- These go to `mason-tool-installer` in `plugins/mason`.
-mason_pkgs.ensure_installed = {}
+--
+-- A tool can legitimately appear in more than one bucket (e.g. `eslint_d` is both
+-- a formatter and a linter for js/ts), so the raw concatenation has duplicates.
+-- We de-dupe by package name: feeding duplicates to `mason-tool-installer` makes
+-- it attempt the same install repeatedly, and — because a duplicate whose package
+-- is already mid-install skips its completion callback — its `total` counter never
+-- reaches `completed`, so the `MasonToolsUpdateCompleted` event never fires (which
+-- the yadm provisioning step waits on). Keep the first occurrence of each.
+local raw_ensure_installed = {}
 for _, data in pairs(lsp_definitions) do
   if data.install then
-    table.insert(mason_pkgs.ensure_installed, data.install)
+    table.insert(raw_ensure_installed, data.install)
   end
 end
-vim.list_extend(mason_pkgs.ensure_installed, formatters)
-vim.list_extend(mason_pkgs.ensure_installed, linters)
-vim.list_extend(mason_pkgs.ensure_installed, debuggers)
+vim.list_extend(raw_ensure_installed, formatters)
+vim.list_extend(raw_ensure_installed, linters)
+vim.list_extend(raw_ensure_installed, debuggers)
+
+mason_pkgs.ensure_installed = {}
+local seen = {}
+for _, entry in ipairs(raw_ensure_installed) do
+  -- an entry is either a package-name string or a table whose `[1]` is the name
+  local name = type(entry) == 'table' and entry[1] or entry
+  if not seen[name] then
+    seen[name] = true
+    table.insert(mason_pkgs.ensure_installed, entry)
+  end
+end
 
 return mason_pkgs
