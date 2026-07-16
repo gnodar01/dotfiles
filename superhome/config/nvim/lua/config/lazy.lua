@@ -24,6 +24,7 @@ require('lazy').setup({
     { import = 'plugins' },
   },
   install = { colorscheme = { 'habamax' } },
+  headless = { process = false },
   -- disable automatically check for plugin updates
   checker = { enabled = false },
   -- disable change detected notification
