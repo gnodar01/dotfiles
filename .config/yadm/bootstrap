@@ -7,6 +7,9 @@
 #   - lazy.nvim   : superhome/config/nvim/lua/config/lazy.lua bootstraps on launch
 #
 # What this handles:
+#   0. Safe alt linking — yadm's auto-alt is disabled (see .config/yadm/config), so
+#      we create the alt symlinks here, after moving any pre-existing real file out
+#      of the way. This makes bring-up non-destructive on every yadm version.
 #   1. ~/.config/nvim link fallback — the nvim##default alt should create this, but
 #      guard in case the alt didn't apply (belt & suspenders).
 #   2. Front-load the neovim plugin sync (lazy).
@@ -34,6 +37,61 @@ exec > >(tee -a "$LOG") 2>&1
 echo "================================================================"
 echo "[bootstrap] run @ $(date '+%Y-%m-%d %H:%M:%S %z')  (log: $LOG)"
 echo "================================================================"
+
+# 0. safe alt linking -----------------------------------------------------------
+# yadm's automatic alt stage is disabled (.config/yadm/config: yadm.auto-alt=false)
+# because on old yadm it force-overwrites pre-existing real files at symlink targets
+# during `yadm clone`, silently discarding them. We do the linking here instead:
+# first move any pre-existing REAL file (not a symlink) at an alt target into a
+# backup dir, then let `yadm alt` create the links. yadm still owns the actual
+# link/scoring decisions — we only clear conflicting real files out of the way, and
+# over-moving is safe (anything whose alt doesn't apply here is restored below).
+# Written to stay portable to bash 3.2 (macOS system bash) under `set -u`.
+ALT_BACKUP="${XDG_STATE_HOME:-$HOME/.local/state}/yadm/preexisting"
+
+# an alt file's target path relative to $HOME: strip the "##…" suffix, then strip
+# the ".config/yadm/alt/" prefix if the alt lives in yadm's alt directory.
+alt_target() {
+  local base="${1%%##*}"
+  case "$base" in
+    .config/yadm/alt/*) printf '%s\n' "${base#.config/yadm/alt/}" ;;
+    *)                  printf '%s\n' "$base" ;;
+  esac
+}
+
+echo "[bootstrap] safe alt: backing up any pre-existing files at alt targets"
+backed_up=()
+while IFS= read -r f; do
+  case "$f" in *"##"*) ;; *) continue ;; esac
+  t="$(alt_target "$f")"
+  [ -n "$t" ] || continue
+  if [ -e "$HOME/$t" ] && [ ! -L "$HOME/$t" ]; then
+    mkdir -p "$ALT_BACKUP/$(dirname "$t")"
+    mv "$HOME/$t" "$ALT_BACKUP/$t"
+    backed_up+=("$t")
+    echo "[bootstrap]   backed up ~/$t -> $ALT_BACKUP/$t"
+  fi
+done < <(yadm list -a 2>/dev/null)
+
+echo "[bootstrap] running: yadm alt"
+yadm alt || echo "[bootstrap] WARN: yadm alt returned non-zero"
+
+# restore backups whose alt did NOT apply on this host (target isn't a symlink now);
+# keep + report the genuinely-displaced ones so the user can reconcile.
+displaced=()
+for t in ${backed_up[@]+"${backed_up[@]}"}; do
+  if [ -L "$HOME/$t" ]; then
+    displaced+=("$t")
+  else
+    mv "$ALT_BACKUP/$t" "$HOME/$t"
+    echo "[bootstrap]   restored ~/$t (no alt applied here)"
+  fi
+done
+if [ "${#displaced[@]}" -gt 0 ]; then
+  echo "[bootstrap] NOTE: pre-existing files were replaced by dotfiles symlinks."
+  echo "[bootstrap]       Your originals are preserved under $ALT_BACKUP:"
+  for t in ${displaced[@]+"${displaced[@]}"}; do echo "[bootstrap]         ~/$t"; done
+fi
 
 # 1. ensure ~/.config/nvim exists (fallback; nvim##default alt normally does this)
 if [ -e "$NVIM_SRC" ]; then
