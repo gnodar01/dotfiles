@@ -1,0 +1,17 @@
+# yadm configuration (tracked; format is git-config).
+#
+# auto-alt = false — disable yadm's automatic `alt` symlinking.
+#
+# Why: yadm's automatic alt stage (run during `yadm clone`, `pull`, `checkout`)
+# creates the ~/.zshrc -> .config/yadm/alt/.zshrc##default symlinks. On older yadm
+# (e.g. Ubuntu apt's 3.2.2) that stage FORCE-OVERWRITES any pre-existing real file
+# at a target, silently discarding it — unlike clone's checkout, which preserves
+# conflicting files. Disabling auto-alt means clone never clobbers on ANY yadm
+# version. The linking is instead performed by .config/yadm/bootstrap, which first
+# backs up any pre-existing real files, so a fresh-host bring-up is non-destructive
+# regardless of the installed yadm version.
+#
+# Consequence: `yadm pull`/`checkout` no longer auto-relink. Re-link with the
+# bootstrap (`yadm bootstrap`) or manually (`yadm alt`).
+[yadm]
+	auto-alt = false
