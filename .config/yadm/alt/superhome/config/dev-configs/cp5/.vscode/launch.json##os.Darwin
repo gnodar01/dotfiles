@@ -2,24 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "ExampleFlyMeas",
-      "type": "python",
-      "request": "launch",
-      "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
-      "justMyCode": false,
-      "module": "cellprofiler",
-      "args": [
-        "-L",
-        "10",
-        "-p",
-        "${env:HOME}/Downloads/ExampleFlyMeas.cpproj"
-      ],
-      "env": {
-        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
-      },
-      "console": "integratedTerminal"
-    },
-    {
       "name": "CellProfiler",
       "type": "python",
       "request": "launch",
@@ -49,6 +31,24 @@
         "${env:PIXI_PROJECT_ROOT}/src/frontend/cellprofiler/data/examples/ExampleFly/ExampleFly.cppipe",
         "-i",
         "${env:PIXI_PROJECT_ROOT}/src/frontend/cellprofiler/data/examples/ExampleFly/images"
+      ],
+      "env": {
+        "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "ExampleFlyMeas",
+      "type": "python",
+      "request": "launch",
+      "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
+      "justMyCode": false,
+      "module": "cellprofiler",
+      "args": [
+        "-L",
+        "10",
+        "-p",
+        "${env:HOME}/Downloads/ExampleFlyMeas.cpproj"
       ],
       "env": {
         "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
