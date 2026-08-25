@@ -38,7 +38,7 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "ExampleFlyMeas",
+      "name": "ExampleFlyDownloads",
       "type": "python",
       "request": "launch",
       "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
@@ -48,7 +48,7 @@
         "-L",
         "10",
         "-p",
-        "${env:HOME}/Downloads/ExampleFlyMeas.cpproj"
+        "${env:HOME}/Downloads/ExampleFly.cpproj"
       ],
       "env": {
         "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
