@@ -49,6 +49,54 @@
         }
       }
     },
+    "btop@latest": {
+      "last_modified": "2026-08-27T07:16:00Z",
+      "resolved": "github:NixOS/nixpkgs/c27cdad491a991b11ed731760aa2ef8db0cb0410#btop",
+      "source": "devbox-search",
+      "version": "1.4.7",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hyzabhammsbk6ll872lamgxid4ljwiks-btop-1.4.7",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/hyzabhammsbk6ll872lamgxid4ljwiks-btop-1.4.7"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/xhfrn6jsgaxpr3x0i5ra2k3jxp25880i-btop-1.4.7",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/xhfrn6jsgaxpr3x0i5ra2k3jxp25880i-btop-1.4.7"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/df7ia770i2p7dskap0cj6iq3ag65l44f-btop-1.4.7",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/df7ia770i2p7dskap0cj6iq3ag65l44f-btop-1.4.7"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qrj875db5qh4qbib5vfvfc750yd99sma-btop-1.4.7",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/qrj875db5qh4qbib5vfvfc750yd99sma-btop-1.4.7"
+        }
+      }
+    },
     "claude-code@latest": {
       "last_modified": "2026-08-01T16:34:20Z",
       "resolved": "github:NixOS/nixpkgs/a5cbcfe954791221bfffe2307f7d1a1bf61a871e#claude-code",
