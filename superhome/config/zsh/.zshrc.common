@@ -173,6 +173,10 @@ alias plistbuddy="/usr/libexec/PlistBuddy"
 
 # syntax highlight man pages with bat
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+if [[ "$(uname)" == "Linux" ]]; then
+  # groff must not emit SGR color codes; col/bat expect the legacy overstrike format
+  export MANROFFOPT='-c'
+fi
 # good, but above is preffered
 # export MANPAGER="nvim +Man!"
 
