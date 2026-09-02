@@ -27,7 +27,7 @@
   ],
   "pythonPlatform": "All",
   "venvPath": "./CellProfiler/.pixi/envs/",
-  "venv": "hack",
+  "venv": "dev",
   "typeCheckingMode": "off",
   "strict": [
     "./CellProfiler/src/subpackages/library/"
