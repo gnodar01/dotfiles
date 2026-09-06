@@ -32,7 +32,7 @@ local lsp_definitions = {
       settings = {
         -- https://luals.github.io/wiki/settings/
         Lua = {
-          diagnostics = { globals = { 'vim', 'hs', 'require' } },
+          diagnostics = { globals = { 'vim', 'hs', 'hl', 'require' } },
           completion = {
             callSnippet = 'Replace',
           },
