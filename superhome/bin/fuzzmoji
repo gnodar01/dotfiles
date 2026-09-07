@@ -37,6 +37,9 @@ show_help() {
     printf '\t-s\tDo not show notification in (use with -g)\n'
     printf '\t-t\tUse fzf for selecting emoji.\n'
     printf '\t-v\tPrint version number and exit.\n'
+    printf '\n'
+    printf 'NOTE: mac is essentially limited to:\n'
+    printf 'fuzzmoji -p $SUPERHOME/data/emoji-list -t\n'
 }
 
 while getopts 'gthsvp:' option; do
