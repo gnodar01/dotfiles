@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+
+menu_res=$(cat <<EOF | fuzzel --dmenu
+emoji
+apps
+EOF
+)
+
+if [ -z ${menu_res} ]; then
+  exit 0
+elif [ ${menu_res} = "emoji" ]; then
+  $SUPERHOME/bin/fuzzmoji -p $SUPERHOME/data/emoji-list
+elif [ ${menu_res} = "apps" ]; then
+  fuzzel
+else
+  exit 1
+fi
