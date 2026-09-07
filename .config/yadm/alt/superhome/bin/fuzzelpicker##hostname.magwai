@@ -1,17 +1,20 @@
 #!/usr/bin/env zsh
 
-menu_res=$(cat <<EOF | fuzzel --dmenu
-emoji
-apps
+ APPS="Apps  🢖"
+EMOJI="Emoji 🢖"
+
+PICKER_RES=$(cat <<EOF | fuzzel --dmenu
+${APPS}
+${EMOJI}
 EOF
 )
 
-if [ -z ${menu_res} ]; then
+if [ -z ${PICKER_RES} ]; then
   exit 0
-elif [ ${menu_res} = "emoji" ]; then
-  $SUPERHOME/bin/fuzzmoji -p $SUPERHOME/data/emoji-list
-elif [ ${menu_res} = "apps" ]; then
+elif [ ${PICKER_RES} = ${APPS} ]; then
   fuzzel
+elif [ ${PICKER_RES} = ${EMOJI} ]; then
+  $SUPERHOME/bin/fuzzmoji -p $SUPERHOME/data/emoji-list
 else
   exit 1
 fi
