@@ -59,11 +59,22 @@ fi
 source $SUPERHOME/config/zsh/unplugged.zsh
 # omz jump plugin extension
 source $SUPERHOME/config/zsh/jump.zsh
+
 # prompt
-export STARSHIP_CONFIG="$SUPERHOME/config/starship/starship.toml"
-export STARSHIP_TRANSIENT_CONFIG="$SUPERHOME/config/starship/starship.toml"
-eval "$(starship init zsh)"
-source $SUPERHOME/config/zsh/transient_prompt.zsh
+# only enable starship/transient prompt in a graphical terminal emulator (/dev/pty/*),
+# not on a raw virtual console (/dev/tty[0-9]).
+# TERM=linux is set only by the Linux kernel's virtual console driver,
+# never by a terminal emulator/tmux/ssh/macOS Terminal,
+# so this check is OS-agnostic,
+# since Linux has /dev/tty* vs /dev/pty/*,
+# whereas macOS has only /dev/ttysNNN
+if [[ "$TERM" != "linux" ]]; then
+  export STARSHIP_CONFIG="$SUPERHOME/config/starship/starship.toml"
+  export STARSHIP_TRANSIENT_CONFIG="$SUPERHOME/config/starship/starship.toml"
+  eval "$(starship init zsh)"
+  source $SUPERHOME/config/zsh/transient_prompt.zsh
+fi
+
 # cd into alias folder
 source $SUPERHOME/config/zsh/aliasPath.zsh
 # TODO: universal clipboard?
