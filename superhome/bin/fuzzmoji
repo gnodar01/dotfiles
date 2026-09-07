@@ -1,0 +1,172 @@
+#!/usr/bin/env sh
+
+# source: https://codeberg.org/codingotaku/fuzzmoji/src/branch/main
+
+version_number='1.2.0'
+SEARCH_DIRS="${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}:${XDG_DATA_HOME:-$HOME/.local/share}"
+emoji_file=''
+gui=1
+
+command -v fuzzel >/dev/null && has_fuzzel=1 || has_fuzzel=0
+command -v fzf >/dev/null && has_fzf=1 || has_fzf=0
+command -v wl-copy >/dev/null && has_clipboard=1 || has_clipboard=0
+command -v wtype >/dev/null && has_type=1 || has_type=0
+command -v notify-send >/dev/null && silent=0 || silent=1
+
+if [ "${has_fuzzel}" -eq 0 ] && [ "${has_fzf}" -eq 0 ]; then
+    printf 'Error: You need either fuzzel or fzf to run this program.' 1>&2
+    exit 1
+fi
+
+file_path="/fuzzmoji/emoji-list"
+IFS=':'
+for dir in $SEARCH_DIRS; do
+    if [ -e "${dir}/${file_path}" ]; then
+        emoji_file=$(realpath "${dir}/${file_path}")
+        break
+    fi
+done
+
+show_help() {
+    printf '%s: %s interactively search, type, copy, or print emoji.\n\n' "${0}" "${version_number}"
+    printf 'Usage: %s [OPTION]\n\n' "${0}"
+    printf 'OPTION:\n'
+    printf '\t-g\tUse fuzzel for selecting emoji (default).\n'
+    printf '\t-h\tPrint this message and exit.\n'
+    printf '\t-p PATH\tSet the emoji path (defaults to searching XDG_DATA_DIRS and XDG_DATA_HOME).\n'
+    printf '\t-s\tDo not show notification in (use with -g)\n'
+    printf '\t-t\tUse fzf for selecting emoji.\n'
+    printf '\t-v\tPrint version number and exit.\n'
+}
+
+while getopts 'gthsvp:' option; do
+    case "${option}" in
+        g)
+            gui=1
+            ;;
+        t)
+            gui=0
+            ;;
+        s)
+            silent=1
+            ;;
+        p)
+            emoji_file=$(realpath "${OPTARG}")
+            if ! [ -f "${emoji_file}" ]; then
+                printf 'Error: Emoji file not found in "%s", is the path correct?.' "${emoji_file}"
+                exit 1
+            fi
+
+            ;;
+        h)
+            show_help
+            exit 0
+            ;;
+        v)
+            printf '%s v%s\n' "${0}" "${version_number}"
+            exit 0
+            ;;
+        *)
+            show_help
+            exit 66
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if ! [ -f "${emoji_file}" ]; then
+    printf 'Error: Emoji file not found, please follow the instructions in the INSTALL.org file.'
+    exit 1
+fi
+
+get_fzf_options() {
+    printf 'Press Enter key to print the emoji'
+    [ "${has_clipboard}" -eq 1 ] && printf '\nCtrl-a:\tCopy emoji to clipboard'
+    [ "${has_type}" -eq 1 ] && printf '\nCtrl-b:\tType emoji to focused window'
+}
+
+get_fuzzel_options() {
+    [ "${has_type}" -eq 1 ] && printf 'Autotype\n'
+    [ "${has_clipboard}" -eq 1 ] && printf 'Copy\n'
+    printf 'Print'
+}
+
+if [ "${gui}" -eq 0 ]; then
+    if [ "${has_fzf}" -eq 0 ]; then
+        printf 'Error: You need fzf to run in non-gui mode.\n'
+        show_help
+        exit 1
+    fi
+
+    header=$(get_fzf_options)
+    emoji=$(fzf --accept-nth=1 --tabstop=1 --header="${header}" --bind 'ctrl-a:become(printf '%s' {1} && exit 10)' --bind 'ctrl-b:become(printf '%s' {1} && exit 11)' <"${emoji_file}")
+
+    exit_code=$?
+    [ -z "${emoji}" ] && exit 130
+
+    case "${exit_code}" in
+        0)
+            mode="Print"
+            ;;
+        10)
+            [ "${has_clipboard}" -eq 1 ] && mode="Copy"
+            ;;
+        11)
+            [ "${has_type}" -eq 1 ] && mode="Autotype"
+            ;;
+    esac
+elif [ "${gui}" -eq 1 ]; then
+    if [ "${has_fuzzel}" -eq 0 ]; then
+        printf 'Error: You need fuzzel to run in gui mode.\n'
+        show_help
+        exit 1
+    fi
+
+    emoji=$(fuzzel --width=50 --dmenu --tabs=1 --accept-nth=1 --log-level=none --prompt="> " --placeholder="Select emoji" <"${emoji_file}")
+    [ -z "${emoji}" ] && exit 130
+
+    modes=$(get_fuzzel_options)
+
+    if [ "${modes}" = "Print" ]; then
+        mode="${modes}"
+    else
+        mode=$(printf '%s' "${modes}" | fuzzel --width=50 --dmenu --log-level=none --prompt="> " --placeholder="What do you want to do with the emoji?")
+    fi
+    [ -z "${mode}" ] && exit 130
+fi
+
+case "${mode}" in
+    "Autotype")
+        if [ "${has_type}" -eq 0 ]; then
+            printf 'Error: command "wtype" not found' 1>&2
+            exit 1
+        fi
+
+        wtype "${emoji}"
+        ;;
+    "Copy")
+        if [ "${has_clipboard}" -eq 0 ]; then
+            printf 'Error: command "wl-copy" not found' 1>&2
+            exit 1
+        fi
+
+        wl-copy "${emoji}"
+        if [ "${gui}" -eq 1 ]; then
+            if [ "${silent}" -eq 0 ]; then
+                notify-send "${0}" "${emoji} Copied!"
+            fi
+            exit 0
+        fi
+
+        printf '%s %s Copied!' "${0}" "${emoji}"
+        ;;
+    "Print")
+        printf '%s' "${emoji}"
+        exit 0
+        ;;
+    *)
+        # This would never happen
+        printf 'Unknown option selected' 1>&2
+        exit 66
+        ;;
+esac
