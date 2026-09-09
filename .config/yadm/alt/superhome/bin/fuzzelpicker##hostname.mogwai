@@ -26,10 +26,13 @@ fi
 }
 
 function choose_ipc() {
+# https://malpenzibo.github.io/ashell/docs/configuration/main#visibility-toggle
 IPC_TGL_ASHELL="Toggle ashell"
+CLI_FNOTT_DISMISS="Notifications: dismiss all"
 
 IPC_RES=$(cat <<EOF | fuzzel --dmenu
 ${IPC_TGL_ASHELL}
+${CLI_FNOTT_DISMISS}
 EOF
 )
 
@@ -37,6 +40,8 @@ if [ -z ${IPC_RES} ]; then
   exit 0
 elif [ ${IPC_RES} = ${IPC_TGL_ASHELL} ]; then
   ashell msg toggle-visibility
+elif [ ${IPC_RES} = ${CLI_FNOTT_DISMISS} ]; then
+  fnottctl dismiss all
 else
   exit 1
 fi
