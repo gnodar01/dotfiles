@@ -2,10 +2,13 @@
 
  APPS="Apps  🢖"
 EMOJI="Emoji 🢖"
+  IPC="IPC   🢖"
 
+function choose_submenu() {
 PICKER_RES=$(cat <<EOF | fuzzel --dmenu
 ${APPS}
 ${EMOJI}
+${IPC}
 EOF
 )
 
@@ -15,6 +18,29 @@ elif [ ${PICKER_RES} = ${APPS} ]; then
   fuzzel
 elif [ ${PICKER_RES} = ${EMOJI} ]; then
   $SUPERHOME/bin/fuzzmoji -p $SUPERHOME/data/emoji-list
+elif [ ${PICKER_RES} = ${IPC} ]; then
+  choose_ipc
 else
   exit 1
 fi
+}
+
+function choose_ipc() {
+IPC_TGL_ASHELL="Toggle ashell"
+
+IPC_RES=$(cat <<EOF | fuzzel --dmenu
+${IPC_TGL_ASHELL}
+EOF
+)
+
+if [ -z ${IPC_RES} ]; then
+  exit 0
+elif [ ${IPC_RES} = ${IPC_TGL_ASHELL} ]; then
+  ashell msg toggle-visibility
+else
+  exit 1
+fi
+}
+
+choose_submenu
+
