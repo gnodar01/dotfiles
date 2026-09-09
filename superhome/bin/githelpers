@@ -94,8 +94,8 @@ function sctd() {
     elif (( ${#commits[@]} == 1 )); then
         git show ${commits[1]}
     else # select exactly 2 from >= 2 commits
-      first=${commits[1]}
-      last=${commits[-1]}
+      first=${commits[-1]}
+      last=${commits[1]}
 
       git diff ${first}..${last}
     fi
