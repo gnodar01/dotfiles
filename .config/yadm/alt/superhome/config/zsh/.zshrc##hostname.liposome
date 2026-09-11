@@ -8,8 +8,6 @@ export XDG_CONFIG_HOME=$HOME/.config
 DEVBOX_NO_PROMPT=true
 eval "$(devbox completion zsh)"
 
-# pixi
-export PATH=$HOME/.pixi/bin:$PATH
 eval "$(pixi completion --shell zsh)"
 
 alias docker=podman

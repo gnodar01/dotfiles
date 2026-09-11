@@ -4,7 +4,8 @@
 # put this at the end of ~/.zshrc
 #zprof
 
+# pixi comes before in case pixi global tools utilized
+export PATH="$HOME/.pixi/bin:$PATH"
+
 export SUPERHOME="$HOME/superhome"
 source $SUPERHOME/config/zsh/.zshrc
-
-export PATH="$HOME/.pixi/bin:$PATH"

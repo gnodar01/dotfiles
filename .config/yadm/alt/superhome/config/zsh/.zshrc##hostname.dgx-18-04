@@ -1,6 +1,3 @@
-# pixi
-export PATH=/home/ngogober/.pixi/bin:$PATH
-
 source $SUPERHOME/config/zsh/.zshrc.common
 
 eval "$(pixi completion --shell zsh)"

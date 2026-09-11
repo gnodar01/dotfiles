@@ -32,8 +32,6 @@ PATH="$PATH:$HOME/.docker/bin"
 # rust
 PATH="$HOME/.cargo/bin:$PATH"
 
-# pixi
-export PATH=/Users/Nodar/.pixi/bin:$PATH
 eval "$(pixi completion --shell zsh)"
 
 export VOLTA_HOME="$HOME/.volta"

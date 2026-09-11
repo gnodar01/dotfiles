@@ -1,5 +1,3 @@
 source $SUPERHOME/config/zsh/.zshrc.common
 
-# pixi
-export PATH=/home/nodar/.pixi/bin:$PATH
 eval "$(pixi completion --shell zsh)"
