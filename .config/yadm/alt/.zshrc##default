@@ -6,3 +6,5 @@
 
 export SUPERHOME="$HOME/superhome"
 source $SUPERHOME/config/zsh/.zshrc
+
+export PATH="/Users/ngogober/.pixi/bin:$PATH"
