@@ -19,8 +19,6 @@ PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 # Docker
 alias docker="podman"
 
-# Pixi (conda/pip alt)
-PATH="$HOME/.pixi/bin:$PATH"
 eval "$(pixi completion --shell zsh)"
 
 export VOLTA_HOME="$HOME/.volta"
@@ -31,4 +29,3 @@ alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 # should always be at EOF
 PATH="$PATH:."
-
