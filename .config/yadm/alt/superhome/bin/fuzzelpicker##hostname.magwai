@@ -3,12 +3,14 @@
  APPS="Apps  🢖"
 EMOJI="Emoji 🢖"
   IPC="IPC   🢖"
+NIGHT="Night 🢖"
 
 function choose_submenu() {
 PICKER_RES=$(cat <<EOF | fuzzel --dmenu
 ${APPS}
 ${EMOJI}
 ${IPC}
+${NIGHT}
 EOF
 )
 
@@ -20,6 +22,8 @@ elif [ ${PICKER_RES} = ${EMOJI} ]; then
   $SUPERHOME/bin/fuzzmoji -p $SUPERHOME/data/emoji-list
 elif [ ${PICKER_RES} = ${IPC} ]; then
   choose_ipc
+elif [ ${PICKER_RES} = ${NIGHT} ]; then
+  choose_night
 else
   exit 1
 fi
@@ -42,6 +46,43 @@ elif [ ${IPC_RES} = ${IPC_TGL_ASHELL} ]; then
   ashell msg toggle-visibility
 elif [ ${IPC_RES} = ${CLI_FNOTT_DISMISS} ]; then
   fnottctl dismiss all
+else
+  exit 1
+fi
+}
+
+function choose_night() {
+SUSPEND_ME="Suspend"
+HIBERNATE_ME="Hibernate"
+REBOOT_ME="Reboot"
+SHUTDOWN_ME="Shutdown"
+LOGOUT_ME="Logout"
+LOCK_ME="Lock"
+
+NIGHT_RES=$(cat <<EOF | fuzzel --dmenu
+${SUSPEND_ME}
+${HIBERNATE_ME}
+${REBOOT_ME}
+${SHUTDOWN_ME}
+${LOGOUT_ME}
+${LOCK_ME}
+EOF
+)
+
+if [ -z ${NIGHT_RES} ]; then
+  exit 0
+elif [ ${NIGHT_RES} = ${SUSPEND_ME} ]; then
+  systemctl suspend
+elif [ ${NIGHT_RES} = ${HIBERNATE_ME} ]; then
+  systemctl hibernate
+elif [ ${NIGHT_RES} = ${REBOOT_ME} ]; then
+  systemctl reboot
+elif [ ${NIGHT_RES} = ${SHUTDOWN_ME} ]; then
+  shutdown now
+elif [ ${NIGHT_RES} = ${LOGOUT_ME} ]; then
+  loginctl kill-user $(whoami)
+elif [ ${NIGHT_RES} = ${LOCK_ME} ]; then
+  waylock -ignore-empty-password -init-color 0x282A36 -input-color 0xBD93F9 -input-alt-color 0xBD93F9 -fail-color 0xFF5555
 else
   exit 1
 fi
