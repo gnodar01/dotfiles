@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+usage() {
+    echo "Usage: $0 [--into NAME]"
+    exit 1
+}
+
+output=$(efibootmgr)
+
+current=$(awk '/^BootCurrent:/ { print $2 }' <<< "$output")
+
+declare -A entries
+
+while IFS= read -r line; do
+    if [[ $line =~ ^Boot([0-9A-Fa-f]{4})\*?[[:space:]]+([^[:space:]]+) ]]; then
+        number="${BASH_REMATCH[1]}"
+        name="${BASH_REMATCH[2]}"
+        entries["$name"]="$number"
+    fi
+done <<< "$output"
+
+if [[ $# -eq 0 ]]; then
+    while IFS= read -r line; do
+        if [[ $line =~ ^Boot([0-9A-Fa-f]{4})\*?[[:space:]]+([^[:space:]]+) ]]; then
+            number="${BASH_REMATCH[1]}"
+            name="${BASH_REMATCH[2]}"
+
+            if [[ "$number" == "$current" ]]; then
+                printf '%s *\n' "$name"
+            else
+                printf '%s\n' "$name"
+            fi
+        fi
+    done <<< "$output"
+    exit 0
+fi
+
+if [[ $# -eq 2 && "$1" == "--into" ]]; then
+    name="$2"
+
+    if [[ -z "${entries[$name]+x}" ]]; then
+        echo "Unknown boot option: $name" >&2
+        exit 1
+    fi
+
+    number="${entries[$name]}"
+
+    echo "Next boot: $name (Boot$number)"
+    sudo efibootmgr --bootnext "$number"
+    systemctl reboot
+    exit 0
+fi
+
+usage
