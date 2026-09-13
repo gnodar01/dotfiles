@@ -1,9 +1,10 @@
 #!/usr/bin/env zsh
 
- APPS="Apps  🢖"
-EMOJI="Emoji 🢖"
-  IPC="IPC   🢖"
-NIGHT="Night 🢖"
+  APPS="Apps       🢖"
+ EMOJI="Emoji      🢖"
+   IPC="IPC        🢖"
+ NIGHT="Night      🢖"
+SCREEN="Screencap  🢖"
 
 function choose_submenu() {
 PICKER_RES=$(cat <<EOF | fuzzel --dmenu
@@ -11,6 +12,7 @@ ${APPS}
 ${EMOJI}
 ${IPC}
 ${NIGHT}
+${SCREEN}
 EOF
 )
 
@@ -24,6 +26,8 @@ elif [ ${PICKER_RES} = ${IPC} ]; then
   choose_ipc
 elif [ ${PICKER_RES} = ${NIGHT} ]; then
   choose_night
+elif [ ${PICKER_RES} = ${SCREEN} ]; then
+  choose_screencap
 else
   exit 1
 fi
@@ -83,6 +87,62 @@ elif [ ${NIGHT_RES} = ${LOGOUT_ME} ]; then
   hyprshutdown -t 'Logging out...'
 elif [ ${NIGHT_RES} = ${LOCK_ME} ]; then
   waylock -ignore-empty-password -init-color 0x282A36 -input-color 0xBD93F9 -input-alt-color 0xBD93F9 -fail-color 0xFF5555
+else
+  exit 1
+fi
+}
+
+function choose_screencap() {
+OUTPUT_DIR="${HOME}/pictures/screencaps"
+FILENAME="$(date +'screenshot_%Y-%m-%d_%H:%M:%S.png')"
+
+MONITOR="Monitor"
+WINDOW="Choose Window"
+ACTIVE="Active Window"
+REGION="Region"
+
+MONITOR_ANNOT="Monitor annotated"
+WINDOW_ANNOT="Choose Window annotated"
+ACTIVE_ANNOT="Active Window annotated"
+REGION_ANNOT="Region annotated"
+
+SCREEN_RES=$(cat <<EOF | fuzzel --dmenu
+${MONITOR}
+${WINDOW}
+${ACTIVE}
+${REGION}
+${MONITOR_ANNOT}
+${WINDOW_ANNOT}
+${ACTIVE_ANNOT}
+${REGION_ANNOT}
+EOF
+)
+
+if [ ! -d ${OUTPUT_DIR} ]; then
+  mkdir -vp ${OUTPUT_DIR}
+fi
+
+# NOTE: `hyprctl monitors` gives OUTPUT_NAME (e.g. DP-4 or eDP-1)
+# so instead of `-m active -m ...` it can be `-m DP-4 -m ...`
+
+if [ -z ${SCREEN_RES} ]; then
+  exit 0
+elif [ ${SCREEN_RES} = ${MONITOR} ]; then
+  $SUPERHOME/bin/hyprshot -m active -m output -o "${OUTPUT_DIR}" -f ${FILENAME}
+elif [ ${SCREEN_RES} = ${WINDOW} ]; then
+  $SUPERHOME/bin/hyprshot -m window -o "${OUTPUT_DIR}" -f ${FILENAME}
+elif [ ${SCREEN_RES} = ${ACTIVE} ]; then
+  $SUPERHOME/bin/hyprshot -d -m active -m window -o "${OUTPUT_DIR}" -f ${FILENAME}
+elif [ ${SCREEN_RES} = ${REGION} ]; then
+  $SUPERHOME/bin/hyprshot -m region -o "${OUTPUT_DIR}" -f ${FILENAME}
+elif [ ${SCREEN_RES} = ${MONITOR_ANNOT} ]; then
+  $SUPERHOME/bin/hyprshot -m active -m output --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
+elif [ ${SCREEN_RES} = ${WINDOW_ANNOT} ]; then
+  $SUPERHOME/bin/hyprshot -m window --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
+elif [ ${SCREEN_RES} = ${ACTIVE_ANNOT} ]; then
+  $SUPERHOME/bin/hyprshot -m active -m window --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
+elif [ ${SCREEN_RES} = ${REGION_ANNOT} ]; then
+  $SUPERHOME/bin/hyprshot -m region --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
 else
   exit 1
 fi
