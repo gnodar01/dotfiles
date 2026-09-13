@@ -76,11 +76,11 @@ elif [ ${NIGHT_RES} = ${SUSPEND_ME} ]; then
 elif [ ${NIGHT_RES} = ${HIBERNATE_ME} ]; then
   systemctl hibernate
 elif [ ${NIGHT_RES} = ${REBOOT_ME} ]; then
-  systemctl reboot
+  hyprshutdown -t 'Rebooting...' --post-cmd 'systemctl reboot'
 elif [ ${NIGHT_RES} = ${SHUTDOWN_ME} ]; then
-  shutdown now
+  hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown now'
 elif [ ${NIGHT_RES} = ${LOGOUT_ME} ]; then
-  loginctl kill-user $(whoami)
+  hyprshutdown -t 'Logging out...'
 elif [ ${NIGHT_RES} = ${LOCK_ME} ]; then
   waylock -ignore-empty-password -init-color 0x282A36 -input-color 0xBD93F9 -input-alt-color 0xBD93F9 -fail-color 0xFF5555
 else
