@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# "🢖" is U+1F896 (rightwards white arrow within triangle arrowhead)
+# https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2?preview.text=%F0%9F%A2%96&specimen.preview.text=%F0%9F%A2%96
   APPS=" Apps       🢖"
  EMOJI="󰞅 Emoji      🢖"
    IPC="󱅰 IPC        🢖"
