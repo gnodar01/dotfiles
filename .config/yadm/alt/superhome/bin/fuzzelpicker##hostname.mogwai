@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
-  APPS="Apps       🢖"
- EMOJI="Emoji      🢖"
-   IPC="IPC        🢖"
- NIGHT="Night      🢖"
-SCREEN="Screencap  🢖"
+  APPS=" Apps       🢖"
+ EMOJI="󰞅 Emoji      🢖"
+   IPC="󱅰 IPC        🢖"
+ NIGHT="󰒲 Night      🢖"
+SCREEN=" Screencap  🢖"
 
 function choose_submenu() {
 PICKER_RES=$(cat <<EOF | fuzzel --dmenu
@@ -56,12 +56,12 @@ fi
 }
 
 function choose_night() {
-SUSPEND_ME="Suspend"
-HIBERNATE_ME="Hibernate"
-REBOOT_ME="Reboot"
-SHUTDOWN_ME="Shutdown"
-LOGOUT_ME="Logout"
-LOCK_ME="Lock"
+SUSPEND_ME="󰖔 Suspend"
+HIBERNATE_ME="󰜗 Hibernate"
+REBOOT_ME="󰑓 Reboot"
+SHUTDOWN_ME="󰐥 Shutdown"
+LOGOUT_ME="󰍃 Logout"
+LOCK_ME=" Lock"
 
 NIGHT_RES=$(cat <<EOF | fuzzel --dmenu
 ${SUSPEND_ME}
@@ -96,15 +96,15 @@ function choose_screencap() {
 OUTPUT_DIR="${HOME}/pictures/screencaps"
 FILENAME="$(date +'screenshot_%Y-%m-%d_%H:%M:%S.png')"
 
-MONITOR="Monitor"
-WINDOW="Choose Window"
-ACTIVE="Active Window"
-REGION="Region"
+MONITOR="󰍹 Monitor"
+WINDOW="󰨝 Choose Window"
+ACTIVE=" Active Window"
+REGION="󰀁 Region"
 
-MONITOR_ANNOT="Monitor annotated"
-WINDOW_ANNOT="Choose Window annotated"
-ACTIVE_ANNOT="Active Window annotated"
-REGION_ANNOT="Region annotated"
+MONITOR_ANNOT="󱋆 Monitor annotated"
+WINDOW_ANNOT="󱥈 Choose Window annotated"
+ACTIVE_ANNOT="󰘙 Active Window annotated"
+REGION_ANNOT="󱣙 Region annotated"
 
 SCREEN_RES=$(cat <<EOF | fuzzel --dmenu
 ${MONITOR}
