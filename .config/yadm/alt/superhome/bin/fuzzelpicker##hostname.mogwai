@@ -18,17 +18,17 @@ ${SCREEN}
 EOF
 )
 
-if [ -z ${PICKER_RES} ]; then
+if [ -z "${PICKER_RES}" ]; then
   exit 0
-elif [ ${PICKER_RES} = ${APPS} ]; then
+elif [ "${PICKER_RES}" = "${APPS}" ]; then
   fuzzel
-elif [ ${PICKER_RES} = ${EMOJI} ]; then
+elif [ "${PICKER_RES}" = "${EMOJI}" ]; then
   $SUPERHOME/bin/fuzzmoji -p $SUPERHOME/data/emoji-list
-elif [ ${PICKER_RES} = ${IPC} ]; then
+elif [ "${PICKER_RES}" = "${IPC}" ]; then
   choose_ipc
-elif [ ${PICKER_RES} = ${NIGHT} ]; then
+elif [ "${PICKER_RES}" = "${NIGHT}" ]; then
   choose_night
-elif [ ${PICKER_RES} = ${SCREEN} ]; then
+elif [ "${PICKER_RES}" = "${SCREEN}" ]; then
   choose_screencap
 else
   exit 1
@@ -46,11 +46,11 @@ ${CLI_FNOTT_DISMISS}
 EOF
 )
 
-if [ -z ${IPC_RES} ]; then
+if [ -z "${IPC_RES}" ]; then
   exit 0
-elif [ ${IPC_RES} = ${IPC_TGL_ASHELL} ]; then
+elif [ "${IPC_RES}" = "${IPC_TGL_ASHELL}" ]; then
   ashell msg toggle-visibility
-elif [ ${IPC_RES} = ${CLI_FNOTT_DISMISS} ]; then
+elif [ "${IPC_RES}" = "${CLI_FNOTT_DISMISS}" ]; then
   fnottctl dismiss all
 else
   exit 1
@@ -75,19 +75,19 @@ ${LOCK_ME}
 EOF
 )
 
-if [ -z ${NIGHT_RES} ]; then
+if [ -z "${NIGHT_RES}" ]; then
   exit 0
-elif [ ${NIGHT_RES} = ${SUSPEND_ME} ]; then
+elif [ "${NIGHT_RES}" = "${SUSPEND_ME}" ]; then
   systemctl suspend
-elif [ ${NIGHT_RES} = ${HIBERNATE_ME} ]; then
+elif [ "${NIGHT_RES}" = "${HIBERNATE_ME}" ]; then
   systemctl hibernate
-elif [ ${NIGHT_RES} = ${REBOOT_ME} ]; then
+elif [ "${NIGHT_RES}" = "${REBOOT_ME}" ]; then
   hyprshutdown -t 'Rebooting...' --post-cmd 'systemctl reboot'
-elif [ ${NIGHT_RES} = ${SHUTDOWN_ME} ]; then
+elif [ "${NIGHT_RES}" = "${SHUTDOWN_ME}" ]; then
   hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown now'
-elif [ ${NIGHT_RES} = ${LOGOUT_ME} ]; then
+elif [ "${NIGHT_RES}" = "${LOGOUT_ME}" ]; then
   hyprshutdown -t 'Logging out...'
-elif [ ${NIGHT_RES} = ${LOCK_ME} ]; then
+elif [ "${NIGHT_RES}" = "${LOCK_ME}" ]; then
   waylock -ignore-empty-password -init-color 0x282A36 -input-color 0xBD93F9 -input-alt-color 0xBD93F9 -fail-color 0xFF5555
 else
   exit 1
@@ -120,30 +120,30 @@ ${REGION_ANNOT}
 EOF
 )
 
-if [ ! -d ${OUTPUT_DIR} ]; then
-  mkdir -vp ${OUTPUT_DIR}
+if [ ! -d "${OUTPUT_DIR}" ]; then
+  mkdir -vp "${OUTPUT_DIR}"
 fi
 
 # NOTE: `hyprctl monitors` gives OUTPUT_NAME (e.g. DP-4 or eDP-1)
 # so instead of `-m active -m ...` it can be `-m DP-4 -m ...`
 
-if [ -z ${SCREEN_RES} ]; then
+if [ -z "${SCREEN_RES}" ]; then
   exit 0
-elif [ ${SCREEN_RES} = ${MONITOR} ]; then
-  $SUPERHOME/bin/hyprshot -m active -m output -o "${OUTPUT_DIR}" -f ${FILENAME}
-elif [ ${SCREEN_RES} = ${WINDOW} ]; then
-  $SUPERHOME/bin/hyprshot -m window -o "${OUTPUT_DIR}" -f ${FILENAME}
-elif [ ${SCREEN_RES} = ${ACTIVE} ]; then
-  $SUPERHOME/bin/hyprshot -d -m active -m window -o "${OUTPUT_DIR}" -f ${FILENAME}
-elif [ ${SCREEN_RES} = ${REGION} ]; then
-  $SUPERHOME/bin/hyprshot -m region -o "${OUTPUT_DIR}" -f ${FILENAME}
-elif [ ${SCREEN_RES} = ${MONITOR_ANNOT} ]; then
+elif [ "${SCREEN_RES}" = "${MONITOR}" ]; then
+  $SUPERHOME/bin/hyprshot -m active -m output -o "${OUTPUT_DIR}" -f "${FILENAME}"
+elif [ "${SCREEN_RES}" = "${WINDOW}" ]; then
+  $SUPERHOME/bin/hyprshot -m window -o "${OUTPUT_DIR}" -f "${FILENAME}"
+elif [ "${SCREEN_RES}" = "${ACTIVE}" ]; then
+  $SUPERHOME/bin/hyprshot -d -m active -m window -o "${OUTPUT_DIR}" -f "${FILENAME}"
+elif [ "${SCREEN_RES}" = "${REGION}" ]; then
+  $SUPERHOME/bin/hyprshot -m region -o "${OUTPUT_DIR}" -f "${FILENAME}"
+elif [ "${SCREEN_RES}" = "${MONITOR_ANNOT}" ]; then
   $SUPERHOME/bin/hyprshot -m active -m output --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
-elif [ ${SCREEN_RES} = ${WINDOW_ANNOT} ]; then
+elif [ "${SCREEN_RES}" = "${WINDOW_ANNOT}" ]; then
   $SUPERHOME/bin/hyprshot -m window --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
-elif [ ${SCREEN_RES} = ${ACTIVE_ANNOT} ]; then
+elif [ "${SCREEN_RES}" = "${ACTIVE_ANNOT}" ]; then
   $SUPERHOME/bin/hyprshot -m active -m window --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
-elif [ ${SCREEN_RES} = ${REGION_ANNOT} ]; then
+elif [ "${SCREEN_RES}" = "${REGION_ANNOT}" ]; then
   $SUPERHOME/bin/hyprshot -m region --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
 else
   exit 1
