@@ -14,7 +14,15 @@
 
 " yank to clipboard
 if has('clipboard')
-  set clipboard=unnamed " copy to the system clipboard
+  if has('mac')
+    " macOS has a single system clipboard; 'unnamed' maps straight to it
+    set clipboard=unnamed
+  else
+    " Linux (X11/Wayland) distinguishes PRIMARY ("*, mouse selection) from
+    " CLIPBOARD ("+, ctrl-c/ctrl-v). Other apps read/write CLIPBOARD, so
+    " map the unnamed register there instead of PRIMARY.
+    set clipboard=unnamedplus
+  endif
 endif
 
 " }}}
