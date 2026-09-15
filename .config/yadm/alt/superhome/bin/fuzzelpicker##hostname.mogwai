@@ -25,7 +25,8 @@ EOF
 if [ -z "${PICKER_RES}" ]; then
   exit 0
 elif [ "${PICKER_RES}" = "${APPS}" ]; then
-  fuzzel
+  # disable alt-h going back, make it cancel instead
+  fuzzel --override=key-bindings.custom-1="Mod1+1" --override=key-bindings.cancel="Escape Control+g Control+c Control+bracketleft Mod1+h"
 elif [ "${PICKER_RES}" = "${EMOJI}" ]; then
   $SUPERHOME/bin/fuzzmoji -p $SUPERHOME/data/emoji-list
 elif [ "${PICKER_RES}" = "${IPC}" ]; then
