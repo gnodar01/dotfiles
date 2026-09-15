@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+BACK_STATUS="10" # custom-1
+FORW_STATUS="11" # custom-2, unused but kept for completeless
+CALL_NEXT="choose_submenu"
+
 # "🢖" is U+1F896 (rightwards white arrow within triangle arrowhead)
 # https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2?preview.text=%F0%9F%A2%96&specimen.preview.text=%F0%9F%A2%96
   APPS=" Apps       🢖"
@@ -46,7 +50,11 @@ ${CLI_FNOTT_DISMISS}
 EOF
 )
 
-if [ -z "${IPC_RES}" ]; then
+IPC_RES_STATUS="$?"
+
+if [ "${IPC_RES_STATUS}" = "${BACK_STATUS}" ]; then
+  CALL_NEXT="${funcstack[2]}"
+elif [ -z "${IPC_RES}" ]; then
   exit 0
 elif [ "${IPC_RES}" = "${IPC_TGL_ASHELL}" ]; then
   ashell msg toggle-visibility
@@ -75,7 +83,11 @@ ${LOCK_ME}
 EOF
 )
 
-if [ -z "${NIGHT_RES}" ]; then
+NIGHT_RES_STATUS="$?"
+
+if [ "${NIGHT_RES_STATUS}" = "${BACK_STATUS}" ]; then
+  CALL_NEXT="${funcstack[2]}"
+elif [ -z "${NIGHT_RES}" ]; then
   exit 0
 elif [ "${NIGHT_RES}" = "${SUSPEND_ME}" ]; then
   systemctl suspend
@@ -94,6 +106,12 @@ else
 fi
 }
 
+function ensure_dir() {
+  THE_DIR="${1}"
+  if [ ! -d "${THE_DIR}" ]; then
+    mkdir -vp "${THE_DIR}"
+  fi
+}
 function choose_screencap() {
 OUTPUT_DIR="${HOME}/pictures/screencaps"
 FILENAME="$(date +'screenshot_%Y-%m-%d_%H:%M:%S.png')"
@@ -120,34 +138,46 @@ ${REGION_ANNOT}
 EOF
 )
 
-if [ ! -d "${OUTPUT_DIR}" ]; then
-  mkdir -vp "${OUTPUT_DIR}"
-fi
+SCREEN_RES_STATUS="$?"
 
 # NOTE: `hyprctl monitors` gives OUTPUT_NAME (e.g. DP-4 or eDP-1)
 # so instead of `-m active -m ...` it can be `-m DP-4 -m ...`
 
-if [ -z "${SCREEN_RES}" ]; then
+if [ "${SCREEN_RES_STATUS}" = "${BACK_STATUS}" ]; then
+  CALL_NEXT="${funcstack[2]}"
+elif [ -z "${SCREEN_RES}" ]; then
   exit 0
 elif [ "${SCREEN_RES}" = "${MONITOR}" ]; then
+  ensure_dir "${OUTPUT_DIR}"
   $SUPERHOME/bin/hyprshot -m active -m output -o "${OUTPUT_DIR}" -f "${FILENAME}"
 elif [ "${SCREEN_RES}" = "${WINDOW}" ]; then
+  ensure_dir "${OUTPUT_DIR}"
   $SUPERHOME/bin/hyprshot -m window -o "${OUTPUT_DIR}" -f "${FILENAME}"
 elif [ "${SCREEN_RES}" = "${ACTIVE}" ]; then
+  ensure_dir "${OUTPUT_DIR}"
   $SUPERHOME/bin/hyprshot -d -m active -m window -o "${OUTPUT_DIR}" -f "${FILENAME}"
 elif [ "${SCREEN_RES}" = "${REGION}" ]; then
+  ensure_dir "${OUTPUT_DIR}"
   $SUPERHOME/bin/hyprshot -m region -o "${OUTPUT_DIR}" -f "${FILENAME}"
 elif [ "${SCREEN_RES}" = "${MONITOR_ANNOT}" ]; then
+  ensure_dir "${OUTPUT_DIR}"
   $SUPERHOME/bin/hyprshot -m active -m output --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
 elif [ "${SCREEN_RES}" = "${WINDOW_ANNOT}" ]; then
+  ensure_dir "${OUTPUT_DIR}"
   $SUPERHOME/bin/hyprshot -m window --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
 elif [ "${SCREEN_RES}" = "${ACTIVE_ANNOT}" ]; then
+  ensure_dir "${OUTPUT_DIR}"
   $SUPERHOME/bin/hyprshot -m active -m window --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
 elif [ "${SCREEN_RES}" = "${REGION_ANNOT}" ]; then
+  ensure_dir "${OUTPUT_DIR}"
   $SUPERHOME/bin/hyprshot -m region --raw | satty -o "${OUTPUT_DIR}/${FILENAME}" --floating-hack --filename -
 else
   exit 1
 fi
 }
 
-choose_submenu
+while [ ! -z "${CALL_NEXT}" ]; do
+  CALL_NOW="${CALL_NEXT}"
+  CALL_NEXT=""
+  "${CALL_NOW}"
+done
