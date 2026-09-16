@@ -236,6 +236,59 @@
         }
       }
     },
+    "fastfetch@latest": {
+      "last_modified": "2026-08-27T07:16:00Z",
+      "resolved": "github:NixOS/nixpkgs/c27cdad491a991b11ed731760aa2ef8db0cb0410#fastfetch",
+      "source": "devbox-search",
+      "version": "2.67.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fi8qp7kk8glkn7apvj0iv4dzs63xdlzs-fastfetch-2.67.1",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/06v68rxdiw5g4bb19mcr1ks48wc1h1vj-fastfetch-2.67.1-man",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/fi8qp7kk8glkn7apvj0iv4dzs63xdlzs-fastfetch-2.67.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kz49ahj406hxzpw01ni5xhg7dkk090vy-fastfetch-2.67.1",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/1qlcqypg3pk32qr1x3bbm2kr5xcm7byz-fastfetch-2.67.1-man",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/kz49ahj406hxzpw01ni5xhg7dkk090vy-fastfetch-2.67.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/6gpxwh4c249byc45xbfmy0ic3sazzz1i-fastfetch-2.67.1",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/ampk3yml8m69z4rvc2cjbry3gdazwq8n-fastfetch-2.67.1-man",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/6gpxwh4c249byc45xbfmy0ic3sazzz1i-fastfetch-2.67.1"
+        }
+      }
+    },
     "fd@latest": {
       "last_modified": "2026-08-01T16:34:20Z",
       "resolved": "github:NixOS/nixpkgs/a5cbcfe954791221bfffe2307f7d1a1bf61a871e#fd",
@@ -640,7 +693,7 @@
     },
     "nodejs@latest": {
       "last_modified": "2026-08-01T16:34:20Z",
-      "plugin_version": "0.0.4",
+      "plugin_version": "0.0.5",
       "resolved": "github:NixOS/nixpkgs/a5cbcfe954791221bfffe2307f7d1a1bf61a871e#nodejs_26",
       "source": "devbox-search",
       "version": "26.5.1",
