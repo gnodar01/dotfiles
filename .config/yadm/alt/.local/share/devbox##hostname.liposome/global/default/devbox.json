@@ -23,7 +23,8 @@
     "claude-code":     "latest",
     "podman":          "latest",
     "neovim":          "latest",
-    "btop":            "latest"
+    "btop":            "latest",
+    "fastfetch":       "latest"
   },
   "nixpkgs": {
     "commit": "ccb635f945aa6d34300627e70633878645db2db3"
