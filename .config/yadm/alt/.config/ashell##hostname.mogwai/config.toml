@@ -1,0 +1,45 @@
+# position = "Top" # ashel at top of screen (default)
+# layer = "Bottom" # above background, below windows (default)
+enable_esc_key = true # <esc> coses window, but takes control from other apps when window open
+
+[logging]
+level="info"
+target="stdout"
+
+[modules]
+left = [ "Workspaces", "appLauncher" ]
+center = [ "WindowTitle" ]
+right = [ "Tray", "SystemInfo", "Tempo", [ "Updates", "Settings" ] ]
+
+[tray]
+right_click = "Menu"
+
+[updates]
+check_cmd = "checkupdates; yay -Qua"
+update_cmd = 'kitty bash -c "yay; echo Done - Press enter to exit; read" &'
+
+[appearance]
+scale_factor = 1.25
+primary_color = "#bd93f9"
+#background_color = "#282a36"
+success_color = "#50fa7b"
+warning_color = "#ffb86c"
+danger_color = "#ff5555"
+#text_color = "#6272a4"
+workspace_colors = [ "#bd93f9" ]
+
+[[CustomModule]]
+name = "appLauncher"
+icon = "󱗼"
+command = "/home/nodar/superhome/bin/fuzzelpicker"
+
+[settings]
+suspend_cmd = "systemctl suspend" # default
+hibernate_cmd = "systemctl hibernate"
+reboot_cmd = "hyprshutdown -t 'Rebooting...' --post-cmd 'systemctl reboot'"
+shutdown_cmd = "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown now'"
+logout_cmd = "hyprshutdown -t 'Logging out...'"
+lock_cmd = "waylock -ignore-empty-password -init-color 0x282A36 -input-color 0xBD93F9 -input-alt-color 0xBD93F9 -fail-color 0xFF5555"
+# default indicators
+#indicators = ["IdleInhibitor", "PowerProfile", "Audio", "Microphone", "Bluetooth", "Network", "Vpn", "Battery"]
+bluetooth_more_cmd = "blueman-manager"
