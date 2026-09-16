@@ -7,18 +7,20 @@ CALL_NEXT="choose_submenu"
 # "🢖" is U+1F896 (rightwards white arrow within triangle arrowhead)
 # https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2?preview.text=%F0%9F%A2%96&specimen.preview.text=%F0%9F%A2%96
   APPS=" Apps       🢖"
- EMOJI="󰞅 Emoji      🢖"
    IPC="󱅰 IPC        🢖"
  NIGHT="󰒲 Night      🢖"
 SCREEN=" Screencap  🢖"
+ EMOJI="󰞅 Emoji      🢖"
+COLORS=" Colors     🢖"
 
 function choose_submenu() {
-PICKER_RES=$(cat <<EOF | fuzzel --dmenu
+PICKER_RES=$(cat <<EOF | fuzzel --dmenu --override=key-bindings.custom-1="Mod1+1" --override=key-bindings.cancel="Escape Control+g Control+c Control+bracketleft Mod1+h"
 ${APPS}
-${EMOJI}
 ${IPC}
 ${NIGHT}
 ${SCREEN}
+${EMOJI}
+${COLORS}
 EOF
 )
 
@@ -27,14 +29,16 @@ if [ -z "${PICKER_RES}" ]; then
 elif [ "${PICKER_RES}" = "${APPS}" ]; then
   # disable alt-h going back, make it cancel instead
   fuzzel --override=key-bindings.custom-1="Mod1+1" --override=key-bindings.cancel="Escape Control+g Control+c Control+bracketleft Mod1+h"
-elif [ "${PICKER_RES}" = "${EMOJI}" ]; then
-  $SUPERHOME/bin/fuzzmoji -p $SUPERHOME/data/emoji-list
 elif [ "${PICKER_RES}" = "${IPC}" ]; then
   choose_ipc
 elif [ "${PICKER_RES}" = "${NIGHT}" ]; then
   choose_night
 elif [ "${PICKER_RES}" = "${SCREEN}" ]; then
   choose_screencap
+elif [ "${PICKER_RES}" = "${EMOJI}" ]; then
+  $SUPERHOME/bin/fuzzmoji
+elif [ "${PICKER_RES}" = "${COLORS}" ]; then
+  $SUPERHOME/bin/fuzzcolor
 else
   exit 1
 fi
