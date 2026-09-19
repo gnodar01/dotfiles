@@ -1,10 +1,10 @@
-local prgs = require('programs')
+local themes = require('vars/themes')
 
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
 
-hl.env(prgs.themes.qt.env_var, prgs.themes.qt.value)
+hl.env(themes.qt.env_var, themes.qt.value)
 hl.env('MOZ_ENABLE_WAYLAND', '1')
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/

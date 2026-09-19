@@ -1,39 +1,4 @@
-local prgs = require('programs')
-
----------------
----- INPUT ----
----------------
-
-hl.config({
-  input = {
-    kb_layout = 'us',
-    kb_variant = '',
-    kb_model = '',
-    kb_options = 'caps:swapescape',
-    kb_rules = '',
-
-    follow_mouse = 1,
-
-    sensitivity = 0, -- -1.0 - 1.0, 0 means no modification.
-
-    touchpad = {
-      natural_scroll = false,
-    },
-  },
-})
-
-hl.gesture({
-  fingers = 3,
-  direction = 'horizontal',
-  action = 'workspace',
-})
-
--- Example per-device config
--- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Devices/ for more
-hl.device({
-  name = 'epic-mouse-v1',
-  sensitivity = -0.5,
-})
+local prgs = require('vars/programs')
 
 ---------------------
 ---- KEYBINDINGS ----
@@ -42,16 +7,16 @@ hl.device({
 local mainMod = 'SUPER' -- Sets "Windows" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. ' + Q', hl.dsp.exec_cmd(prgs.apps.terminal))
+hl.bind(mainMod .. ' + Q', hl.dsp.exec_cmd(prgs.terminal))
 local closeWindowBind = hl.bind(mainMod .. ' + C', hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(
   mainMod .. ' + M',
   hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
 )
-hl.bind(mainMod .. ' + E', hl.dsp.exec_cmd(prgs.apps.fileManager))
+hl.bind(mainMod .. ' + E', hl.dsp.exec_cmd(prgs.fileManager))
 hl.bind(mainMod .. ' + V', hl.dsp.window.float({ action = 'toggle' }))
-hl.bind(mainMod .. ' + R', hl.dsp.exec_cmd(prgs.apps.menu))
+hl.bind(mainMod .. ' + R', hl.dsp.exec_cmd(prgs.menu))
 hl.bind(mainMod .. ' + P', hl.dsp.window.pseudo())
 hl.bind(mainMod .. ' + J', hl.dsp.layout('togglesplit')) -- dwindle only
 
