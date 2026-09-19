@@ -17,4 +17,4 @@ hl.env('HYPRCURSOR_SIZE', '24')
 -- keep that config portable across both platforms.
 hl.env('TMPDIR', '/tmp')
 -- 1Password ssh agent
-hl.env('SSH_AUTH_SOCK', '/home/nodar/.1password/agent.sock')
+hl.env('SSH_AUTH_SOCK', '$HOME/.1password/agent.sock')
