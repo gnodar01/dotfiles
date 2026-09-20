@@ -10,12 +10,12 @@ local themes = require('vars/themes')
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 hl.on('hyprland.start', function()
   -- System services
-  hl.exec_cmd('systemctl --user start hyprpolkitagent')
+  hl.exec_cmd(prgs.authAgent)
 
   -- Core applications
   hl.exec_cmd(prgs.terminal)
   hl.exec_cmd(prgs.statusBar)
-  hl.exec_cmd('swaybg -i $HOME/pictures/a_house_with_a_chair_and_a_bicycle.jpg')
+  hl.exec_cmd(prgs.wallPaper)
 
   -- Apply GTK themes
   hl.exec_cmd(themes.gtk4)
