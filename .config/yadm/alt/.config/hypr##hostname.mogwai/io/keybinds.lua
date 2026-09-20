@@ -18,13 +18,14 @@ hl.bind(mainMod .. ' + E', hl.dsp.exec_cmd(prgs.fileManager))
 hl.bind(mainMod .. ' + V', hl.dsp.window.float({ action = 'toggle' }))
 hl.bind(mainMod .. ' + R', hl.dsp.exec_cmd(prgs.menu))
 hl.bind(mainMod .. ' + P', hl.dsp.window.pseudo())
-hl.bind(mainMod .. ' + J', hl.dsp.layout('togglesplit')) -- dwindle only
+hl.bind(mainMod .. ' + A', hl.dsp.layout('togglesplit')) -- dwindle only
 
--- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. ' + left', hl.dsp.focus({ direction = 'left' }))
-hl.bind(mainMod .. ' + right', hl.dsp.focus({ direction = 'right' }))
-hl.bind(mainMod .. ' + up', hl.dsp.focus({ direction = 'up' }))
-hl.bind(mainMod .. ' + down', hl.dsp.focus({ direction = 'down' }))
+-- Move focus with mainMod + vim direction keys
+--hl.bind(mainMod .. ' + left', hl.dsp.focus({ direction = 'left' }))
+hl.bind(mainMod .. ' + H', hl.dsp.focus({ direction = 'left' }))
+hl.bind(mainMod .. ' + L', hl.dsp.focus({ direction = 'right' }))
+hl.bind(mainMod .. ' + K', hl.dsp.focus({ direction = 'up' }))
+hl.bind(mainMod .. ' + J', hl.dsp.focus({ direction = 'down' }))
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
@@ -35,8 +36,8 @@ for i = 1, 10 do
 end
 
 -- Example special workspace (scratchpad)
-hl.bind(mainMod .. ' + S', hl.dsp.workspace.toggle_special('magic'))
-hl.bind(mainMod .. ' + SHIFT + S', hl.dsp.window.move({ workspace = 'special:magic' }))
+hl.bind(mainMod .. ' + S', hl.dsp.workspace.toggle_special('scratch'))
+hl.bind(mainMod .. ' + SHIFT + S', hl.dsp.window.move({ workspace = 'special:scratch' }))
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. ' + mouse_down', hl.dsp.focus({ workspace = 'e+1' }))
