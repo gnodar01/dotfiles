@@ -24,7 +24,8 @@
     "podman":          "latest",
     "neovim":          "latest",
     "btop":            "latest",
-    "fastfetch":       "latest"
+    "fastfetch":       "latest",
+    "podman-compose":  "latest"
   },
   "nixpkgs": {
     "commit": "ccb635f945aa6d34300627e70633878645db2db3"
