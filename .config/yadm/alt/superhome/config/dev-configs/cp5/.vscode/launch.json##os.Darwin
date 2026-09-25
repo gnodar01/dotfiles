@@ -38,7 +38,7 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "ExampleFlyDownloads",
+      "name": "TestProject",
       "type": "python",
       "request": "launch",
       "python": "${env:CONDA_PREFIX}/python.app/Contents/MacOS/python",
@@ -48,7 +48,7 @@
         "-L",
         "10",
         "-p",
-        "${env:HOME}/Downloads/ExampleFly.cpproj"
+        "${env:HOME}/Downloads/TestProject.cpproj"
       ],
       "env": {
         "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
