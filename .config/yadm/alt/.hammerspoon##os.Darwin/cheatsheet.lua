@@ -64,7 +64,7 @@ local markdowncontent = [[
 | kill notifications | `⌘ ⌃ ⌥ n` |
 | open debug console | `⌘ ⌃ ⌥ c` |
 
-## Yadm
+## Yazi
 
 ### Navigation
 
