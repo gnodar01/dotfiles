@@ -18,4 +18,5 @@ hl.on('hyprland.start', function()
   hl.exec_cmd(prgs.wallPaper)
 
   hl.exec_cmd(themes.color_scheme)
+  hl.exec_cmd(themes.gtk_theme)
 end)
