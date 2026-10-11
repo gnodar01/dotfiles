@@ -1,0 +1,11 @@
+@define-color theme_bg_color #282A36;
+@define-color theme_fg_color #F8F8F2;
+@define-color theme_base_color #21222C;
+@define-color theme_text_color #F8F8F2;
+@define-color theme_selected_bg_color #BD93F9;
+@define-color theme_selected_fg_color #282A36;
+@define-color insensitive_fg_color #6272A4;
+@define-color borders #44475A;
+@define-color error_color #FF5555;
+@define-color warning_color #FFB86C;
+@define-color success_color #50FA7B;

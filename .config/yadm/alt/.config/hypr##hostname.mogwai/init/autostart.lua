@@ -17,7 +17,5 @@ hl.on('hyprland.start', function()
   hl.exec_cmd(prgs.statusBar)
   hl.exec_cmd(prgs.wallPaper)
 
-  -- Apply GTK themes
-  hl.exec_cmd(themes.gtk4)
-  hl.exec_cmd(themes.gtk3)
+  hl.exec_cmd(themes.color_scheme)
 end)

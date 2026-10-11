@@ -1,0 +1,17 @@
+@define-color window_bg_color #282A36;
+@define-color window_fg_color #F8F8F2;
+@define-color view_bg_color #21222C;
+@define-color view_fg_color #F8F8F2;
+@define-color headerbar_bg_color #44475A;
+@define-color headerbar_fg_color #F8F8F2;
+@define-color sidebar_bg_color #21222C;
+@define-color card_bg_color #44475A;
+@define-color popover_bg_color #44475A;
+@define-color dialog_bg_color #282A36;
+@define-color accent_bg_color #BD93F9;
+@define-color accent_fg_color #282A36;
+@define-color accent_color #BD93F9;
+@define-color destructive_bg_color #FF5555;
+@define-color error_bg_color #FF5555;
+@define-color success_bg_color #50FA7B;
+@define-color warning_bg_color #FFB86C;
