@@ -3,8 +3,32 @@ export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
-export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
+export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+# exported by typeset below
+: "${XDG_DATA_DIRS:=/usr/local/share:/usr/share}"
+
+# Homebrew prefix: /opt/homebrew (Apple Silicon), /usr/local (Intel),
+# /home/linuxbrew/.linuxbrew (Linuxbrew)
+_brew_prefix=""
+if [[ "$OSTYPE" == darwin* ]]; then
+  if   [[ -x /opt/homebrew/bin/brew ]]; then _brew_prefix=/opt/homebrew
+  elif [[ -x /usr/local/bin/brew    ]]; then _brew_prefix=/usr/local
+  fi
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  _brew_prefix=/home/linuxbrew/.linuxbrew
+fi
+
+# Tie XDG_DATA_DIRS to an array with unique elements (-U), so the brew share
+# dir is prepended without creating duplicates on Intel, where it's
+# already /usr/local/share.
+# -T keeps lhs scalar and rhs array in sync - changing one changes the other.
+# -x exports.
+if (( ! ${+xdg_data_dirs} )); then
+  typeset -TUx XDG_DATA_DIRS xdg_data_dirs
+fi
+[[ -n "$_brew_prefix" ]] && xdg_data_dirs=("$_brew_prefix/share" $xdg_data_dirs)
+unset _brew_prefix
 
 # XDG_RUNTIME_DIR has no spec-defined default; it's normally set by the login
 # system (systemd-logind) on Linux. macOS doesn't set it, so fall back to a
