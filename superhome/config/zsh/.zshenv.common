@@ -11,7 +11,8 @@ export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 # per-user directory with 0700 permissions, as the spec requires.
 if [[ -z "$XDG_RUNTIME_DIR" ]]; then
   if [[ "$OSTYPE" == darwin* ]]; then
-    export XDG_RUNTIME_DIR="${TMPDIR:-/tmp}/xdg-runtime-$UID"
+    # NOTE: default $TMPDIR env var seems to always end in '/'
+    export XDG_RUNTIME_DIR="${TMPDIR:-/tmp/}xdg-runtime-$UID"
   else
     export XDG_RUNTIME_DIR="/tmp/xdg-runtime-$UID"
   fi
