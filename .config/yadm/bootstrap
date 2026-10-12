@@ -33,6 +33,9 @@ if [ -f "$ZSHENV_COMMON" ]; then
   # shellcheck disable=SC1090
   . "$ZSHENV_COMMON"
   set -u
+
+  mkdir -p "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
+  mkdir -p -m 700 "$XDG_RUNTIME_DIR"
 else
   echo "[bootstrap] WARN: $ZSHENV_COMMON not found; continuing without it" >&2
 fi
