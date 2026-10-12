@@ -7,6 +7,7 @@
 #   - lazy.nvim   : superhome/config/nvim/lua/config/lazy.lua bootstraps on launch
 #
 # What this handles:
+#   Before anything else: source $SUPERHOME/config/zsh/.zshenv.common for env vars.
 #   0. Safe alt linking — yadm's auto-alt is disabled (see .config/yadm/config), so
 #      we create the alt symlinks here, after moving any pre-existing real file out
 #      of the way. This makes bring-up non-destructive on every yadm version.
@@ -22,6 +23,20 @@
 set -u
 
 SUPERHOME="${SUPERHOME:-$HOME/superhome}"
+
+# source the shared env vars (XDG dirs etc.) first, so everything below — including
+# the log path — sees them. The file reads possibly-unset vars (e.g. XDG_RUNTIME_DIR),
+# so relax `set -u` while sourcing it.
+ZSHENV_COMMON="$SUPERHOME/config/zsh/.zshenv.common"
+if [ -f "$ZSHENV_COMMON" ]; then
+  set +u
+  # shellcheck disable=SC1090
+  . "$ZSHENV_COMMON"
+  set -u
+else
+  echo "[bootstrap] WARN: $ZSHENV_COMMON not found; continuing without it" >&2
+fi
+
 NVIM_SRC="$SUPERHOME/config/nvim"
 NVIM_DST="$HOME/.config/nvim"
 
