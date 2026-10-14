@@ -2,23 +2,41 @@
 # https://specifications.freedesktop.org/basedir/latest/
 # https://wiki.archlinux.org/title/XDG_Base_Directory
 
+# nonstandard - the spec only says distros should put
+# $HOME/.local/bin in PATH
+# but some tools respect the explicit var, e.g. uv
+export XDG_BIN_HOME="${XDG_BIN_HOME:-$HOME/.local/share}"
+
 # == User Directories ==
 
 # user-specific configurations, analagous to /etc
+# macos GUIs prefer $HOME/Library/Preferences
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 # user-specific non-essential (cached) data, analogous to /var/cache
+# macos GUIs prefer $HOME/Library/Caches
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 # user-specific data files, analogous to /usr/share
+# macos GUIs prefer $HOME/Library/Application\ Support
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-# user-specific state files, analogous to /var/lib
+# user-specific state files (cross-session, less important/non-portable;
+# e.g. logs, layout, history), analogous to /var/lib
+# macos GUIs prefer $HOME/Library/Application\ Support
 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 
 # == System Directories ==
 
+# fallback config search dirs
 # colon separated
-export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
+if [[ "$OSTYPE" == darwin* ]]; then
+  # macos GUIs prefer $HOME/Library/Preferences:/Library/Application\ Support:/Library/Preferences
+  export XDG_CONFIG_DIRS=""
+else
+  export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
+fi
+# fallback data search dirs
 # colon separated
 # exported by typeset below
+# macos GUIs prefer /Library/Application\ Support:$HOME/Library/Application\ Support
 : "${XDG_DATA_DIRS:=/usr/local/share:/usr/share}"
 
 # Homebrew prefix: /opt/homebrew (Apple Silicon), /usr/local (Intel),
@@ -43,9 +61,11 @@ fi
 [[ -n "$_brew_prefix" ]] && xdg_data_dirs=("$_brew_prefix/share" $xdg_data_dirs)
 unset _brew_prefix
 
-# XDG_RUNTIME_DIR has no spec-defined default; it's normally set by the login
-# system (pam_systemd, systemd-logind) on Linux. macOS doesn't set it, so fall back to a
-# per-user directory with 0700 permissions, as the spec requires.
+# XDG_RUNTIME_DIR has no spec-defined default;
+# it's normally set by the login system (pam_systemd, systemd-logind) on Linux.
+# It's 0700, bound to login session (created on login, removed & destroyed on logout),
+# always local, never shared, and a fully Unix-like FS.
+# macOS doesn't set it, so fall back to a per-user directory.
 if [[ -z "$XDG_RUNTIME_DIR" ]]; then
   if [[ "$OSTYPE" == darwin* ]]; then
     # NOTE: default $TMPDIR env var seems to always end in '/'
