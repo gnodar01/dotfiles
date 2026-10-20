@@ -8,12 +8,16 @@
     },
     {
       "root": "./CellProfiler/src/subpackages/library/"
+    },
+    {
+      "root": "./CellProfiler/src/subpackages/centriole/"
     }
   ],
   "include": [
     "./CellProfiler/src/frontend/",
     "./CellProfiler/src/subpackages/core/",
-    "./CellProfiler/src/subpackages/library/"
+    "./CellProfiler/src/subpackages/library/",
+    "./CellProfiler/src/subpackages/centriole/"
   ],
   "exclude": [
     ".git",
@@ -23,7 +27,8 @@
   "extraPaths": [
     "./CellProfiler/src/frontend/",
     "./CellProfiler/src/subpackages/core/",
-    "./CellProfiler/src/subpackages/library/"
+    "./CellProfiler/src/subpackages/library/",
+    "./CellProfiler/src/subpackages/centriole/"
   ],
   "pythonPlatform": "All",
   "venvPath": "./CellProfiler/.pixi/envs/",
