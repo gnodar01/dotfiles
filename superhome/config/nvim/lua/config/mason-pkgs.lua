@@ -125,6 +125,12 @@ local lsp_definitions = {
     install = 'just-lsp',
     config = {},
   },
+
+  -- https://github.com/sveltejs/language-tools
+  svelte = {
+    install = 'svelte',
+    config = {},
+  },
 }
 
 -- These go to `nvim-lspconfig` in `plugins/lsp`

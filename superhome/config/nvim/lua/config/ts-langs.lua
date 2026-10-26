@@ -39,4 +39,5 @@ return {
   'make',
   'readline',
   'regex',
+  'svelte',
 }
