@@ -57,9 +57,5 @@ __pycache__
 *.notes.md
 *.notes.txt
 
-# AI
-Agents.md
-AGENTS.md
-
 **/.claude/settings.local.json
 
