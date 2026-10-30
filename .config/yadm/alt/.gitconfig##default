@@ -47,6 +47,7 @@
   default = upstream
 [delta]
   navigate = true # use n and N to move between diff sections
+  navigate-regex = "Δ"
   line-numbers = true
   side-by-side = true
 [status]
