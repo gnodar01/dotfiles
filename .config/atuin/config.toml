@@ -419,6 +419,9 @@ enter_accept = true
 ##
 ## Default:
 columns = ["duration", "time", { type = "host", width = 10 }, "command"]
+
+[ai]
+enabled = true
 ##
 ## Examples:
 ##
