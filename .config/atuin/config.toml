@@ -418,7 +418,7 @@ enter_accept = true
 ## column fill remaining space. Only one column should have expand = true.
 ##
 ## Default:
-# columns = ["duration", "time", "command"]
+columns = ["duration", "time", { type = "host", width = 10 }, "command"]
 ##
 ## Examples:
 ##
