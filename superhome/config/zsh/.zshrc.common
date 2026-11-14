@@ -1,5 +1,11 @@
 # https://zsh.sourceforge.io/Doc/Release/Options.html
 
+if command -v atuin &>/dev/null; then
+  export ATUIN_HOME="$XDG_CONFIG_HOME/atuin"
+  # needs to be as early as possible, everything before is sourced again
+  eval "$(atuin pty-proxy init zsh)"
+fi
+
 # when doing rm folder/* or `rm *` zsh asks "sure you want to delete all the files in ... [yn]?"
 # even if -f set
 # this disables that
@@ -300,7 +306,6 @@ else
     # https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#execute-extra-commands
     zvm_after_init_commands+=('source <(fzf --zsh)')
     if command -v atuin &>/dev/null; then
-      export ATUIN_HOME="$XDG_CONFIG_HOME/atuin"
       zvm_after_init_commands+=('eval "$(atuin init zsh --disable-up-arrow)"')
     fi
 fi
