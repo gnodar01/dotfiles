@@ -420,8 +420,6 @@ enabled = true
 ## Default:
 columns = ["duration", "time", { type = "host", width = 10 }, "command"]
 
-[ai]
-enabled = true
 ##
 ## Examples:
 ##
@@ -443,6 +441,10 @@ enabled = true
 ## Syntax highlight commands in the search results, using the theme's colors.
 ## Not available on all platforms (e.g. Windows).
 # syntax_highlight = true
+
+## Atuin AI
+[ai]
+enabled = true
 
 ## Capture Command Output
 ## needs pty-proxy, which sees what the terminal displays
