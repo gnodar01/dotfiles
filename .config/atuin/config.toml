@@ -293,7 +293,7 @@ autostart = true
 ## config: everything sourced before it runs again inside the proxy.
 ## Safe to combine with an existing `atuin pty-proxy init` line — the proxy only
 ## starts once.
-# enabled = false
+enabled = true
 
 [theme]
 ## Color theme to use for rendering in the terminal.
@@ -443,3 +443,9 @@ enabled = true
 ## Syntax highlight commands in the search results, using the theme's colors.
 ## Not available on all platforms (e.g. Windows).
 # syntax_highlight = true
+
+## Capture Command Output
+## needs pty-proxy, which sees what the terminal displays
+## and needs the daemon, which stores it
+[output]
+enabled = true

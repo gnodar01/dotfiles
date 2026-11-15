@@ -3,6 +3,8 @@
 if command -v atuin &>/dev/null; then
   export ATUIN_HOME="$XDG_CONFIG_HOME/atuin"
   # needs to be as early as possible, everything before is sourced again
+  # to disable pty-proxy, disable here AND in the atuin config file
+  # having it here just ensures it happens earlier that `atuin init` below
   eval "$(atuin pty-proxy init zsh)"
 fi
 
