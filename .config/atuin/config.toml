@@ -336,7 +336,7 @@ enabled = true
 
 ## Capture threads into the encrypted record store, and sync them like your history.
 ## `atuin config enable threads` turns this on, with the daemon it needs.
-# capture = false
+capture = true
 
 ## Also capture what each tool call was given and returned (commands and their output,
 ## files read and written), with secrets redacted. Off keeps only each tool's name.
