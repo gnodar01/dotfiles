@@ -449,3 +449,4 @@ enabled = true
 ## and needs the daemon, which stores it
 [output]
 enabled = true
+max_disk_usage = "10GB"
