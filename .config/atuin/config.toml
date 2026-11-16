@@ -112,19 +112,21 @@ search_mode = "daemon-fuzzy"
 ## with ^ or end with $, they'll match anywhere in the command.
 ## For details on the supported regular expression syntax, see
 ## https://docs.rs/regex/latest/regex/#syntax
-# history_filter = [
+ history_filter = [
 #   "^secret-cmd",
 #   "^innocuous-cmd .*--secret=.+",
-# ]
+    "^yt-dlp",
+]
 
 ## prevent commands run with cwd matching any of these regexes from being written
 ## to history. Note that these regular expressions are unanchored, i.e. if they don't
 ## start with ^ or end with $, they'll match anywhere in CWD.
 ## For details on the supported regular expression syntax, see
 ## https://docs.rs/regex/latest/regex/#syntax
-# cwd_filter = [
+cwd_filter = [
 #   "^/very/secret/area",
-# ]
+    "/Volumes/shangrala",
+]
 
 ## Configure the maximum height of the preview to show.
 ## Useful when you have long scripts in your history that you want to distinguish
