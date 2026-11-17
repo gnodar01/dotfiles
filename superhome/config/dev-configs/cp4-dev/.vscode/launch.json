@@ -28,7 +28,7 @@
         "-L",
         "10",
         "-p",
-        "${env:HOME}/Downloads/one_tiled.cpproj"
+        "${env:HOME}/Downloads/TestProject.cpproj"
       ],
       "env": {
         "JAVA_HOME": "${env:CONDA_PREFIX}/lib/jvm"
