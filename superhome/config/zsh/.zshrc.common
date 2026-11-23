@@ -220,6 +220,7 @@ alias fzfppls="utilhelpers fzfppls"
 
 alias pypi="utilhelpers pypi"
 alias pipcompat="utilhelpers pipcompat"
+alias pypideps="utilhelpers pypideps"
 
 alias dockersize="utilhelpers dockersize"
 

@@ -91,6 +91,52 @@ function pipcompat() {
     fi
 }
 
+# usage: pypideps [-a] [-w <wheel_filter>] <pkg> <version>
+#   -a: include optional dependencies (extras)
+#   -w: read metadata from the wheel whose filename matches <wheel_filter> (regex)
+#       e.g. -w 'cp312.*macosx.*arm64', -w "$(pipcompat)"
+function pypideps() {
+    local all=0 filter="" OPTIND=1
+    while getopts "aw:" opt; do
+        case $opt in
+            a) all=1 ;;
+            w) filter="$OPTARG" ;;
+            *) echo "usage: pypideps [-a] [-w <wheel_filter>] <pkg> <version>" >&2; return 1 ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        echo "usage: pypideps [-a] [-w <wheel_filter>] <pkg> <version>" >&2
+        return 1
+    fi
+
+    local deps=""
+    if [ -z "$filter" ]; then
+        deps=$(curl -s -L https://pypi.org/pypi/$1/$2/json | jq -r '.info.requires_dist[]?')
+    fi
+
+    # -w given, or requires_dist was null: read pep 658 metadata from a specific wheel
+    if [ -z "$deps" ]; then
+        local url
+        url=$(curl -s -L --header "Accept: application/vnd.pypi.simple.v1+json" https://pypi.org/simple/$1/ \
+            | jq -r --arg v "$2" --arg f "$filter" \
+                '[.files[] | select(.filename | test("-" + $v + "-.*\\.whl$")) | select(.filename | test($f)) | .url][0] // empty')
+        if [ -z "$url" ]; then
+            echo "no matching wheel found" >&2
+            return 1
+        fi
+        echo "# from: ${url##*/}" >&2
+        deps=$(curl -s -L "$url.metadata" | grep '^Requires-Dist:' | sed 's/^Requires-Dist: //')
+    fi
+
+    if [ "$all" = 1 ]; then
+        echo "$deps"
+    else
+        echo "$deps" | grep -v 'extra =='
+    fi
+}
+
 # --- dockerhub ---
 #
 function dockersize() {
@@ -142,6 +188,7 @@ function usage() {
     echo "\tnpmglobals: list globally installed npm packages"
     echo "\tpypi <pkg> - get releases for pypi package"
     echo "\tpipcompat [-a] - get current compatibility tag (different on each python interpretor)"
+    echo "\tpypideps [-a] [-w <wheel_filter>] <pkg> <version>"
     echo "\tdockersize (<repo>|\"\") <image_name> <tag_name> - get size, in MB, of image"
     echo "\tdockerplatform <image_name> - get os/architecture platform of docker image"
     echo "\t\t-a: list all, if not provided then only main returned"
@@ -183,6 +230,10 @@ case "$1" in
         ;;
     pipcompat)
         pipcompat "$2"
+        ;;
+    pypideps)
+        shift
+        pypideps "$@"
         ;;
     dockersize)
         dockersize "$2" "$3" "$4"
