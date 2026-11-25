@@ -254,6 +254,11 @@ cask "firefox"
 # Application launcher and productivity software
 cask "alfred"
 
+# Host-based application firewall
+#cask "little-snitch"
+# File archiver and extractor
+#cask "keka"
+
 ## AI / Agents                                             ##
 
 # Terminal-based AI coding assistant
