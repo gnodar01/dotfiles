@@ -191,6 +191,8 @@ brew "ffmpeg"
 brew "poppler"
 # JavaScript toolchain manager for reproducible environments
 brew "volta"
+# Improved shell history for zsh, bash, fish and nushell
+brew "atuin"
 
 ## Utils                                                   ##
 
@@ -256,6 +258,9 @@ cask "alfred"
 
 # Terminal-based AI coding assistant
 #cask "claude-code@latest"
+cask "claude-code" # stable release (~ 1wk behind latest)
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
 
 #############################################################
 # Mac App Store                                             #

@@ -444,10 +444,6 @@ columns = ["duration", "time", { type = "host", width = 10 }, "command"]
 ## Not available on all platforms (e.g. Windows).
 # syntax_highlight = true
 
-## Atuin AI
-[ai]
-enabled = true
-
 ## Capture Command Output
 ## needs pty-proxy, which sees what the terminal displays
 ## and needs the daemon, which stores it
