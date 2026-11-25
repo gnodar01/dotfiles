@@ -19,13 +19,19 @@ PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 # Docker
 alias docker="podman"
 
+# pixi
 eval "$(pixi completion --shell zsh)"
 
+# Volta - node, npm, yarn, pnpm
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 eval "$(volta completions zsh)"
 
+# tailscale
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+# rust
+PATH="$(brew --prefix rustup)/bin:$PATH"
 
 # should always be at EOF
 PATH="$PATH:."
