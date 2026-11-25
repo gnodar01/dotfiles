@@ -1,0 +1,304 @@
+# `brew bundle` = `brew bundle install`
+# `brew bundle install`
+#   `brew bundle --global`: install from `~/.Brewfile`
+# `brew bundle check`: check if `brew bundle` will install anything
+#   common idiom: `brew bundle check || brew bundle install`
+# `brew bundle dump`: Homebrew's installed-state snapshot
+#   `--global --force` dumps to `~/.Brewfile`
+#   `--file=<file_path>` dumps to `<file_path>`
+#   may stop without writing, if package discovery fails
+# `brew bundle cleanup`: clenaup after dump
+#    e.g. `brew bundle cleanup --global --force`
+#    removes packages not listed in `~/.Brewfile`, and revokes manual trust declerations
+#    `--file=<file_path>` works the same for `<file_path>`
+# `brew bundle list`: list of formulae in Brewfile
+#    `--cask` for casks, etc.
+# `brew bundle edit`: open Brewfile in editor
+# `brew bundle add <pkg>`: add entry to brewfile
+# `brew bundle remove <pkg>`: remove entry from brewfile
+# `brew bundle exec`: run a command in environment customised by Brewfile
+#   `--check` to avoid separate `brew bundle check`
+#   `--install` to avoid separate `brew bundle install`
+#   `--services` to start services for just `exec` lifetime
+# `brew bundle sh`: like `brew bundle exec` but runs interactive shell of choice
+#   same args as `exec`
+# `brew bundle env`: dumps environment variables
+#   `eval "$(brew bundle env)"`
+#   same args as `exec`
+# `brew bundle upgrade`: request upgrades
+#   `brew bundle --upgrade-formulae <pkg>`
+# `--no-upgrade` to avoid upgrades
+#   or pin specific packages
+
+#############################################################
+# Options                                                   #
+#############################################################
+
+# cask_args:
+#   set arguments passed to all `brew install --cask` commands for `cask "..."`
+#   pass `--appdir=~/Applications` and `--require_sha`
+cask_args appdir: "~/Applications", require_sha: true
+
+# Sets an environment variable to be used e.g. inside `brew bundle exec` or `system` commands in the `Brewfile`.
+# Note: HOMEBREW_PREFIX/bin is _not_ in the `PATH` by default so you can set it this way.
+# ENV["SOME_ENV_VAR"] = "some_value"
+
+#############################################################
+# Taps                                                      #
+#############################################################
+
+## Examples                                                ##
+
+# Trusts the tap so Homebrew loads it when tap trust is required.
+# This works on `tap`, `brew` and `cask` entries.
+# tap "user/repository", trusted: true
+
+# Trusts only named formulae, casks or commands from a tap.
+# tap "user/repository", trusted: {
+#   formula:  "formula",
+#   formulae: ["another-formula"],
+#   cask:     "cask",
+#   casks:    ["another-cask"],
+#   command:  "command",
+#   commands: ["another-command"],
+# }
+
+# Run `brew tap` with a custom URL
+# tap "user/tap-repository", "https://user@bitbucket.org/user/homebrew-tap-repository.git"
+
+## Essential                                               ##
+
+#############################################################
+# Command Line                                              #
+#############################################################
+
+## Examples                                                ##
+
+# Trusts the formula so Homebrew loads it when tap trust is required.
+# This works on `tap`, `brew` and `cask` entries.
+# brew "user/repository/formula", trusted: true
+
+# Pass options to non-Homebrew/core formulae e.g. `brew install denji/nginx/nginx-full --with-rmtp`
+# This also runs `brew link --overwrite nginx-full` and `brew services restart nginx-full` afterwards.
+# brew "denji/nginx/nginx-full", link: :overwrite, args: ["with-rmtp"], restart_service: :always
+
+# Runs `brew install mysql@5.6`, `brew services restart mysql@5.6` only if it was installed or upgraded,
+# `brew link mysql@5.6` and `brew unlink mysql` (if `mysql` is installed)
+# brew "mysql@5.6", restart_service: :changed, link: true, conflicts_with: ["mysql"]
+
+# Runs `brew install postgresql@16` and then runs a postinstall command if `postgresql@16` was installed or upgraded.
+# brew "postgresql@16", postinstall: "${HOMEBREW_PREFIX}/opt/postgresql@16/bin/postgres -D ${HOMEBREW_PREFIX}/var/postgresql@16"
+
+# Runs `brew install ruby` and, afterwards, writes the installed version to the '.ruby-version` file.
+# brew "ruby", version_file: ".ruby-version"
+
+## Essential                                               ##
+
+### Compilers / dyn libs / package managers / etc         ###
+
+# Core application library for C
+brew "glib"
+# GNU compiler collection
+brew "gcc"
+# GNU Transport Layer Security (TLS) Library
+brew "gnutls"
+# Package compiler and linker metadata toolkit
+brew "pkgconf"
+# Package manager for the Lua programming language
+brew "luarocks"
+# Implementation of the Vulkan graphics and compute API on top of Metal
+#brew "molten-vk"
+# Optimized BLAS library
+brew "openblas"
+# Rust toolchain installer
+brew "rustup"
+# Incremental parsing C library
+#   required by neovim
+brew "tree-sitter"
+
+### QOL                                                   ###
+
+# Distributed revision control system
+brew "git"
+# GitHub command-line tool
+brew "gh"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
+# Git extension for versioning large files
+#brew "git-lfs"
+
+# Parser generator tool
+brew "tree-sitter-cli"
+# Get a file from an HTTP, HTTPS or FTP server
+brew "curl"
+# GNU utilities for networking
+brew "inetutils"
+# Utility for managing network connections
+brew "netcat"
+# Internet file retriever
+brew "wget"
+
+# GNU grep, egrep, and fgrep
+brew "grep"
+
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Resource monitor. C++ version and continuation of bashtop and bytop
+brew "btop"
+# Modern, maintained replacement for ls
+brew "eza"
+# Like neofetch, but much faster because written mostly in C
+brew "fastfetch"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# Command-line hex viewer
+brew "hexyl"
+# Lightweight and flexible command-line JSON processing
+brew "jq"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
+# Cross-shell prompt for astronauts
+brew "starship"
+# Code-search similar to ack
+brew "the_silver_searcher"
+# Vi 'workalike' with many additional features
+brew "vim"
+# Yet Another Dotfiles Manager
+brew "yadm"
+# Blazing fast terminal file manager written in Rust, based on async I/O
+brew "yazi"
+# 7-Zip is a file archiver with a high compression ratio
+#   used by yazi
+brew "sevenzip"
+# SVG rendering tool and library (used in yazi image preview)
+#   used by yazi
+brew "resvg"
+# Tools and libraries to manipulate images in select formats
+#   used by yazi
+brew "imagemagick"
+# Play, record, convert, and stream select audio and video codecs
+#   used by yazi
+brew "ffmpeg"
+#brew "ffmpeg-full"
+# PDF rendering library (based on the xpdf-3.0 code base)
+#   used by yazi
+brew "poppler"
+# JavaScript toolchain manager for reproducible environments
+brew "volta"
+
+## Utils                                                   ##
+
+# Securely transfers data between computers
+#brew "magic-wormhole"
+# Remote terminal application
+#brew "mosh"
+# Swiss-army knife of markup format conversion
+#brew "pandoc"
+# Shell command parallelization utility
+#brew "parallel"
+# Show ps output as a tree
+#brew "pstree"
+
+#############################################################
+# Casks                                                     #
+#############################################################
+
+## Examples                                                ##
+
+# Trusts the cask so Homebrew loads it when tap trust is required.
+# This works on `tap`, `brew` and `cask` entries.
+# cask "user/repository/cask", trusted: true
+
+# Runs `brew install --cask --appdir=~/my-apps/Applications`
+# cask "firefox", args: { appdir: "~/my-apps/Applications" }
+
+# Runs `brew upgrade opera` to upgrade an auto-updated or unversioned Opera cask
+# to the latest version even if already installed.
+# This is used to force an upgrade in software that would typically update itself.
+# cask "opera", greedy: true
+
+# Runs `brew install --cask google-chrome` only if it is not installed, then `brew pin --cask google-chrome`,
+# so neither `brew bundle` nor `brew upgrade` upgrades it afterwards; `brew unpin` undoes it.
+# This works on `brew` and `cask` entries. Casks with `auto_updates true` still update themselves.
+# cask "google-chrome", pin: true
+
+# Runs `brew install --cask` and runs the command if the Google Cloud cask was installed or upgraded.
+# cask "google-cloud-sdk", postinstall: "${HOMEBREW_PREFIX}/bin/gcloud components update"
+
+## Essential                                               ##
+
+# Open-source version of the X.Org X Window System
+cask "xquartz"
+# MesloLG Nerd Font families (Meslo LG)
+#   -> $HOME/Library/Fonts/<fontanmes>.ttf
+cask "font-meslo-lg-nerd-font"
+
+# Password manager that keeps all passwords secure behind one password
+cask "1password", args: { appdir: "/Applications" }
+# Command-line interface for 1Password
+cask "1password-cli"
+# GPU-based terminal emulator
+cask "kitty"
+# Desktop automation application
+cask "hammerspoon"
+# Web browser
+cask "firefox"
+# Application launcher and productivity software
+cask "alfred"
+
+## AI / Agents                                             ##
+
+# Terminal-based AI coding assistant
+#cask "claude-code@latest"
+
+#############################################################
+# Mac App Store                                             #
+#############################################################
+
+## Examples                                                ##
+
+# mas "Refined GitHub", id: 1519867270
+
+## Essential                                               ##
+
+#############################################################
+# Other                                                     #
+#############################################################
+
+## Examples                                                ##
+
+# go "github.com/charmbracelet/crush"
+
+# A Cargo package’s source: is a git URL (https://, ssh://
+# or git://) and is installed with cargo install --git.
+# The name is the crate’s package name from its Cargo.toml,
+# which is not always the name of the repository or of the
+# binary it installs, so brew bundle dump output is
+# the reliable thing to copy. A branch, tag or revision
+# chosen when the package was installed is carried in the
+# URL as ?branch=, ?tag= or ?rev=
+
+# cargo "ripgrep"
+# cargo "bat", source: "https://github.com/sharkdp/bat"
+
+# uv tools use the installed python or python@ formula with
+# the highest major/minor Python version, including keg-only
+# versions. If no Homebrew Python is installed, uv selects
+# Python as sual. Already-installed tools keep their existing
+# Python until reinstalled.
+
+# uv "mkdocs"
+# uv "ruff", source: "git+https://github.com/astral-sh/ruff.git"
+
+## Essential                                               ##
+
+#cargo "tree-sitter-cli"
+#npm "corepack"
+
+# EOF
