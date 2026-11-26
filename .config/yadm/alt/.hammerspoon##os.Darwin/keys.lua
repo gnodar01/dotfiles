@@ -34,6 +34,8 @@ hs.hotkey.bind(layoutSuper, 'c', thunk_push({ top = 1 / 4, left = 1 / 4, width =
 -- half screens
 hs.hotkey.bind(layoutSuper, 'h', thunk_push({ width = 1 / 2 }))
 hs.hotkey.bind(layoutSuper, 'l', thunk_push({ left = 1 / 2, width = 1 / 2 }))
+hs.hotkey.bind(layoutSuper, 'k', thunk_push({ top = 0, left = 0, width = 1, height = 1 / 2 }))
+hs.hotkey.bind(layoutSuper, 'j', thunk_push({ top = 1 / 2, left = 0, width = 1, height = 1 / 2 }))
 
 -- third screens
 hs.hotkey.bind(layoutSuper, 'i', thunk_push({ left = 1 / 6, width = 2 / 3 }))
@@ -64,8 +66,8 @@ hs.hotkey.bind(layoutSuuper, 'd', thunk_push({ top = 1 / 4, left = 2 / 3, width 
 hs.hotkey.bind(layoutSuuper, 's', thunk_push({ top = 1 / 2, left = 1 / 3, width = 1 / 3, height = 1 / 2 }))
 
 -- move screens
-hs.hotkey.bind(layoutSuper, 'j', thunk_push_win('next'))
-hs.hotkey.bind(layoutSuper, 'k', thunk_push_win('prev'))
+hs.hotkey.bind(hyper, 'j', thunk_push_win('next'))
+hs.hotkey.bind(hyper, 'k', thunk_push_win('prev'))
 
 -- move spaces
 hs.hotkey.bind(layoutSuuper, 'h', thunk_push_space('left'))

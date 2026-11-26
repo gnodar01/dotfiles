@@ -47,8 +47,10 @@ local markdowncontent = [[
 | window layout - center left `1/3` | `⌘ ⌃ ⇧ a` |
 | window layout - center right `1/3` | `⌘ ⌃ ⇧ d` |
 | window layout - center bottom `1/2` | `⌘ ⌃ ⇧ s` |
-| window layout - move to next screen | `⌘ ⌃ j` |
-| window layout - move to prev screen | `⌘ ⌃ k` |
+| window layout - top half | `⌘ ⌃ j` |
+| window layout - bottom half | `⌘ ⌃ k` |
+| window layout - move to next screen | `⌘ ⌃ ⇧ j` |
+| window layout - move to prev screen | `⌘ ⌃ ⇧ k` |
 | window layout - move to left space | `⌘ ⌃ ⇧ h` |
 | window layout - move to right space | `⌘ ⌃ ⇧ l` |
 | mouse move - big move mouse left | `⌃ ⌥ h` |
